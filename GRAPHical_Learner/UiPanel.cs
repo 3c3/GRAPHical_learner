@@ -8,13 +8,16 @@ using SFML.Graphics;
 
 namespace GRAPHical_Learner
 {
+    /// <summary>
+    /// Прост правоъгълен панел
+    /// </summary>
     public class UiPanel : UiComponent
     {
         public Color backgroundColor;
 
         public UiPanel()
         {
-            backgroundColor = ColorScheme.uiBackgroundColor;
+            backgroundColor = GraphicScheme.uiBackgroundColor;
             visible = true;
         }
 

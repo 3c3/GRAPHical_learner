@@ -9,7 +9,7 @@ using SFML.Graphics;
 
 namespace GRAPHical_Learner
 {
-    public class MainUI
+    public partial class MainUI
     {
         private RenderWindow window;
         private static Graph activeGraph;
@@ -64,40 +64,8 @@ namespace GRAPHical_Learner
             genCircles();
             renderFrame.calcZoom();
 
-            gui = new Gui();
-            Gui.activeGui = gui;
-
-            UiPanel testPanel = new UiPanel(ColorScheme.uiBackgroundColor, 120, 350);
-            testPanel.movable = true;
-            testPanel.box.Left = 300;
-            testPanel.children = new List<UiComponent>();
-
-            UiButton goodButton = new UiButton("Кликни ме", font1, 100, 25);
-            goodButton.box.Left = 10;
-            goodButton.box.Top = 5;
-            goodButton.ComponentClicked += goodButton_ComponentClicked;
-
-            UiButton badButton = new UiButton("Не ме кликай", font1, 100, 25);
-            badButton.box.Left = 10;
-            badButton.box.Top = 35;
-            badButton.ComponentClicked += badButton_ComponentClicked;
-
-            testPanel.AddChild(goodButton);
-            testPanel.AddChild(badButton);
-
-            gui.Add(testPanel);
-
-            menu = new UiVerticalMenu();
-
-            menu.AddItem("Add", menu_add);
-            menu.AddItem("Close", menu_close);
-            menu.AddItem("Remove last button", menu_remove);
-
-            menu.box.Left = 300;
-            menu.box.Top = 100;
-            gui.Add(menu);
-
-            menu.movable = true;
+            InitializeGui();
+            
             loop();
         }
 
@@ -278,24 +246,6 @@ namespace GRAPHical_Learner
             }
 
             draws.ForEach(d => window.Draw(d));
-
-            Text scaleText = new Text(String.Format("Zoom: {0}\nCenter X: {1}\nCenter Y:{2}", renderFrame.zoom, renderFrame.xCenter, renderFrame.yCenter), font1, 13);
-            scaleText.Position = new Vector2f(20, 20);
-            scaleText.Color = Color.Red;
-
-            Vector2f coords = toGlobalCoords(Mouse.GetPosition(window));
-            Text coordText = new Text(String.Format("X: {0}\nY: {1}", coords.X, coords.Y), font1, 13);
-            coordText.Position = new Vector2f(900, 20);
-            coordText.Color = Color.Red;
-
-            Vector2i scoords = Mouse.GetPosition(window);
-            Text scoordText = new Text(String.Format("X: {0}\nY: {1}", scoords.X, scoords.Y), font1, 13);
-            scoordText.Position = new Vector2f(800, 20);
-            scoordText.Color = Color.Red;
-
-            window.Draw(scaleText);
-            window.Draw(coordText);
-            window.Draw(scoordText);
 
             drawAxes();
 

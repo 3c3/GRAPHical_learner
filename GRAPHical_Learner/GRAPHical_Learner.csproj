@@ -80,6 +80,7 @@
     <Compile Include="IDrawable.cs" />
     <Compile Include="IMovable.cs" />
     <Compile Include="MainUI.cs" />
+    <Compile Include="MainUI.Layout.cs" />
     <Compile Include="Matrix.cs" />
     <Compile Include="Property.cs" />
     <Compile Include="Renderer.cs" />
@@ -92,6 +93,7 @@
     </Compile>
     <Compile Include="UiButton.cs" />
     <Compile Include="UiComponent.cs" />
+    <Compile Include="UiHorizontalMenu.cs" />
     <Compile Include="UiLabel.cs" />
     <Compile Include="UiPanel.cs" />
     <Compile Include="UiVerticalMenu.cs" />

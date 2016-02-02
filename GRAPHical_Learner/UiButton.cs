@@ -8,9 +8,12 @@ using SFML.Graphics;
 
 namespace GRAPHical_Learner
 {
+    /// <summary>
+    /// Бутон
+    /// </summary>
     public class UiButton : UiPanel
     {
-        public UiLabel caption;
+        public UiLabel caption; // текста на бутона
         public UiButton(string text, Font font, int width, int height)
         {
             children = new List<UiComponent>();
@@ -23,13 +26,18 @@ namespace GRAPHical_Learner
 
             centerText();
 
-            backgroundColor = ColorScheme.buttonIdle;
+            backgroundColor = GraphicScheme.buttonIdle;
         }
 
+        /// <summary>
+        /// Създава бутон по текст и височина - автоматично настройва ширината
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="height"></param>
         public UiButton(string text, int height)
         {
             children = new List<UiComponent>();
-            AddChild(new UiLabel(text, ColorScheme.font1));
+            AddChild(new UiLabel(text, GraphicScheme.font1));
 
             caption = children[0] as UiLabel;
 
@@ -38,15 +46,22 @@ namespace GRAPHical_Learner
 
             centerText();
 
-            backgroundColor = ColorScheme.buttonIdle;
+            backgroundColor = GraphicScheme.buttonIdle;
         }
 
+        /// <summary>
+        /// Сменя ширината така че текста да е центриран
+        /// </summary>
+        /// <param name="newWidth"></param>
         public void updateWidth(int newWidth)
         {
             box.Width = newWidth;
             centerText();
         }
 
+        /// <summary>
+        /// Центира текста
+        /// </summary>
         private void centerText()
         {
             int freeX = box.Width - caption.box.Width;
@@ -55,14 +70,20 @@ namespace GRAPHical_Learner
             caption.box.Top = freeY / 2;
         }
 
+        /// <summary>
+        /// Светва бутона
+        /// </summary>
         protected override void onMouseEnter()
         {
-            backgroundColor = ColorScheme.buttonPointed;
+            backgroundColor = GraphicScheme.buttonPointed;
         }
 
+        /// <summary>
+        /// Изгася бутона
+        /// </summary>
         protected override void onMouseLeave()
         {
-            backgroundColor = ColorScheme.buttonIdle;
+            backgroundColor = GraphicScheme.buttonIdle;
         }
 
         public override List<Drawable> getDrawables(RenderFrame rf)

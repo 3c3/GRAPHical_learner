@@ -9,15 +9,23 @@ using SFML.System;
 
 namespace GRAPHical_Learner
 {
+    /// <summary>
+    /// Вертикално(падащо меню)
+    /// </summary>
     public class UiVerticalMenu : UiPanel
     {
         public UiVerticalMenu()
         {
             children = new List<UiComponent>();
-            backgroundColor = ColorScheme.uiBackgroundColor;
+            backgroundColor = GraphicScheme.uiBackgroundColor;
         }
 
-        public void AddItem(String text, ComponentClickedHandler handler)
+        /// <summary>
+        /// Добавя бутон в долната част на менюто
+        /// </summary>
+        /// <param name="text">Текста на бутона</param>
+        /// <param name="handler">Функцията, която се извиква при натискане</param>
+        public virtual void AddItem(String text, ComponentClickedHandler handler)
         {
             UiButton newButton = new UiButton(text, 20);
             newButton.box.Left = 3;
@@ -25,21 +33,41 @@ namespace GRAPHical_Learner
             if (box.Width < (newButton.box.Width + 6))
             {
                 box.Width = newButton.box.Width + 6;
-                UpdateButtonsWidth();
+                UpdateButtons();
             }
             else newButton.updateWidth(box.Width - 6);
 
+            shouldAdd = true;
             AddChild(newButton);
             newButton.ComponentClicked += handler;
             box.Height = 5 + 25 * children.Count;
         }
 
-        private void UpdateButtonsWidth()
+        protected bool shouldAdd = false; // Предпазна мярка някой да не ползва AddChild вместо AddItem
+
+        /// <summary>
+        /// НЕ използвай!
+        /// </summary>
+        /// <param name="uic"></param>
+        public override void AddChild(UiComponent uic)
+        {
+            if (!shouldAdd) throw new InvalidOperationException("Use AddItem!");
+            else base.AddChild(uic);
+            shouldAdd = false;
+        }
+
+        /// <summary>
+        /// Ъпдейтва всички бутони да имат еднаква ширина
+        /// </summary>
+        protected virtual void UpdateButtons()
         {
             children.ForEach(b => (b as UiButton).updateWidth(box.Width - 6));
         }
 
-        public void RemoveLast()
+        /// <summary>
+        /// Маха последния бутон и свива менюто
+        /// </summary>
+        public virtual void RemoveLast()
         {
             children.RemoveAt(children.Count - 1);
             box.Height -= 25;

@@ -8,6 +8,9 @@ using SFML.Graphics;
 
 namespace GRAPHical_Learner
 {
+    /// <summary>
+    /// Съдържащия клас за UI компоненти
+    /// </summary>
     public class Gui : IDrawable
     {
         public static Gui activeGui;

@@ -60,11 +60,7 @@ namespace GRAPHical_Learner
         public void MouseClick(Vector2i mousePos)
         {
             Vector2i localPos;
-            /*if (parent != null)
-            {
-                localPos = new Vector2i(mousePos.X - parent.box.Left, mousePos.Y - parent.box.Top);
-            }
-            else*/ localPos = new Vector2i(mousePos.X, mousePos.Y);
+            localPos = new Vector2i(mousePos.X, mousePos.Y);
 
             localPos.X -= box.Left;
             localPos.Y -= box.Top;
@@ -139,7 +135,7 @@ namespace GRAPHical_Learner
 
         public event ComponentClickedHandler ComponentClicked;
 
-        public void AddChild(UiComponent uic)
+        public virtual void AddChild(UiComponent uic)
         {
             children.Add(uic);
             uic.parent = this;

@@ -8,6 +8,9 @@ using SFML.Graphics;
 
 namespace GRAPHical_Learner
 {
+    /// <summary>
+    /// Текст със фон
+    /// </summary>
     public class UiLabel : UiPanel
     {
         public Font font;
@@ -32,6 +35,11 @@ namespace GRAPHical_Learner
             box.Height = (int)localBounds.Height + 6;
         }
 
+        public void setText(string text)
+        {
+
+        }
+
         public override List<Drawable> getDrawables(RenderFrame rf)
         {
             if (parent == null)
@@ -48,7 +56,6 @@ namespace GRAPHical_Learner
                 ldraws.Add(drawText);
                 return ldraws;
             }
-            return null;
         }
     }
 }
