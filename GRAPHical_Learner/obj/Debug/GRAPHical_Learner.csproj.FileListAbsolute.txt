@@ -1,0 +1,9 @@
+D:\Code\C#\GRAPHical_Learner\GRAPHical_Learner\bin\Debug\GRAPHical_Learner.exe.config
+D:\Code\C#\GRAPHical_Learner\GRAPHical_Learner\obj\Debug\GRAPHical_Learner.csprojResolveAssemblyReference.cache
+D:\Code\C#\GRAPHical_Learner\GRAPHical_Learner\bin\Debug\GRAPHical_Learner.exe
+D:\Code\C#\GRAPHical_Learner\GRAPHical_Learner\bin\Debug\GRAPHical_Learner.pdb
+D:\Code\C#\GRAPHical_Learner\GRAPHical_Learner\bin\Debug\sfmlnet-graphics-2.dll
+D:\Code\C#\GRAPHical_Learner\GRAPHical_Learner\bin\Debug\sfmlnet-system-2.dll
+D:\Code\C#\GRAPHical_Learner\GRAPHical_Learner\bin\Debug\sfmlnet-window-2.dll
+D:\Code\C#\GRAPHical_Learner\GRAPHical_Learner\obj\Debug\GRAPHical_Learner.exe
+D:\Code\C#\GRAPHical_Learner\GRAPHical_Learner\obj\Debug\GRAPHical_Learner.pdb
