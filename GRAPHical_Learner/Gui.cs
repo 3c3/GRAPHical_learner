@@ -10,6 +10,8 @@ namespace GRAPHical_Learner
 {
     public class Gui : IDrawable
     {
+        public static Gui activeGui;
+
         List<UiComponent> components = new List<UiComponent>();
 
         public UiComponent lastMoused = null;
@@ -22,15 +24,19 @@ namespace GRAPHical_Learner
         public bool processMouse(Vector2i mousePos)
         {
             bool result = false;
-            foreach (UiComponent uic in components)
+            for(int i = components.Count - 1; i >=0; i--)
             {
+                UiComponent uic = components[i];
+                if (uic.visible == false) continue;
                 if (uic.ProcessMousePosition(mousePos))
                 {
-                    //lastMoused.
+                    if (lastMoused != null) if (lastMoused != uic) lastMoused.callMouseLeave();
                     lastMoused = uic;
                     result = true;
+                    break;
                 }
-            }
+            }              
+            
             if(!result)lastMoused = null;
             return result;
         }
@@ -38,6 +44,11 @@ namespace GRAPHical_Learner
         public void Add(UiComponent uic)
         {
             components.Add(uic);
+        }
+
+        public void Remove(UiComponent uic)
+        {
+            components.Remove(uic);
         }
 
         /// <summary>
@@ -49,14 +60,15 @@ namespace GRAPHical_Learner
             if(lastMoused != null) lastMoused.MouseClick(mousePos);
             else foreach(UiComponent uic in components)
             {
-                if (uic.isMouseIn(mousePos)) uic.MouseClick(mousePos);
+                if (uic.visible == false) continue;
+                if (uic.checkMouseEvents(mousePos)) uic.MouseClick(mousePos);
             }
         }
 
         public List<Drawable> getDrawables(RenderFrame rf)
         {
             List<Drawable> ldraws = new List<Drawable>();
-            components.ForEach(c => ldraws.AddRange(c.getDrawables(rf)));
+            foreach (UiComponent uic in components) if (uic.visible) ldraws.AddRange(uic.getDrawables(rf));
             return ldraws;
         }
     }

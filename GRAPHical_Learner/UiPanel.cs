@@ -14,7 +14,8 @@ namespace GRAPHical_Learner
 
         public UiPanel()
         {
-
+            backgroundColor = ColorScheme.uiBackgroundColor;
+            visible = true;
         }
 
         public UiPanel(Color bgColor, int width, int height)
@@ -24,6 +25,8 @@ namespace GRAPHical_Learner
             box.Height = height;
             box.Left = 0;
             box.Top = 0;
+
+            visible = true;
         }
 
         public override List<Drawable> getDrawables(RenderFrame rf)

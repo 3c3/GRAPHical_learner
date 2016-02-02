@@ -94,6 +94,7 @@
     <Compile Include="UiComponent.cs" />
     <Compile Include="UiLabel.cs" />
     <Compile Include="UiPanel.cs" />
+    <Compile Include="UiVerticalMenu.cs" />
     <Compile Include="Vertex.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

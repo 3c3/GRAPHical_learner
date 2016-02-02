@@ -21,12 +21,38 @@ namespace GRAPHical_Learner
             box.Width = width;
             box.Height = height;
 
-            int freeX = width - caption.box.Width;
-            int freeY = height - caption.box.Height;
-            caption.box.Left = freeX / 2;
-            caption.box.Top = freeY / 2;
+            centerText();
 
             backgroundColor = ColorScheme.buttonIdle;
+        }
+
+        public UiButton(string text, int height)
+        {
+            children = new List<UiComponent>();
+            AddChild(new UiLabel(text, ColorScheme.font1));
+
+            caption = children[0] as UiLabel;
+
+            box.Width = caption.box.Width + 6;
+            box.Height = height;
+
+            centerText();
+
+            backgroundColor = ColorScheme.buttonIdle;
+        }
+
+        public void updateWidth(int newWidth)
+        {
+            box.Width = newWidth;
+            centerText();
+        }
+
+        private void centerText()
+        {
+            int freeX = box.Width - caption.box.Width;
+            int freeY = box.Height - caption.box.Height;
+            caption.box.Left = freeX / 2;
+            caption.box.Top = freeY / 2;
         }
 
         protected override void onMouseEnter()

@@ -34,7 +34,7 @@ namespace GRAPHical_Learner
         public bool ProcessMousePosition(Vector2i mousePos)
         {
             Vector2i localPos = new Vector2i(mousePos.X - box.Left, mousePos.Y - box.Top);
-            bool result = isMouseIn(mousePos);
+            bool result = checkMouseEvents(mousePos);
 
             if (!result) return false;
 
@@ -74,8 +74,9 @@ namespace GRAPHical_Learner
             if (ComponentClicked != null) ComponentClicked();
             if (children != null)
             {
-                foreach(UiComponent uic in children)
+                for (int i = 0; i < children.Count; i++)
                 {
+                    UiComponent uic = children[i];
                     uic.MouseClick(localPos);
                 }
             }
@@ -89,18 +90,14 @@ namespace GRAPHical_Learner
         }
 
         /// <summary>
-        /// Проверява дали позицията на мишката е в/у компонента
+        /// Проверява дали трябва да се изтрелват event-и
         /// </summary>
-        /// <param name="mousePos">Позицията, спрямо родителя</param>
+        /// <param name="mousePos">Позицията на мишката спрямо елемнта</param>
         /// <returns></returns>
-        public bool isMouseIn(Vector2i mousePos)
+        public bool checkMouseEvents(Vector2i mousePos)
         {
             Vector2i localPos;
-            /*if (parent != null)
-            {
-                localPos = new Vector2i(mousePos.X - parent.box.Left - box.Left, mousePos.Y - parent.box.Top - box.Top);
-            }
-            else */localPos = new Vector2i(mousePos.X - box.Left, mousePos.Y - box.Top);
+            localPos = new Vector2i(mousePos.X - box.Left, mousePos.Y - box.Top);
 
             bool old = mouseIn;
             if (localPos.X < 0) mouseIn = false;
@@ -135,12 +132,25 @@ namespace GRAPHical_Learner
             if (children != null) children.ForEach(u => u.onMouseLeave());
         }
 
+        public void callMouseLeave()
+        {
+            onMouseLeave();
+        }
+
         public event ComponentClickedHandler ComponentClicked;
 
         public void AddChild(UiComponent uic)
         {
             children.Add(uic);
             uic.parent = this;
+        }
+
+        public void Remove()
+        {
+            if(Gui.activeGui != null)
+            {
+                Gui.activeGui.Remove(this);
+            }
         }
 
         public virtual List<Drawable> getDrawables(RenderFrame rf)
@@ -150,16 +160,11 @@ namespace GRAPHical_Learner
 
         public void moveX(float dx)
         {
-            //Console.Write(String.Format("<{0}> ", GetType()));
-            //Console.WriteLine("move: current moused is " + (currentMoused != null ? currentMoused.GetType().ToString() : "null"));
-            //if (currentMoused != null) if (currentMoused.movable == false) return;
             if (movable) box.Left += (int)dx;
         }
 
         public void moveY(float dy)
         {
-           // if (currentMoused != null) if (currentMoused.movable == false) return;
-           // if (currentMoused != null) if (!(currentMoused is IMovable)) return;
             if (movable) box.Top += (int)dy;
         }
     }

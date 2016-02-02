@@ -43,10 +43,12 @@ namespace GRAPHical_Learner
             circles.Add(center);
         }
 
+        UiVerticalMenu menu;
+
         private void start()
         {
             ContextSettings cs = new ContextSettings();
-            cs.AntialiasingLevel = 4;
+            cs.AntialiasingLevel = 8;
 
             window = new RenderWindow(new VideoMode(renderFrame.width, renderFrame.height), "GRAPHical Learner", Styles.Titlebar | Styles.Close, cs);
             window.Closed += window_Closed;
@@ -63,8 +65,9 @@ namespace GRAPHical_Learner
             renderFrame.calcZoom();
 
             gui = new Gui();
+            Gui.activeGui = gui;
 
-            UiPanel testPanel = new UiPanel(new Color(241, 113, 18, 50), 120, 350);
+            UiPanel testPanel = new UiPanel(ColorScheme.uiBackgroundColor, 120, 350);
             testPanel.movable = true;
             testPanel.box.Left = 300;
             testPanel.children = new List<UiComponent>();
@@ -84,6 +87,17 @@ namespace GRAPHical_Learner
 
             gui.Add(testPanel);
 
+            menu = new UiVerticalMenu();
+
+            menu.AddItem("Add", menu_add);
+            menu.AddItem("Close", menu_close);
+            menu.AddItem("Remove last button", menu_remove);
+
+            menu.box.Left = 300;
+            menu.box.Top = 100;
+            gui.Add(menu);
+
+            menu.movable = true;
             loop();
         }
 
@@ -95,6 +109,32 @@ namespace GRAPHical_Learner
         void goodButton_ComponentClicked()
         {
             Console.WriteLine("You clicked me!");
+        }
+
+        private int idxBtn = 1;
+        void menu_add()
+        {
+            String text = "Button " + Convert.ToString(idxBtn, 2);
+            idxBtn++;
+            menu.AddItem(text, menu_newclick);
+        }
+
+        void menu_newclick()
+        {
+            Console.WriteLine("You clicked a new button.");
+        }
+        
+        void menu_remove()
+        {
+            if (menu.children.Count > 3)
+            {
+                menu.RemoveLast();
+            }
+        }
+
+        void menu_close()
+        {
+            menu.Remove();
         }
 
         private bool lmbDown = false;
