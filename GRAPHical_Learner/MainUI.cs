@@ -183,7 +183,7 @@ namespace GRAPHical_Learner
                 }
                 else if (currentObject == null && inGui)
                 {
-                    UiComponent uic = gui.lastMoused;
+                    UiComponent uic = gui.lastChildMoused;
                     if (uic != null && uic is IMovable)
                     {
                         currentGuiObject = uic as IMovable;
@@ -249,7 +249,8 @@ namespace GRAPHical_Learner
 
             drawAxes();
 
-            dbgLabel1.SetText(goodButton.mouseIn.ToString());
+            dbgLabel1.SetText(gui.lastChildMoused != null ? gui.lastChildMoused.GetType().ToString() : "null");
+            dbgLabel2.SetText(gui.MousedComponent != null ? gui.MousedComponent.GetType().ToString() : "null");
 
             gui.Draw(window);
 

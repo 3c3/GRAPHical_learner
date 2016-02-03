@@ -18,6 +18,7 @@ namespace GRAPHical_Learner
         public bool movable = false; // при true компонента може да се влачи с мишката
         public List<UiComponent> children;
 
+        public Gui gui;
         public UiComponent parent;
         
         public UiComponent()
@@ -35,20 +36,29 @@ namespace GRAPHical_Learner
             Vector2i localPos = new Vector2i(mousePos.X - box.Left, mousePos.Y - box.Top); // превръща координатите в локални
             if (!CheckMouseEvents(mousePos)) return false;// проверява за влизане/излизане, връща дали мишката е вътрe
 
+            gui.lastChildMoused = this;
+
             if(children!= null) foreach (UiComponent uic in children)
             { // предава позицията на мишката на децата
                 if(uic.ProcessMousePosition(localPos))
                 { // мишката е върху текущия под-компонент; уведомяваме предния такъв(ако има), че мишката е излязла от него
                     if (lastMoused != null) if (lastMoused != uic) lastMoused.CallMouseLeave(); 
                     lastMoused = uic;
+                    FinalizeLastChildMoused();
                     return true;
                 }
             }
             lastMoused = null;
+            gui.lastChildMoused = this;
             return true;
         }
 
-        public bool mouseIn;
+        protected virtual void FinalizeLastChildMoused()
+        {
+            return;
+        }
+
+        private bool mouseIn;
 
         /// <summary>
         /// Проверява дали трябва да се изтрелват event-и
@@ -122,16 +132,24 @@ namespace GRAPHical_Learner
 
         public virtual void AddChild(UiComponent uic)
         {
-            children.Add(uic);
             uic.parent = this;
+            uic.gui = gui;
+            uic.UpdateChildrenGuiReference();
+            children.Add(uic);
         }
 
         public void Remove()
         {
-            if(Gui.activeGui != null)
+            if(gui != null)
             {
-                Gui.activeGui.Remove(this);
+                gui.Remove(this);
             }
+        }
+
+        public void UpdateChildrenGuiReference()
+        {
+            if (parent != null) gui = parent.gui;
+            if (children != null) children.ForEach(c => c.UpdateChildrenGuiReference());
         }
 
         public virtual List<Drawable> GetUiDrawables()
@@ -139,14 +157,26 @@ namespace GRAPHical_Learner
             return new List<Drawable>();
         }
 
+        private void ForceMoveX(float dx)
+        {
+            if (parent == null) box.Left += (int)dx;
+            else parent.ForceMoveX(dx);
+        }
+
+        private void ForceMoveY(float dy)
+        {
+            if (parent == null) box.Top += (int)dy;
+            else parent.ForceMoveY(dy);
+        }
+
         public void MoveX(float dx)
         {
-            if (movable) box.Left += (int)dx;
+            if (movable) ForceMoveX(dx);
         }
 
         public void MoveY(float dy)
         {
-            if (movable) box.Top += (int)dy;
+            if (movable) ForceMoveY(dy);
         }
     }
 }

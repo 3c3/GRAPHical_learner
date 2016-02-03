@@ -86,6 +86,11 @@ namespace GRAPHical_Learner
             backgroundColor = GraphicScheme.buttonIdle;
         }
 
+        protected override void FinalizeLastChildMoused()
+        {
+            gui.lastChildMoused = this;
+        }
+
         public override List<Drawable> GetUiDrawables()
         {
             if(parent == null)

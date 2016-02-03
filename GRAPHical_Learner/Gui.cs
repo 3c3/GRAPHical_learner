@@ -13,15 +13,19 @@ namespace GRAPHical_Learner
     /// </summary>
     public class Gui
     {
-        public static Gui activeGui;
-
         List<UiComponent> components = new List<UiComponent>();
-
-        
 
         public void Add(UiComponent uic)
         {
-            components.Add(uic);
+            uic.gui = this;
+            UpdateComponentGuiReference(uic);
+            components.Add(uic);            
+        }
+
+        private void UpdateComponentGuiReference(UiComponent component)
+        {
+            component.gui = this;
+            if(component.children!=null) component.children.ForEach(c => UpdateComponentGuiReference(c));
         }
 
         public void Remove(UiComponent uic)
@@ -29,7 +33,13 @@ namespace GRAPHical_Learner
             components.Remove(uic);
         }
 
-        public UiComponent lastMoused = null;
+        private UiComponent lastMoused = null;
+        public UiComponent lastChildMoused = null;
+
+        public UiComponent MousedComponent
+        {
+            get { return lastMoused; }
+        }
 
         /// <summary>
         /// Проверява дали мишката е върху Ui-я. Ако е - уведомява компонентите.
