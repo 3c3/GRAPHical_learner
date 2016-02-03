@@ -35,24 +35,24 @@ namespace GRAPHical_Learner
             box.Height = (int)localBounds.Height + 6;
         }
 
-        public void setText(string text)
+        public void SetText(string text)
         {
-
+            CreateDrawables(text);
         }
 
-        public override List<Drawable> getDrawables(RenderFrame rf)
+        public override List<Drawable> GetUiDrawables()
         {
             if (parent == null)
             {
-                List<Drawable> ldraws = base.getDrawables(rf);
-                drawText.Position = new Vector2f(box.Left + 5, box.Top + 1);
+                List<Drawable> ldraws = base.GetUiDrawables();
+                drawText.Position = new Vector2f(box.Left + 5, box.Top);
                 ldraws.Add(drawText);
                 return ldraws;
             }
             else
             {
-                List<Drawable> ldraws = base.getDrawables(rf);
-                drawText.Position = new Vector2f(box.Left + parent.box.Left + 5, box.Top + parent.box.Top + 1);
+                List<Drawable> ldraws = base.GetUiDrawables();
+                drawText.Position = new Vector2f(box.Left + parent.box.Left + 5, box.Top + parent.box.Top);
                 ldraws.Add(drawText);
                 return ldraws;
             }

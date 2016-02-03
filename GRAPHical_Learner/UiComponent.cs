@@ -9,14 +9,13 @@ using SFML.Window;
 
 namespace GRAPHical_Learner
 {
-
     public delegate void ComponentClickedHandler();
 
-    public class UiComponent : IDrawable, IMovable
+    public class UiComponent : IMovable
     {
         public IntRect box; // правоъгълните граници на компонента
-        public bool visible = false;
-        public bool movable = false;
+        public bool visible = false; // при true компонента се рисува
+        public bool movable = false; // при true компонента може да се влачи с мишката
         public List<UiComponent> children;
 
         public UiComponent parent;
@@ -26,32 +25,50 @@ namespace GRAPHical_Learner
             box = new IntRect();
         }
 
-        private UiComponent currentMoused;
+        private UiComponent lastMoused;
 
         /// <summary>
         /// Обработва позицията на мишката в компонента. Предава на децата, ако е необходимо
         /// </summary>
         public bool ProcessMousePosition(Vector2i mousePos)
         {
-            Vector2i localPos = new Vector2i(mousePos.X - box.Left, mousePos.Y - box.Top);
-            bool result = checkMouseEvents(mousePos);
+            Vector2i localPos = new Vector2i(mousePos.X - box.Left, mousePos.Y - box.Top); // превръща координатите в локални
+            if (!CheckMouseEvents(mousePos)) return false;// проверява за влизане/излизане, връща дали мишката е вътрe
 
-            if (!result) return false;
-
-            result = false;
-            //children.ForEach(c => c.isMouseIn(localPos));
             if(children!= null) foreach (UiComponent uic in children)
-            {
+            { // предава позицията на мишката на децата
                 if(uic.ProcessMousePosition(localPos))
-                {
-                    currentMoused = uic;
-                    //Console.Write(String.Format("<{0}> ", GetType()));
-                    //Console.WriteLine("currentMoused is " + currentMoused.GetType().ToString());
-                    result = true;
+                { // мишката е върху текущия под-компонент; уведомяваме предния такъв(ако има), че мишката е излязла от него
+                    if (lastMoused != null) if (lastMoused != uic) lastMoused.CallMouseLeave(); 
+                    lastMoused = uic;
+                    return true;
                 }
             }
-            if(!result) currentMoused = null;
+            lastMoused = null;
             return true;
+        }
+
+        public bool mouseIn;
+
+        /// <summary>
+        /// Проверява дали трябва да се изтрелват event-и
+        /// </summary>
+        /// <param name="mousePos">Позицията на мишката спрямо елемнта</param>
+        /// <returns></returns>
+        public bool CheckMouseEvents(Vector2i mousePos)
+        {
+            Vector2i localPos = new Vector2i(mousePos.X - box.Left, mousePos.Y - box.Top);
+
+            bool oldState = mouseIn;
+            mouseIn = IsPointInside(localPos);
+
+            if (oldState ^ mouseIn)
+            {
+                if (mouseIn) OnMouseEnter();
+                else OnMouseLeave();
+            }
+
+            return mouseIn;
         }
         
         /// <summary>
@@ -65,7 +82,7 @@ namespace GRAPHical_Learner
             localPos.X -= box.Left;
             localPos.Y -= box.Top;
 
-            if (!isPointInside(localPos)) return;
+            if (!IsPointInside(localPos)) return;
 
             if (ComponentClicked != null) ComponentClicked();
             if (children != null)
@@ -78,40 +95,7 @@ namespace GRAPHical_Learner
             }
         }
 
-        private bool mouseIn;
-
-        public Vector2i toLocalCoords(Vector2i pos)
-        {
-            return new Vector2i(pos.X - box.Left, pos.Y - box.Top);
-        }
-
-        /// <summary>
-        /// Проверява дали трябва да се изтрелват event-и
-        /// </summary>
-        /// <param name="mousePos">Позицията на мишката спрямо елемнта</param>
-        /// <returns></returns>
-        public bool checkMouseEvents(Vector2i mousePos)
-        {
-            Vector2i localPos;
-            localPos = new Vector2i(mousePos.X - box.Left, mousePos.Y - box.Top);
-
-            bool old = mouseIn;
-            if (localPos.X < 0) mouseIn = false;
-            else if (localPos.X > box.Width) mouseIn = false;
-            else if (localPos.Y < 0) mouseIn = false;
-            else if (localPos.Y > box.Height) mouseIn = false;
-            else mouseIn = true;
-
-            if(old ^ mouseIn)
-            {
-                if (mouseIn) onMouseEnter();
-                else onMouseLeave();
-            }
-
-            return mouseIn;
-        }
-
-        public bool isPointInside(Vector2i pos)
+        public bool IsPointInside(Vector2i pos)
         {
             if (pos.X < 0) return false;
             else if (pos.X > box.Width) return false;
@@ -120,17 +104,18 @@ namespace GRAPHical_Learner
             else return true;
         }
 
-        protected virtual void onMouseEnter()
+        protected virtual void OnMouseEnter()
         { }
 
-        protected virtual void onMouseLeave() 
+        protected virtual void OnMouseLeave() 
         {
-            if (children != null) children.ForEach(u => u.onMouseLeave());
+            if (children != null) children.ForEach(u => u.CallMouseLeave());
         }
 
-        public void callMouseLeave()
+        public void CallMouseLeave()
         {
-            onMouseLeave();
+            mouseIn = false;
+            OnMouseLeave();
         }
 
         public event ComponentClickedHandler ComponentClicked;
@@ -149,17 +134,17 @@ namespace GRAPHical_Learner
             }
         }
 
-        public virtual List<Drawable> getDrawables(RenderFrame rf)
+        public virtual List<Drawable> GetUiDrawables()
         {
             return new List<Drawable>();
         }
 
-        public void moveX(float dx)
+        public void MoveX(float dx)
         {
             if (movable) box.Left += (int)dx;
         }
 
-        public void moveY(float dy)
+        public void MoveY(float dy)
         {
             if (movable) box.Top += (int)dy;
         }

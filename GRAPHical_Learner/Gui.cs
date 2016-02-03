@@ -11,38 +11,13 @@ namespace GRAPHical_Learner
     /// <summary>
     /// Съдържащия клас за UI компоненти
     /// </summary>
-    public class Gui : IDrawable
+    public class Gui
     {
         public static Gui activeGui;
 
         List<UiComponent> components = new List<UiComponent>();
 
-        public UiComponent lastMoused = null;
-
-        /// <summary>
-        /// Връща дали мишката е върху Ui-я
-        /// </summary>
-        /// <param name="mousePos">Координатите(относителни спрямо прозореца)</param>
-        /// <returns></returns>
-        public bool processMouse(Vector2i mousePos)
-        {
-            bool result = false;
-            for(int i = components.Count - 1; i >=0; i--)
-            {
-                UiComponent uic = components[i];
-                if (uic.visible == false) continue;
-                if (uic.ProcessMousePosition(mousePos))
-                {
-                    if (lastMoused != null) if (lastMoused != uic) lastMoused.callMouseLeave();
-                    lastMoused = uic;
-                    result = true;
-                    break;
-                }
-            }              
-            
-            if(!result)lastMoused = null;
-            return result;
-        }
+        
 
         public void Add(UiComponent uic)
         {
@@ -54,6 +29,33 @@ namespace GRAPHical_Learner
             components.Remove(uic);
         }
 
+        public UiComponent lastMoused = null;
+
+        /// <summary>
+        /// Проверява дали мишката е върху Ui-я. Ако е - уведомява компонентите.
+        /// </summary>
+        /// <param name="mousePos">Координатите(относителни спрямо прозореца)</param>
+        /// <returns>True - мишката е върху елемент от интерфейса</returns>
+        public bool processMousePosition(Vector2i mousePos)
+        {
+            bool result = false;
+            for (int i = components.Count - 1; i >= 0; i--)
+            {
+                UiComponent uic = components[i];
+                if (uic.visible == false) continue;
+                if (uic.ProcessMousePosition(mousePos))
+                {
+                    if (lastMoused != null) if (lastMoused != uic) lastMoused.CallMouseLeave();
+                    lastMoused = uic;
+                    result = true;
+                    break;
+                }
+            }
+
+            if (!result) lastMoused = null;
+            return result;
+        }
+
         /// <summary>
         /// Обработва кликване
         /// </summary>
@@ -61,18 +63,23 @@ namespace GRAPHical_Learner
         public void processMouseClick(Vector2i mousePos)
         {
             if(lastMoused != null) lastMoused.MouseClick(mousePos);
-            else foreach(UiComponent uic in components)
+            /*else foreach(UiComponent uic in components) // за всеки случай, в момента не се ползва
             {
                 if (uic.visible == false) continue;
                 if (uic.checkMouseEvents(mousePos)) uic.MouseClick(mousePos);
-            }
+            }*/
         }
 
-        public List<Drawable> getDrawables(RenderFrame rf)
+        public void Draw(RenderWindow window)
         {
-            List<Drawable> ldraws = new List<Drawable>();
-            foreach (UiComponent uic in components) if (uic.visible) ldraws.AddRange(uic.getDrawables(rf));
-            return ldraws;
+            foreach (UiComponent uic in components)
+            {
+                if(uic.visible)
+                {
+                    List<Drawable> drawables = uic.GetUiDrawables();
+                    drawables.ForEach(d => window.Draw(d));
+                }
+            }
         }
     }
 }

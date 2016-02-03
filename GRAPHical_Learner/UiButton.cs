@@ -73,7 +73,7 @@ namespace GRAPHical_Learner
         /// <summary>
         /// Светва бутона
         /// </summary>
-        protected override void onMouseEnter()
+        protected override void OnMouseEnter()
         {
             backgroundColor = GraphicScheme.buttonPointed;
         }
@@ -81,17 +81,17 @@ namespace GRAPHical_Learner
         /// <summary>
         /// Изгася бутона
         /// </summary>
-        protected override void onMouseLeave()
+        protected override void OnMouseLeave()
         {
             backgroundColor = GraphicScheme.buttonIdle;
         }
 
-        public override List<Drawable> getDrawables(RenderFrame rf)
+        public override List<Drawable> GetUiDrawables()
         {
             if(parent == null)
             {
-                List<Drawable> ldraws = base.getDrawables(rf);
-                ldraws.AddRange(caption.getDrawables(rf));
+                List<Drawable> ldraws = base.GetUiDrawables();
+                ldraws.AddRange(caption.GetUiDrawables());
                 return ldraws;
             }
             else
@@ -99,8 +99,8 @@ namespace GRAPHical_Learner
                 caption.box.Left += parent.box.Left;
                 caption.box.Top += parent.box.Top;
 
-                List<Drawable> ldraws = base.getDrawables(rf);
-                ldraws.AddRange(caption.getDrawables(rf));
+                List<Drawable> ldraws = base.GetUiDrawables();
+                ldraws.AddRange(caption.GetUiDrawables());
 
                 caption.box.Left -= parent.box.Left;
                 caption.box.Top -= parent.box.Top;

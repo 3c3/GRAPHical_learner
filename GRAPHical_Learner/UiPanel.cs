@@ -32,7 +32,7 @@ namespace GRAPHical_Learner
             visible = true;
         }
 
-        public override List<Drawable> getDrawables(RenderFrame rf)
+        public override List<Drawable> GetUiDrawables()
         {
             RectangleShape rs = new RectangleShape(new Vector2f(box.Width, box.Height));
             
@@ -46,7 +46,7 @@ namespace GRAPHical_Learner
 
             if(children!=null) foreach(UiComponent uic in children)
             {
-                List<Drawable> comp = uic.getDrawables(rf);
+                List<Drawable> comp = uic.GetUiDrawables();
                 ldraws.AddRange(comp);
             }
             

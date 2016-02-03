@@ -59,12 +59,12 @@ namespace GRAPHical_Learner
             return d <= radius * radius;
         }
 
-        public void moveX(float dx)
+        public void MoveX(float dx)
         {
             center.X += dx;
         }
 
-        public void moveY(float dy)
+        public void MoveY(float dy)
         {
             center.Y += dy;
         }

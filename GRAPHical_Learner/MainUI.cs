@@ -168,7 +168,7 @@ namespace GRAPHical_Learner
         void processMouse()
         {
             Vector2i mousePos = Mouse.GetPosition(window);
-            bool inGui = gui.processMouse(mousePos);
+            bool inGui = gui.processMousePosition(mousePos);
 
             //Console.WriteLine("Mouse:" + lmbDown);
             if (lmbDown)
@@ -178,8 +178,8 @@ namespace GRAPHical_Learner
 
                 if (currentObject == null && currentGuiObject != null)
                 {
-                    currentGuiObject.moveX(dx);
-                    currentGuiObject.moveY(dy);
+                    currentGuiObject.MoveX(dx);
+                    currentGuiObject.MoveY(dy);
                 }
                 else if (currentObject == null && inGui)
                 {
@@ -187,8 +187,8 @@ namespace GRAPHical_Learner
                     if (uic != null && uic is IMovable)
                     {
                         currentGuiObject = uic as IMovable;
-                        currentGuiObject.moveX(dx);
-                        currentGuiObject.moveY(dy);
+                        currentGuiObject.MoveX(dx);
+                        currentGuiObject.MoveY(dy);
                     }
                 }
                 else
@@ -200,8 +200,8 @@ namespace GRAPHical_Learner
 
                     if (currentObject != null) // вече има обект
                     {
-                        currentObject.moveX(dx);
-                        currentObject.moveY(dy);
+                        currentObject.MoveX(dx);
+                        currentObject.MoveY(dy);
                         lastMousePos = mousePos;
                         return;
                     }
@@ -210,8 +210,8 @@ namespace GRAPHical_Learner
                     currentObject = getCircleAt(toGlobalCoords(mousePos));
                     if (currentObject == null) currentObject = renderFrame; // няма такъв -> местим рамката
 
-                    currentObject.moveX(dx);
-                    currentObject.moveY(dy);
+                    currentObject.MoveX(dx);
+                    currentObject.MoveY(dy);
                 }
                 lastMousePos = mousePos;
             }
@@ -249,9 +249,9 @@ namespace GRAPHical_Learner
 
             drawAxes();
 
-            List<Drawable> uiList = gui.getDrawables(renderFrame);
+            dbgLabel1.SetText(goodButton.mouseIn.ToString());
 
-            uiList.ForEach(d => window.Draw(d));
+            gui.Draw(window);
 
             window.Display();
         }

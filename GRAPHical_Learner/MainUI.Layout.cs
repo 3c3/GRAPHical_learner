@@ -21,12 +21,12 @@ namespace GRAPHical_Learner
             testPanel.box.Left = 300;
             testPanel.children = new List<UiComponent>();
 
-            UiButton goodButton = new UiButton("Кликни ме", font1, 100, 25);
+            goodButton = new UiButton("Кликни ме", GraphicScheme.font1, 100, 25);
             goodButton.box.Left = 10;
             goodButton.box.Top = 5;
             goodButton.ComponentClicked += goodButton_ComponentClicked;
 
-            UiButton badButton = new UiButton("Не ме кликай", font1, 100, 25);
+            UiButton badButton = new UiButton("Не ме кликай", GraphicScheme.font1, 100, 25);
             badButton.box.Left = 10;
             badButton.box.Top = 35;
             badButton.ComponentClicked += badButton_ComponentClicked;
@@ -44,7 +44,16 @@ namespace GRAPHical_Learner
 
             gui.Add(menu);
 
+            dbgLabel1 = new UiLabel("<not set>", GraphicScheme.font1);
+            dbgLabel1.box.Top = 25;
+            dbgLabel1.box.Left = 5;
+
+            gui.Add(dbgLabel1);
+
             //menu.movable = true;
         }
+
+        UiLabel dbgLabel1;
+        UiButton goodButton;
     }
 }

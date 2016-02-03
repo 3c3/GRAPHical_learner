@@ -9,7 +9,7 @@ namespace GRAPHical_Learner
 {
     interface IMovable
     {
-        void moveX(float dx);
-        void moveY(float dy);
+        void MoveX(float dx);
+        void MoveY(float dy);
     }
 }

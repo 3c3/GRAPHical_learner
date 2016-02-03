@@ -30,12 +30,12 @@ namespace GRAPHical_Learner
             zoom = (float)Math.Pow(4, scale);
         }
 
-        public void moveX(float dx)
+        public void MoveX(float dx)
         {
             xCenter -= dx;
         }
 
-        public void moveY(float dy)
+        public void MoveY(float dy)
         {
             yCenter -= dy;
         }
