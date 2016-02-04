@@ -65,7 +65,9 @@ namespace GRAPHical_Learner
             renderFrame.calcZoom();
 
             InitializeGui();
-            
+
+            //window.SetMouseCursorVisible(false);
+
             loop();
         }
 
@@ -140,6 +142,14 @@ namespace GRAPHical_Learner
         {
             renderFrame.scale += ((float)e.Delta)/10.0f;
             renderFrame.calcZoom();
+            if(currentObject != null)
+            {
+                if(currentObject is Circle)
+                {
+                    Circle circle = currentObject as Circle;
+                    circle.center = toGlobalCoords(Mouse.GetPosition(window));
+                }
+            }
         }
 
         void loop()
@@ -147,6 +157,7 @@ namespace GRAPHical_Learner
             while(window.IsOpen)
             {
                 window.DispatchEvents();
+                
                 processMouse();
                 draw();
             }
@@ -154,7 +165,6 @@ namespace GRAPHical_Learner
 
         Vector2i lastMousePos = new Vector2i();
         IMovable currentObject;
-        IMovable currentGuiObject;
         
         Circle getCircleAt(Vector2f pos)
         {
@@ -167,59 +177,41 @@ namespace GRAPHical_Learner
 
         void processMouse()
         {
-            Vector2i mousePos = Mouse.GetPosition(window);
-            bool inGui = gui.processMousePosition(mousePos);
+            dbgLabel3.SetText(currentObject != null ? currentObject.GetType().ToString() : "no IMovable");
 
-            //Console.WriteLine("Mouse:" + lmbDown);
+            Vector2i mousePos = Mouse.GetPosition(window);
+
+            float dx = mousePos.X - lastMousePos.X;
+            float dy = mousePos.Y - lastMousePos.Y;
+
             if (lmbDown)
             {
-                float dx = mousePos.X - lastMousePos.X;
-                float dy = mousePos.Y - lastMousePos.Y;
-
-                if (currentObject == null && currentGuiObject != null)
+                if (currentObject != null)
                 {
-                    currentGuiObject.MoveX(dx);
-                    currentGuiObject.MoveY(dy);
-                }
-                else if (currentObject == null && inGui)
-                {
-                    UiComponent uic = gui.lastChildMoused;
-                    if (uic != null && uic is IMovable)
-                    {
-                        currentGuiObject = uic as IMovable;
-                        currentGuiObject.MoveX(dx);
-                        currentGuiObject.MoveY(dy);
-                    }
-                }
-                else
-                {
-                    dy *= -1;
-
-                    dx /= renderFrame.zoom;
-                    dy /= renderFrame.zoom;
-
-                    if (currentObject != null) // вече има обект
+                    if (currentObject is UiComponent)
                     {
                         currentObject.MoveX(dx);
                         currentObject.MoveY(dy);
-                        lastMousePos = mousePos;
-                        return;
                     }
+                    else
+                    {
+                        dy *= -1;
 
-                    // търсим обект, който може да е посочен
-                    currentObject = getCircleAt(toGlobalCoords(mousePos));
-                    if (currentObject == null) currentObject = renderFrame; // няма такъв -> местим рамката
+                        dx /= renderFrame.zoom;
+                        dy /= renderFrame.zoom;
 
-                    currentObject.MoveX(dx);
-                    currentObject.MoveY(dy);
-                }
-                lastMousePos = mousePos;
+                        currentObject.MoveX(dx);
+                        currentObject.MoveY(dy);
+                    }
+                } 
+                if (currentObject == null) currentObject = gui.lastChildMoused;
+                if (currentObject == null) currentObject = getCircleAt(toGlobalCoords(mousePos));
+                if (currentObject == null) currentObject = renderFrame;
             }
-            else
-            {
-                currentObject = null;
-                currentGuiObject = null;
-            }
+            else  currentObject = null;
+
+            gui.processMousePosition(mousePos);
+            lastMousePos = mousePos;
         }
 
         void drawAxes()
@@ -253,6 +245,14 @@ namespace GRAPHical_Learner
             dbgLabel2.SetText(gui.MousedComponent != null ? gui.MousedComponent.GetType().ToString() : "null");
 
             gui.Draw(window);
+
+            /*Vector2i mousePos = Mouse.GetPosition(window);
+
+            RectangleShape rs = new RectangleShape(new Vector2f(5, 5));
+            rs.FillColor = new Color(255, 0, 0, 150);
+            rs.Position = new Vector2f(mousePos.X - 2, mousePos.Y - 2);*/
+
+            //window.Draw(rs);
 
             window.Display();
         }

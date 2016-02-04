@@ -57,14 +57,20 @@ namespace GRAPHical_Learner
             dbgLabel2.box.Top = 45;
             dbgLabel2.box.Left = 5;
 
+            dbgLabel3 = new UiLabel("Все още няма нужда от мен за дебъг!", GraphicScheme.font1);
+            dbgLabel3.box.Top = 65;
+            dbgLabel3.box.Left = 5;
+
             gui.Add(dbgLabel1);
             gui.Add(dbgLabel2);
+            gui.Add(dbgLabel3);
 
             //menu.movable = true;
         }
 
         UiLabel dbgLabel1;
         UiLabel dbgLabel2;
+        UiLabel dbgLabel3;
         UiButton goodButton;
     }
 }

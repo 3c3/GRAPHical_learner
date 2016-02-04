@@ -62,7 +62,11 @@ namespace GRAPHical_Learner
                 }
             }
 
-            if (!result) lastMoused = null;
+            if (!result)
+            {
+                lastMoused = null;
+                lastChildMoused = null;
+            }
             return result;
         }
 
