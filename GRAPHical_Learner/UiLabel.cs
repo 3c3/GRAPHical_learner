@@ -16,7 +16,13 @@ namespace GRAPHical_Learner
         public Font font;
         public Color foreground;
 
-        private Text drawText;
+        protected Text drawText;
+
+        public UiLabel()
+        {
+            foreground = new Color(255, 255, 255);
+            backgroundColor = new Color(0, 0, 0, 80);
+        }
 
         public UiLabel(string text, Font font)
         {
@@ -40,22 +46,11 @@ namespace GRAPHical_Learner
             CreateDrawables(text);
         }
 
-        public override List<Drawable> GetUiDrawables()
+        public override void Draw(int relX, int relY)
         {
-            if (parent == null)
-            {
-                List<Drawable> ldraws = base.GetUiDrawables();
-                drawText.Position = new Vector2f(box.Left + 5, box.Top);
-                ldraws.Add(drawText);
-                return ldraws;
-            }
-            else
-            {
-                List<Drawable> ldraws = base.GetUiDrawables();
-                drawText.Position = new Vector2f(box.Left + parent.box.Left + 5, box.Top + parent.box.Top);
-                ldraws.Add(drawText);
-                return ldraws;
-            }
+            base.Draw(relX, relY);
+            drawText.Position = new Vector2f(box.Left + relX + 5, box.Top + relY);
+            gui.window.Draw(drawText);            
         }
     }
 }

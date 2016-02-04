@@ -14,6 +14,13 @@ namespace GRAPHical_Learner
     public class Gui
     {
         List<UiComponent> components = new List<UiComponent>();
+        public UiComponent keyboardFocusComponent;
+        public readonly RenderWindow window;
+
+        public Gui(RenderWindow window)
+        {
+            this.window = window;
+        }
 
         public void Add(UiComponent uic)
         {
@@ -88,11 +95,7 @@ namespace GRAPHical_Learner
         {
             foreach (UiComponent uic in components)
             {
-                if(uic.visible)
-                {
-                    List<Drawable> drawables = uic.GetUiDrawables();
-                    drawables.ForEach(d => window.Draw(d));
-                }
+                if (uic.visible) uic.Draw(0,0);
             }
         }
     }

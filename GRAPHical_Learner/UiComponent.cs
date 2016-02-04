@@ -152,9 +152,9 @@ namespace GRAPHical_Learner
             if (children != null) children.ForEach(c => c.UpdateChildrenGuiReference());
         }
 
-        public virtual List<Drawable> GetUiDrawables()
+        public virtual void Draw(int relX, int relY)
         {
-            return new List<Drawable>();
+            return;
         }
 
         private void ForceMoveX(float dx)

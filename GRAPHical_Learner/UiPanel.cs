@@ -32,25 +32,22 @@ namespace GRAPHical_Learner
             visible = true;
         }
 
-        public override List<Drawable> GetUiDrawables()
+        public override void Draw(int relX, int relY)
         {
             RectangleShape rs = new RectangleShape(new Vector2f(box.Width, box.Height));
-            
-            if (parent != null) rs.Position = new Vector2f(box.Left + parent.box.Left, box.Top + parent.box.Top);
-            else rs.Position = new Vector2f(box.Left, box.Top);
 
+            int posX = box.Left + relX;
+            int posY = box.Top + relY;
+
+            rs.Position = new Vector2f(posX, posY);
             rs.FillColor = backgroundColor;
 
-            List<Drawable> ldraws = new List<Drawable>();
-            ldraws.Add(rs);
+            gui.window.Draw(rs);
 
             if(children!=null) foreach(UiComponent uic in children)
             {
-                List<Drawable> comp = uic.GetUiDrawables();
-                ldraws.AddRange(comp);
+                uic.Draw(posX, posY);
             }
-            
-            return ldraws;
         }
     }
 }

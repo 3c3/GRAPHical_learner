@@ -91,27 +91,10 @@ namespace GRAPHical_Learner
             gui.lastChildMoused = this;
         }
 
-        public override List<Drawable> GetUiDrawables()
+        /*public override void Draw(int relX, int relY)
         {
-            if(parent == null)
-            {
-                List<Drawable> ldraws = base.GetUiDrawables();
-                ldraws.AddRange(caption.GetUiDrawables());
-                return ldraws;
-            }
-            else
-            {
-                caption.box.Left += parent.box.Left;
-                caption.box.Top += parent.box.Top;
-
-                List<Drawable> ldraws = base.GetUiDrawables();
-                ldraws.AddRange(caption.GetUiDrawables());
-
-                caption.box.Left -= parent.box.Left;
-                caption.box.Top -= parent.box.Top;
-
-                return ldraws;
-            }
-        }
+            base.Draw(relX, relY);
+            caption.Draw(relX, relY);
+        }*/
     }
 }

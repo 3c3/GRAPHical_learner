@@ -13,7 +13,7 @@ namespace GRAPHical_Learner
         /// </summary>
         public void InitializeGui()
         {
-            gui = new Gui();
+            gui = new Gui(window);
 
             UiPanel testPanel = new UiPanel(GraphicScheme.uiBackgroundColor, 120, 350);
             testPanel.box.Left = 300;

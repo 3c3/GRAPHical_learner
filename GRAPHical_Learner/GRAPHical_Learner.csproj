@@ -90,6 +90,7 @@
     <Compile Include="UiHorizontalMenu.cs" />
     <Compile Include="UiLabel.cs" />
     <Compile Include="UiPanel.cs" />
+    <Compile Include="UiTextBox.cs" />
     <Compile Include="UiVerticalMenu.cs" />
     <Compile Include="Vertex.cs" />
   </ItemGroup>
