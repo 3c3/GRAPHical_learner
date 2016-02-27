@@ -18,7 +18,7 @@ namespace GRAPHical_Learner
             this.ComponentClicked += SetFocus;
         }
 
-        void SetFocus()
+        void SetFocus(UiComponent sender, Object arg)
         {
             gui.keyboardFocusComponent = this;
         }

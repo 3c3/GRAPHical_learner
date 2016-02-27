@@ -25,22 +25,23 @@ namespace GRAPHical_Learner
         /// </summary>
         /// <param name="text">Текста на бутона</param>
         /// <param name="handler">Функцията, която се извиква при натискане</param>
-        public virtual void AddItem(String text, ComponentClickedHandler handler)
+        public virtual int AddItem(String text, ComponentClickedHandler handler)
         {
             UiButton newButton = new UiButton(text, 20);
-            newButton.box.Left = 3;
-            newButton.box.Top = 5 + 25 * children.Count;
-            if (box.Width < (newButton.box.Width + 6))
+            newButton.X = 3;
+            newButton.Y = 5 + 25 * children.Count;
+            if (Width < (newButton.Width + 6))
             {
-                box.Width = newButton.box.Width + 6;
+                Width = newButton.Width + 6;
                 UpdateButtons();
             }
-            else newButton.updateWidth(box.Width - 6);
+            else newButton.updateWidth(Width - 6);
 
             shouldAdd = true;
             AddChild(newButton);
             newButton.ComponentClicked += handler;
-            box.Height = 5 + 25 * children.Count;
+            Height = 5 + 25 * children.Count;
+            return newButton.id;
         }
 
         protected bool shouldAdd = false; // Предпазна мярка някой да не ползва AddChild вместо AddItem
@@ -61,7 +62,7 @@ namespace GRAPHical_Learner
         /// </summary>
         protected virtual void UpdateButtons()
         {
-            children.ForEach(b => (b as UiButton).updateWidth(box.Width - 6));
+            children.ForEach(b => (b as UiButton).updateWidth(Width - 6));
         }
 
         /// <summary>
@@ -70,7 +71,7 @@ namespace GRAPHical_Learner
         public virtual void RemoveLast()
         {
             children.RemoveAt(children.Count - 1);
-            box.Height -= 25;
+            Height -= 25;
         }
     }
 }

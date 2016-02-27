@@ -29,16 +29,17 @@ namespace GRAPHical_Learner
         /// </summary>
         /// <param name="text">Текста на бутона</param>
         /// <param name="handler">Функцията, която се извиква при натискане</param>
-        public override void AddItem(string text, ComponentClickedHandler handler)
+        public override int AddItem(string text, ComponentClickedHandler handler)
         {
             UiButton newButton = new UiButton(text, 20);
-            newButton.box.Left = x;
-            newButton.box.Top = 2;
+            newButton.X = x;
+            newButton.Y = 2;
 
             shouldAdd = true;
             AddChild(newButton);
             newButton.ComponentClicked += handler;
-            x += newButton.box.Width + 2;
+            x += newButton.Width + 2;
+            return newButton.id;
         }
 
         /// <summary>
@@ -54,7 +55,7 @@ namespace GRAPHical_Learner
         /// </summary>
         public override void RemoveLast()
         {
-            x -= 2 + children[children.Count - 1].box.Width;
+            x -= 2 + children[children.Count - 1].Width;
             children.RemoveAt(children.Count - 1);
         }
     }

@@ -9,11 +9,40 @@ using SFML.Window;
 
 namespace GRAPHical_Learner
 {
-    public delegate void ComponentClickedHandler();
+    public delegate void ComponentClickedHandler(UiComponent sender, Object arg);
 
     public class UiComponent : IMovable
     {
-        public IntRect box; // правоъгълните граници на компонента
+        static int count = 0;
+
+        public readonly int id;
+
+        protected IntRect box; // правоъгълните граници на компонента
+
+        public int X
+        {
+            get { return box.Left; }
+            set { box.Left = value; OnComponentMoved(); }
+        }
+
+        public int Y
+        {
+            get { return box.Top; }
+            set { box.Top = value; OnComponentMoved(); }
+        }
+
+        public int Width
+        {
+            get { return box.Width; }
+            set { box.Width = value; OnComponentResized(); }
+        }
+
+        public int Height
+        {
+            get { return box.Height; }
+            set { box.Height = value; OnComponentResized(); }
+        }
+
         public bool visible = false; // при true компонента се рисува
         public bool movable = false; // при true компонента може да се влачи с мишката
         public List<UiComponent> children;
@@ -23,6 +52,7 @@ namespace GRAPHical_Learner
         
         public UiComponent()
         {
+            id = count++;
             box = new IntRect();
         }
 
@@ -80,6 +110,11 @@ namespace GRAPHical_Learner
 
             return mouseIn;
         }
+
+        protected virtual void fireClickEvent()
+        {
+            if (ComponentClicked != null) ComponentClicked(this, id);
+        }
         
         /// <summary>
         /// Извиква event-а за кликване. Ползва се само за класове, които нямат родители
@@ -94,7 +129,7 @@ namespace GRAPHical_Learner
 
             if (!IsPointInside(localPos)) return;
 
-            if (ComponentClicked != null) ComponentClicked();
+            fireClickEvent();
             if (children != null)
             {
                 for (int i = 0; i < children.Count; i++)
@@ -120,6 +155,13 @@ namespace GRAPHical_Learner
         protected virtual void OnMouseLeave() 
         {
             if (children != null) children.ForEach(u => u.CallMouseLeave());
+        }
+
+        protected virtual void OnComponentResized()
+        { }
+
+        protected virtual void OnComponentMoved()
+        {
         }
 
         public void CallMouseLeave()

@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace GRAPHical_Learner
 {
-    public class Edge
+    public interface IForceSimulator
     {
-        public Vertex source, destination;
-        public List<Property> properties;
+        void SetGraph(Graph graph);
+        void SimulateStep();
+        void SetForce(float percent);
     }
 }

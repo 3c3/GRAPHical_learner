@@ -8,6 +8,13 @@ namespace GRAPHical_Learner
 {
     public partial class MainUI
     {
+        UiLabel dbgLabel1;
+        UiLabel dbgLabel2;
+        UiLabel dbgLabel3;
+        UiButton goodButton;
+
+        UiVerticalMenu rmbMenu;
+        
         /// <summary>
         /// Слага всичките неща в Gui-то
         /// </summary>
@@ -15,62 +22,51 @@ namespace GRAPHical_Learner
         {
             gui = new Gui(window);
 
-            UiPanel testPanel = new UiPanel(GraphicScheme.uiBackgroundColor, 120, 350);
-            testPanel.box.Left = 300;
-            testPanel.box.Top = 200;
-            testPanel.children = new List<UiComponent>();
-
-            UiPanel dragPanel = new UiPanel(GraphicScheme.uiBackgroundColor, 100, 15);
-            dragPanel.box.Left = 10;
-            dragPanel.box.Top = 5;
-            dragPanel.movable = true;
-            
-            goodButton = new UiButton("Кликни ме", GraphicScheme.font1, 100, 25);
-            goodButton.box.Left = 10;
-            goodButton.box.Top = 25;
-            goodButton.ComponentClicked += goodButton_ComponentClicked;
-
-            UiButton badButton = new UiButton("Не ме кликай", GraphicScheme.font1, 100, 25);
-            badButton.box.Left = 10;
-            badButton.box.Top = 55;
-            badButton.ComponentClicked += badButton_ComponentClicked;
-
-            testPanel.AddChild(dragPanel);
-            testPanel.AddChild(goodButton);
-            testPanel.AddChild(badButton);
-
-            gui.Add(testPanel);
-
             menu = new UiHorizontalMenu(1024);
 
-            menu.AddItem("Add", menu_add);
-            menu.AddItem("Close", menu_close);
-            menu.AddItem("Remove last button", menu_remove);
+            menu.AddItem("Зареди", menu_FileOpen);
+            menu.AddItem("Запази", menu_FileSave);
+            menu.AddItem("Случаен", menu_Generate);
+            menu.AddItem("Разбъркай", menu_Shuffle);
+            menu.AddItem("Изчисти", menu_Clear);
 
             gui.Add(menu);
 
             dbgLabel1 = new UiLabel("Все още няма нужда от мен за дебъг!", GraphicScheme.font1);
-            dbgLabel1.box.Top = 25;
-            dbgLabel1.box.Left = 5;
+            dbgLabel1.visible = false;
+            dbgLabel1.Y = 25;
+            dbgLabel1.X = 5;
 
             dbgLabel2 = new UiLabel("Все още няма нужда от мен за дебъг!", GraphicScheme.font1);
-            dbgLabel2.box.Top = 45;
-            dbgLabel2.box.Left = 5;
+            dbgLabel2.visible = false;
+            dbgLabel2.Y = 45;
+            dbgLabel2.X = 5;
 
             dbgLabel3 = new UiLabel("Все още няма нужда от мен за дебъг!", GraphicScheme.font1);
-            dbgLabel3.box.Top = 65;
-            dbgLabel3.box.Left = 5;
+            dbgLabel3.visible = false;
+            dbgLabel3.Y = 65;
+            dbgLabel3.X = 5;
 
             gui.Add(dbgLabel1);
             gui.Add(dbgLabel2);
             gui.Add(dbgLabel3);
 
+            UiVerticalMenu vmenu = new UiVerticalMenu();
+            vmenu.AddItem("Включи физика", BtnPhysEnable);
+            vmenu.AddItem("Изключи физика", BtnPhysDisable);
+            vmenu.X = 0;
+            vmenu.Y = 20;
+
+            gui.Add(vmenu);
+
+            rmbMenu = new UiVerticalMenu();
+            rmbMenu.visible = false;
+            rmbMenu.AddItem("Добави връх", rmbMenu_AddVertex);
+            rmbMenu.AddItem("Демаркирай", rmbMenu_Deselect);
+            
+            gui.Add(rmbMenu);
             //menu.movable = true;
         }
 
-        UiLabel dbgLabel1;
-        UiLabel dbgLabel2;
-        UiLabel dbgLabel3;
-        UiButton goodButton;
     }
 }

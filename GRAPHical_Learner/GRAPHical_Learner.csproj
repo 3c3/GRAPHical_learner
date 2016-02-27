@@ -71,28 +71,38 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Circle.cs" />
+    <Compile Include="GraphStuff\Circle.cs" />
     <Compile Include="ColorScheme.cs" />
-    <Compile Include="Edge.cs" />
+    <Compile Include="GraphStuff\Edge.cs" />
     <Compile Include="EntryPoint.cs" />
-    <Compile Include="Graph.cs" />
+    <Compile Include="GraphStuff\ForceSimulatorMkI.cs" />
+    <Compile Include="GraphStuff\ForceSimulatorMkII.cs" />
+    <Compile Include="GraphStuff\Graph.cs" />
+    <Compile Include="GraphStuff\IOHandler.cs" />
+    <Compile Include="GraphStuff\ScalableLabel.cs" />
     <Compile Include="Gui.cs" />
     <Compile Include="IDrawable.cs" />
+    <Compile Include="GraphStuff\IForceSimulator.cs" />
     <Compile Include="IMovable.cs" />
+    <Compile Include="GraphStuff\Line.cs" />
     <Compile Include="MainUI.cs" />
+    <Compile Include="MainUI.Events.cs" />
     <Compile Include="MainUI.Layout.cs" />
     <Compile Include="Matrix.cs" />
-    <Compile Include="Property.cs" />
+    <Compile Include="GraphStuff\Property.cs" />
+    <Compile Include="PVector.cs" />
     <Compile Include="Renderer.cs" />
     <Compile Include="RenderFrame.cs" />
-    <Compile Include="UiButton.cs" />
-    <Compile Include="UiComponent.cs" />
-    <Compile Include="UiHorizontalMenu.cs" />
-    <Compile Include="UiLabel.cs" />
-    <Compile Include="UiPanel.cs" />
-    <Compile Include="UiTextBox.cs" />
-    <Compile Include="UiVerticalMenu.cs" />
-    <Compile Include="Vertex.cs" />
+    <Compile Include="UI\UiButton.cs" />
+    <Compile Include="UI\UiComponent.cs" />
+    <Compile Include="UI\UiHorizontalMenu.cs" />
+    <Compile Include="UI\UiLabel.cs" />
+    <Compile Include="UI\UiPanel.cs" />
+    <Compile Include="UI\UiRectangle.cs" />
+    <Compile Include="UI\UiTextBox.cs" />
+    <Compile Include="UI\UiVertexMenu.cs" />
+    <Compile Include="UI\UiVerticalMenu.cs" />
+    <Compile Include="GraphStuff\Vertex.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

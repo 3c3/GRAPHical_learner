@@ -53,7 +53,7 @@ namespace GRAPHical_Learner
         /// </summary>
         /// <param name="mousePos">Координатите(относителни спрямо прозореца)</param>
         /// <returns>True - мишката е върху елемент от интерфейса</returns>
-        public bool processMousePosition(Vector2i mousePos)
+        public bool ProcessMousePosition(Vector2i mousePos)
         {
             bool result = false;
             for (int i = components.Count - 1; i >= 0; i--)
@@ -81,9 +81,13 @@ namespace GRAPHical_Learner
         /// Обработва кликване
         /// </summary>
         /// <param name="mousePos">Координатите, в рамката на родителя</param>
-        public void processMouseClick(Vector2i mousePos)
+        public bool ProcessMouseClick(Vector2i mousePos)
         {
-            if(lastMoused != null) lastMoused.MouseClick(mousePos);
+            if (lastMoused != null)
+            {
+                lastMoused.MouseClick(mousePos);
+                return true;
+            } else return false;
             /*else foreach(UiComponent uic in components) // за всеки случай, в момента не се ползва
             {
                 if (uic.visible == false) continue;

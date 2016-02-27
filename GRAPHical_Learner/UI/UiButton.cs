@@ -13,7 +13,7 @@ namespace GRAPHical_Learner
     /// </summary>
     public class UiButton : UiPanel
     {
-        public UiLabel caption; // текста на бутона
+        private UiLabel caption; // текста на бутона
         public UiButton(string text, Font font, int width, int height)
         {
             children = new List<UiComponent>();
@@ -41,8 +41,8 @@ namespace GRAPHical_Learner
 
             caption = children[0] as UiLabel;
 
-            box.Width = caption.box.Width + 6;
-            box.Height = height;
+            Width = caption.Width + 6;
+            Height = height;
 
             centerText();
 
@@ -55,7 +55,7 @@ namespace GRAPHical_Learner
         /// <param name="newWidth"></param>
         public void updateWidth(int newWidth)
         {
-            box.Width = newWidth;
+            Width = newWidth;
             centerText();
         }
 
@@ -64,10 +64,10 @@ namespace GRAPHical_Learner
         /// </summary>
         private void centerText()
         {
-            int freeX = box.Width - caption.box.Width;
-            int freeY = box.Height - caption.box.Height;
-            caption.box.Left = freeX / 2;
-            caption.box.Top = freeY / 2;
+            int freeX = box.Width - caption.Width;
+            int freeY = box.Height - caption.Height;
+            caption.X = freeX / 2;
+            caption.Y = freeY / 2;
         }
 
         /// <summary>

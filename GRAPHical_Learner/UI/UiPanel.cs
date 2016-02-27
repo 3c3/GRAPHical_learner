@@ -44,10 +44,10 @@ namespace GRAPHical_Learner
 
             gui.window.Draw(rs);
 
-            if(children!=null) foreach(UiComponent uic in children)
-            {
-                uic.Draw(posX, posY);
-            }
+            if (children != null) foreach (UiComponent uic in children)
+                {
+                    uic.Draw(posX, posY);
+                }
         }
     }
 }

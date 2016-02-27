@@ -25,6 +25,30 @@ namespace GRAPHical_Learner
             start();
         }
 
+        void MakeGraph()
+        {
+            activeGraph = new Graph();
+            activeGraph.vertices.Add(new Vertex(0, 0));
+            /*activeGraph.vertices.Add(new Vertex(0, 0));
+            activeGraph.vertices.Add(new Vertex(0, 100));
+            activeGraph.vertices.Add(new Vertex(1, 2));
+
+            activeGraph.vertices.Add(new Vertex(200, 20));
+            activeGraph.vertices.Add(new Vertex(200, 10));
+            activeGraph.vertices.Add(new Vertex(200, 0));
+            activeGraph.vertices.Add(new Vertex(200, -50));
+
+            activeGraph.AddEdge(0, 1);
+            activeGraph.AddEdge(0, 2);
+            //activeGraph.AddEdge(1, 2);
+            activeGraph.AddEdge(0, 3);
+
+            activeGraph.AddEdge(4, 5);
+            activeGraph.AddEdge(4, 6);
+            activeGraph.AddEdge(4, 7);
+            activeGraph.AddEdge(0, 4);*/
+        }
+
         void genCircles()
         {
             Random r = new Random();
@@ -44,6 +68,7 @@ namespace GRAPHical_Learner
         }
 
         UiVerticalMenu menu;
+        IForceSimulator fs;
 
         private void start()
         {
@@ -61,96 +86,22 @@ namespace GRAPHical_Learner
 
             font1 = new Font("Ubuntu-R.ttf");
 
-            genCircles();
+            //genCircles();
+            MakeGraph();
+
+            fs = new ForceSimulatorMkII(2.5f, 0.17f);
+            fs.SetGraph(activeGraph);
+
             renderFrame.calcZoom();
 
             InitializeGui();
 
-            //window.SetMouseCursorVisible(false);
-
             loop();
         }
 
-        private void badButton_ComponentClicked()
-        {
-            Console.WriteLine("Why did you click me?");
-        }
+        bool physics = false;
 
-        void goodButton_ComponentClicked()
-        {
-            Console.WriteLine("You clicked me!");
-        }
-
-        private int idxBtn = 1;
-        void menu_add()
-        {
-            String text = "Button " + Convert.ToString(idxBtn, 2);
-            idxBtn++;
-            menu.AddItem(text, menu_newclick);
-        }
-
-        void menu_newclick()
-        {
-            Console.WriteLine("You clicked a new button.");
-        }
-        
-        void menu_remove()
-        {
-            if (menu.children.Count > 3)
-            {
-                menu.RemoveLast();
-            }
-        }
-
-        void menu_close()
-        {
-            menu.Remove();
-        }
-
-        private bool lmbDown = false;
-
-        void window_MouseButtonReleased(object sender, MouseButtonEventArgs e)
-        {
-            if (e.Button == Mouse.Button.Left) lmbDown = false;
-        }
-
-        void window_MouseButtonPressed(object sender, MouseButtonEventArgs e)
-        {
-            if (e.Button == Mouse.Button.Left)
-            {
-                Vector2i mousePos = Mouse.GetPosition(window);
-                gui.processMouseClick(mousePos);
-
-                if(!lmbDown)
-                {
-                    lastMousePos = Mouse.GetPosition(window);
-                    lmbDown = true;
-                }
-                
-            }
-        }
-
-        void window_KeyPressed(object sender, KeyEventArgs e)
-        {
-            if (e.Code == Keyboard.Key.Left) renderFrame.xCenter -= 20.0f;
-            if (e.Code == Keyboard.Key.Right) renderFrame.xCenter += 20.0f;
-            if (e.Code == Keyboard.Key.Up) renderFrame.yCenter += 20.0f;
-            if (e.Code == Keyboard.Key.Down) renderFrame.yCenter -= 20.0f;
-        }
-
-        void window_MouseWheelMoved(object sender, MouseWheelEventArgs e)
-        {
-            renderFrame.scale += ((float)e.Delta)/10.0f;
-            renderFrame.calcZoom();
-            if(currentObject != null)
-            {
-                if(currentObject is Circle)
-                {
-                    Circle circle = currentObject as Circle;
-                    circle.center = toGlobalCoords(Mouse.GetPosition(window));
-                }
-            }
-        }
+        int cnt = 0;
 
         void loop()
         {
@@ -159,6 +110,15 @@ namespace GRAPHical_Learner
                 window.DispatchEvents();
                 
                 processMouse();
+
+                cnt++;
+
+                if (physics && cnt >= 0)
+                {
+                    cnt = 0;
+                    fs.SimulateStep();
+                }
+
                 draw();
             }
         }
@@ -166,11 +126,12 @@ namespace GRAPHical_Learner
         Vector2i lastMousePos = new Vector2i();
         IMovable currentObject;
         
-        Circle getCircleAt(Vector2f pos)
+        Vertex getCircleAt(Vector2f pos)
         {
-            foreach(Circle c in circles)
+            if (activeGraph == null) return null;
+            foreach(Vertex v in activeGraph.vertices)
             {
-                if (c.isInside(pos)) return c;
+                if (v.circle.isInside(pos)) return v;
             }
             return null;
         }
@@ -210,7 +171,7 @@ namespace GRAPHical_Learner
             }
             else  currentObject = null;
 
-            gui.processMousePosition(mousePos);
+            gui.ProcessMousePosition(mousePos);
             lastMousePos = mousePos;
         }
 
@@ -230,14 +191,15 @@ namespace GRAPHical_Learner
         {
             window.Clear(Color.Black);
 
-            List<Drawable> draws = new List<Drawable>();
+            /*List<Drawable> draws = new List<Drawable>();
             foreach (Circle c in circles)
             {
                 List<Drawable> elements = c.getDrawables(renderFrame);
                 foreach (Drawable d in elements) draws.Add(d);
             }
 
-            draws.ForEach(d => window.Draw(d));
+            draws.ForEach(d => window.Draw(d));*/
+            if (activeGraph != null) activeGraph.DrawSelf(window, renderFrame);
 
             drawAxes();
 

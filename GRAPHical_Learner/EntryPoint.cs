@@ -10,6 +10,7 @@ namespace GRAPHical_Learner
 {
     public class EntryPoint
     {
+        [STAThread]
         public static void Main(String[] args)
         {
             MainUI program = new MainUI();
