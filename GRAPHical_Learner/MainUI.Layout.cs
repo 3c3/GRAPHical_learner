@@ -11,9 +11,11 @@ namespace GRAPHical_Learner
         UiLabel dbgLabel1;
         UiLabel dbgLabel2;
         UiLabel dbgLabel3;
-        UiButton goodButton;
+        UiButton resumeButton;
 
         UiVerticalMenu rmbMenu;
+
+        UiPropertyPanel propertyPanel;
         
         /// <summary>
         /// Слага всичките неща в Gui-то
@@ -66,6 +68,19 @@ namespace GRAPHical_Learner
             
             gui.Add(rmbMenu);
             //menu.movable = true;
+
+            propertyPanel = new UiPropertyPanel();
+            propertyPanel.X = 0;
+            propertyPanel.Y = 300;
+
+            gui.Add(propertyPanel);
+
+            resumeButton = new UiButton("Продължи алгоритъм", 20);
+            resumeButton.X = 450;
+            resumeButton.Y = 580;
+            resumeButton.ComponentClicked += BtnResume;
+
+            gui.Add(resumeButton);
         }
 
     }

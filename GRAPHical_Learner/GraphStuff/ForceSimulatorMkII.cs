@@ -67,7 +67,7 @@ namespace GRAPHical_Learner
                 if (step < minStep) step = minStep;
             }
             prevEnergy = energy;
-            Console.WriteLine(String.Format("Energy: {0}; Step: {1}", energy, step));
+            //Console.WriteLine(String.Format("Energy: {0}; Step: {1}", energy, step));
         }
 
         double maxForce = 0.1;

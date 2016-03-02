@@ -18,20 +18,22 @@ namespace GRAPHical_Learner
             vertices.ForEach(v => v.DrawSelf(window, rf));
         }
 
-        public void AddEdge(int idx1, int idx2)
+        public int AddEdge(int idx1, int idx2)
         {
             Edge e = new Edge(vertices[idx1], vertices[idx2]);
             edges.Add(e);
             vertices[idx1].edges.Add(e);
             vertices[idx2].edges.Add(e);
+            return e.id;
         }
 
-        public void AddEdge(Vertex v1, Vertex v2)
+        public int AddEdge(Vertex v1, Vertex v2)
         {
             Edge e = new Edge(v1, v2);
             edges.Add(e);
             v1.edges.Add(e);
             v2.edges.Add(e);
+            return e.id;
         }
 
         public void AddVertex(Vertex v)

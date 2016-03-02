@@ -13,7 +13,7 @@ namespace GRAPHical_Learner
     {
         public Vector2f center;
         float radius;
-        private Color color;
+        public Color color;
 
         public Circle(float x, float y, float r)
         {

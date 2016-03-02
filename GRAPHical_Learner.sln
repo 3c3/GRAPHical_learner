@@ -5,6 +5,10 @@ VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GRAPHical_Learner", "GRAPHical_Learner\GRAPHical_Learner.csproj", "{F3A70783-A6F6-4E0B-B3B2-48DC52B77BF6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GUI_only", "GUI_only\GUI_only.csproj", "{4073823E-E966-4A50-B970-8B24BC9E83D3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlgoTest", "AlgoTest\AlgoTest.csproj", "{CD9CFC6D-7AA6-4302-BD6B-E843BA022E86}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,18 @@ Global
 		{F3A70783-A6F6-4E0B-B3B2-48DC52B77BF6}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F3A70783-A6F6-4E0B-B3B2-48DC52B77BF6}.Release|x86.ActiveCfg = Release|x86
 		{F3A70783-A6F6-4E0B-B3B2-48DC52B77BF6}.Release|x86.Build.0 = Release|x86
+		{4073823E-E966-4A50-B970-8B24BC9E83D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4073823E-E966-4A50-B970-8B24BC9E83D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4073823E-E966-4A50-B970-8B24BC9E83D3}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{4073823E-E966-4A50-B970-8B24BC9E83D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4073823E-E966-4A50-B970-8B24BC9E83D3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4073823E-E966-4A50-B970-8B24BC9E83D3}.Release|x86.ActiveCfg = Release|Any CPU
+		{CD9CFC6D-7AA6-4302-BD6B-E843BA022E86}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CD9CFC6D-7AA6-4302-BD6B-E843BA022E86}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CD9CFC6D-7AA6-4302-BD6B-E843BA022E86}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{CD9CFC6D-7AA6-4302-BD6B-E843BA022E86}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CD9CFC6D-7AA6-4302-BD6B-E843BA022E86}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CD9CFC6D-7AA6-4302-BD6B-E843BA022E86}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

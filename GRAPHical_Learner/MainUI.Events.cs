@@ -47,6 +47,11 @@ namespace GRAPHical_Learner
             Console.WriteLine("Physics enabled.");
         }
 
+        void BtnResume(UiComponent sender, Object arg)
+        {
+            if (connector != null) connector.Resume();
+        }
+
         private int idxBtn = 1;
         void menu_FileOpen(UiComponent sender, Object arg)
         {

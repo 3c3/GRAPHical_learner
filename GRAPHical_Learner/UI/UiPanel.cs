@@ -46,7 +46,7 @@ namespace GRAPHical_Learner
 
             if (children != null) foreach (UiComponent uic in children)
                 {
-                    uic.Draw(posX, posY);
+                    if(uic.visible) uic.Draw(posX, posY);
                 }
         }
     }

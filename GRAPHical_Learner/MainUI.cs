@@ -14,39 +14,56 @@ namespace GRAPHical_Learner
         private RenderWindow window;
         private static Graph activeGraph;
 
+        private Connector connector;
+
         private RenderFrame renderFrame = new RenderFrame();
 
         List<Circle> circles = new List<Circle>();
         Gui gui;
         Font font1;
 
+        public MainUI(Connector con)
+        {
+            connector = con;
+            activeGraph = connector.GraphInstance;
+            Start();
+        }
+
         public MainUI()
         {
-            start();
+            activeGraph = new Graph();
+            Start();
         }
 
         void MakeGraph()
         {
+            Property.GetPropertyId("име");
+            Property.GetPropertyId("цена");
+            Property.GetPropertyId("поток");
+            Property.GetPropertyId("обратен поток");
+
             activeGraph = new Graph();
-            activeGraph.vertices.Add(new Vertex(0, 0));
-            /*activeGraph.vertices.Add(new Vertex(0, 0));
-            activeGraph.vertices.Add(new Vertex(0, 100));
-            activeGraph.vertices.Add(new Vertex(1, 2));
+            
+            Vertex v = new Vertex(0, 0);
+            v.SetProperty(0, "Варна");
 
-            activeGraph.vertices.Add(new Vertex(200, 20));
-            activeGraph.vertices.Add(new Vertex(200, 10));
-            activeGraph.vertices.Add(new Vertex(200, 0));
-            activeGraph.vertices.Add(new Vertex(200, -50));
+            Vertex v1 = new Vertex(100, 0);
+            v1.SetProperty(0, "София");
+            v1.SetProperty(1, 512.25f);
 
-            activeGraph.AddEdge(0, 1);
-            activeGraph.AddEdge(0, 2);
-            //activeGraph.AddEdge(1, 2);
-            activeGraph.AddEdge(0, 3);
+            Vertex v2 = new Vertex(100, 0);
+            v2.SetProperty(0, "Шумен");
+            v2.SetProperty(2, 112.125f);
 
-            activeGraph.AddEdge(4, 5);
-            activeGraph.AddEdge(4, 6);
-            activeGraph.AddEdge(4, 7);
-            activeGraph.AddEdge(0, 4);*/
+            Vertex v3 = new Vertex(100, 0);
+            v3.SetProperty(0, "Стара Загора");
+            v3.SetProperty(3, 12.725f);
+
+            activeGraph.AddVertex(v);
+            activeGraph.AddVertex(v1);
+            activeGraph.AddVertex(v2);
+            activeGraph.AddVertex(v3);
+
         }
 
         void genCircles()
@@ -70,7 +87,7 @@ namespace GRAPHical_Learner
         UiVerticalMenu menu;
         IForceSimulator fs;
 
-        private void start()
+        private void Start()
         {
             ContextSettings cs = new ContextSettings();
             cs.AntialiasingLevel = 8;
@@ -87,7 +104,7 @@ namespace GRAPHical_Learner
             font1 = new Font("Ubuntu-R.ttf");
 
             //genCircles();
-            MakeGraph();
+           // MakeGraph();
 
             fs = new ForceSimulatorMkII(2.5f, 0.17f);
             fs.SetGraph(activeGraph);
@@ -96,19 +113,21 @@ namespace GRAPHical_Learner
 
             InitializeGui();
 
-            loop();
+            Loop();
         }
 
         bool physics = false;
 
         int cnt = 0;
 
-        void loop()
+        void Loop()
         {
             while(window.IsOpen)
             {
                 window.DispatchEvents();
-                
+
+                if (connector != null) GetProperties();
+
                 processMouse();
 
                 cnt++;
@@ -120,6 +139,17 @@ namespace GRAPHical_Learner
                 }
 
                 draw();
+            }
+        }
+
+        void GetProperties()
+        {
+            foreach(Vertex v in activeGraph.vertices)
+            {
+                foreach(Property p in v.properties)
+                {
+                    p.Value = connector.GetVertexProperty(v.id, p.id);
+                }
             }
         }
 
@@ -171,6 +201,9 @@ namespace GRAPHical_Learner
             }
             else  currentObject = null;
 
+            Vertex moused = getCircleAt(toGlobalCoords(mousePos));
+            propertyPanel.Holder = moused;
+
             gui.ProcessMousePosition(mousePos);
             lastMousePos = mousePos;
         }
@@ -201,7 +234,7 @@ namespace GRAPHical_Learner
             draws.ForEach(d => window.Draw(d));*/
             if (activeGraph != null) activeGraph.DrawSelf(window, renderFrame);
 
-            drawAxes();
+            //drawAxes();
 
             dbgLabel1.SetText(gui.lastChildMoused != null ? gui.lastChildMoused.GetType().ToString() : "null");
             dbgLabel2.SetText(gui.MousedComponent != null ? gui.MousedComponent.GetType().ToString() : "null");

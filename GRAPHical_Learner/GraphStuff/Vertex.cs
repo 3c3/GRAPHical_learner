@@ -7,13 +7,12 @@ using System.Threading.Tasks;
 
 namespace GRAPHical_Learner
 {
-    public class Vertex : IMovable
+    public class Vertex : PropertyHolder, IMovable
     {
         private static int idCounter = 0;
         public readonly int id;
         private ScalableLabel idLabel;
 
-        public List<Property> properties;
         public List<Edge> edges = new List<Edge>();
 
         public float x, y;
@@ -22,6 +21,25 @@ namespace GRAPHical_Learner
         public Circle circle, selectionCircle;
 
         public bool selected;
+
+        private bool marked;
+        public bool Marked
+        {
+            get { return marked; }
+            set
+            {
+                if(value)
+                {
+                    circle.color = GraphicScheme.vertexMarked;
+                    marked = true;
+                }
+                else
+                {
+                    circle.color = GraphicScheme.vertexNormal;
+                    marked = false;
+                }
+            }
+        }
 
         public Vertex()
         {
@@ -45,8 +63,37 @@ namespace GRAPHical_Learner
             this.y = y;
         }
 
+        public override string GetName()
+        {
+            return String.Format("Връх {0}", id);
+        }
+
+        private void CheckSelectedProperty()
+        {
+            foreach(Property p in properties)
+            {
+                if(p.id == Property.vertexColorId)
+                {
+                    bool colored = (bool)p.Value;
+                    if (colored == marked) return;
+                    if(colored)
+                    {
+                        circle.color = GraphicScheme.vertexMarked;
+                        marked = true;
+                    }
+                    else
+                    {
+                        circle.color = GraphicScheme.vertexNormal;
+                        marked = false;
+                    }
+                }
+            }
+        }
+
         public void DrawSelf(RenderWindow window, RenderFrame rf)
         {
+            CheckSelectedProperty();
+
             circle.center.X = x;
             circle.center.Y = y;
 

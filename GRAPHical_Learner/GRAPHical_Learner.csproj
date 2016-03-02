@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{F3A70783-A6F6-4E0B-B3B2-48DC52B77BF6}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>GRAPHical_Learner</RootNamespace>
     <AssemblyName>GRAPHical_Learner</AssemblyName>
@@ -51,6 +51,9 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
@@ -71,14 +74,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Communication\Connector.cs" />
     <Compile Include="GraphStuff\Circle.cs" />
-    <Compile Include="ColorScheme.cs" />
+    <Compile Include="GraphicScheme.cs" />
     <Compile Include="GraphStuff\Edge.cs" />
-    <Compile Include="EntryPoint.cs" />
     <Compile Include="GraphStuff\ForceSimulatorMkI.cs" />
     <Compile Include="GraphStuff\ForceSimulatorMkII.cs" />
     <Compile Include="GraphStuff\Graph.cs" />
     <Compile Include="GraphStuff\IOHandler.cs" />
+    <Compile Include="GraphStuff\PropertyHolder.cs" />
     <Compile Include="GraphStuff\ScalableLabel.cs" />
     <Compile Include="Gui.cs" />
     <Compile Include="IDrawable.cs" />
@@ -98,6 +102,7 @@
     <Compile Include="UI\UiHorizontalMenu.cs" />
     <Compile Include="UI\UiLabel.cs" />
     <Compile Include="UI\UiPanel.cs" />
+    <Compile Include="UI\UiPropertyPanel.cs" />
     <Compile Include="UI\UiRectangle.cs" />
     <Compile Include="UI\UiTextBox.cs" />
     <Compile Include="UI\UiVertexMenu.cs" />
