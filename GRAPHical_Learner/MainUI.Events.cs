@@ -58,6 +58,11 @@ namespace GRAPHical_Learner
             timerEnabled = false;
         }
 
+        void menu_Circle(UiComponent sender, Object arg)
+        {
+            activeGraph.ArrangeInCircle();
+        }
+
         void BtnCenterGraph(UiComponent sender, Object arg)
         {
             CenterGraph();
@@ -222,7 +227,7 @@ namespace GRAPHical_Learner
         void window_MouseWheelMoved(object sender, MouseWheelEventArgs e)
         {
             renderFrame.scale += ((float)e.Delta) / 10.0f;
-            renderFrame.calcZoom();
+            renderFrame.CalcZoom();
             if (currentObject != null)
             {
                 if (currentObject is Circle)

@@ -35,6 +35,7 @@ namespace GRAPHical_Learner
             menu.AddItem("Запази", menu_FileSave);
             menu.AddItem("Случаен", menu_Generate);
             menu.AddItem("Разбъркай", menu_Shuffle);
+            menu.AddItem("В кръг", menu_Circle);
             menu.AddItem("Изчисти", menu_Clear);
             edgeBtn = menu.AddItem("Добавяне на ребра: включено", BtnAddEdgeToggle);
 

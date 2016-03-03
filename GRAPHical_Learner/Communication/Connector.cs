@@ -44,7 +44,7 @@ namespace GRAPHical_Learner
         /// <returns>Id на реброто</returns>
         protected int AddEdge(int idx1, int idx2)
         {
-            return graph.AddEdge(idx1, idx2);
+            return graph.AddEdge(idx1, idx2).id;
         }
 
         /// <summary>
@@ -150,6 +150,7 @@ namespace GRAPHical_Learner
         {
             Initialise();
             Thread uiThread = new Thread(new ThreadStart(LaunchUi));
+            uiThread.SetApartmentState(ApartmentState.STA);
             uiThread.Start();
         }
     }

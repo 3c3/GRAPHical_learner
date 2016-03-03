@@ -15,7 +15,7 @@ namespace GRAPHical_Learner
             return "Unknown";
         }
 
-        public void SetProperty(int propertyId, Object value)
+        public virtual void SetProperty(int propertyId, Object value)
         {
             foreach (Property p in properties)
             {

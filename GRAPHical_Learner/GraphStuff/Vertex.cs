@@ -12,6 +12,7 @@ namespace GRAPHical_Learner
         private static int idCounter = 0;
         public readonly int id;
         private ScalableLabel idLabel;
+        private Property colorProperty;
 
         public List<Edge> edges = new List<Edge>();
 
@@ -68,25 +69,30 @@ namespace GRAPHical_Learner
             return String.Format("Връх {0}", id);
         }
 
+        public override void SetProperty(int propertyId, object value)
+        {
+            base.SetProperty(propertyId, value);
+            if(colorProperty == null && propertyId == Property.vertexColorId)
+            {
+                colorProperty = properties.Last();
+            }
+        }
+
         private void CheckSelectedProperty()
         {
-            foreach(Property p in properties)
+            if (colorProperty == null) return;
+
+            bool colored = (bool)colorProperty.Value;
+            if (colored == marked) return;
+            if(colored)
             {
-                if(p.id == Property.vertexColorId)
-                {
-                    bool colored = (bool)p.Value;
-                    if (colored == marked) return;
-                    if(colored)
-                    {
-                        circle.color = GraphicScheme.vertexMarked;
-                        marked = true;
-                    }
-                    else
-                    {
-                        circle.color = GraphicScheme.vertexNormal;
-                        marked = false;
-                    }
-                }
+                circle.color = GraphicScheme.vertexMarked;
+                marked = true;
+            }
+            else
+            {
+               circle.color = GraphicScheme.vertexNormal;
+               marked = false;
             }
         }
 

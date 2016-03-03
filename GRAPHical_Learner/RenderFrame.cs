@@ -25,7 +25,7 @@ namespace GRAPHical_Learner
             scale = 0;
         }
 
-        public void calcZoom()
+        public void CalcZoom()
         {
             zoom = (float)Math.Pow(4, scale);
         }

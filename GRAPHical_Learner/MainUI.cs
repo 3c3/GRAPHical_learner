@@ -31,6 +31,8 @@ namespace GRAPHical_Learner
         {
             connector = con;
             activeGraph = connector.GraphInstance;
+            activeGraph.ArrangeInCircle();
+            
             algoTimer = new Timer(150);
             algoTimer.Elapsed += algoTimer_Elapsed;
             connector.AlgorithmSuspended += connector_AlgorithmSuspended;
@@ -111,10 +113,10 @@ namespace GRAPHical_Learner
             fs.SetGraph(activeGraph);
             fs.SimulatorStopped += fs_SimulatorStopped;
 
-            renderFrame.calcZoom();
+            renderFrame.CalcZoom();
 
             InitializeGui();
-
+            if (connector != null) EnablePhysics();
             Loop();
         }
 

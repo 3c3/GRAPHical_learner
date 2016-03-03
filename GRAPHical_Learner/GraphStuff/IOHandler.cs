@@ -43,7 +43,15 @@ namespace GRAPHical_Learner
                     int src = int.Parse(parts[0]);
                     int dest = int.Parse(parts[1]);
 
-                    graph.AddEdge(src, dest);
+                    Edge e = graph.AddEdge(src, dest);
+
+                    if(parts.Length > 2)
+                    {
+                        int propId = Property.GetPropertyId("тегло");
+                        Property.edgeWeighId = propId;
+                        e.SetProperty(propId, int.Parse(parts[2]));
+                    }
+
                     lineIdx++;
                 }
             }
@@ -54,16 +62,7 @@ namespace GRAPHical_Learner
                 Vertex.ResetCounter();
                 return;
             }
-
-            int nv = graph.vertices.Count;
-            float r = (nv * 150.0f) / (2 * (float)Math.PI);
-            for(int i = 0; i < nv; i++)
-            {
-                Vertex v = graph.vertices[i];
-                float angle = ((float)i / (float)nv) * 2 * (float)Math.PI;
-                v.x = (float)Math.Cos(angle) * r;
-                v.y = (float)Math.Sin(angle) * r;
-            }
+            graph.ArrangeInCircle();
         }
     }
 }

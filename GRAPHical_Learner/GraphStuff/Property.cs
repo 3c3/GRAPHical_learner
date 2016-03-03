@@ -13,6 +13,7 @@ namespace GRAPHical_Learner
         private static int idCounter = 0;
 
         public static int vertexColorId;
+        public static int edgeWeighId;
 
         public Property(int propertyId, Object value)
         {

@@ -14,6 +14,18 @@ namespace GRAPHical_Learner
 
         private static uint defaultSize = 16;
 
+        public string Text
+        {
+            get { return text.DisplayedString; }
+            set { text.DisplayedString = value; }
+        }
+
+        public ScalableLabel()
+        {
+            this.text = new Text("", GraphicScheme.font1, defaultSize);
+            this.text.Color = Color.White;
+        }
+
         public ScalableLabel(string text)
         {
             this.text = new Text(text, GraphicScheme.font1, defaultSize);
