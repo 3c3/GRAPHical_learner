@@ -96,10 +96,34 @@ namespace GRAPHical_Learner
         {
             Vertex.ResetCounter();
             Graph g = new Graph();
-            int n = random.Next(100);
+            int n = random.Next(50);
             int m = random.Next(100);
-            for (int i = 0; i < n; i++) g.vertices.Add(new Vertex((float)random.NextDouble() * 1000 - 500.0f, (float)random.NextDouble() * 600 - 300.0f));
-            for (int i = 0; i < m; i++) g.AddEdge(random.Next(n), random.Next(n));
+            for (int i = 0; i < n; i++)
+            {
+                Vertex v = new Vertex((float)random.NextDouble() * 1000 - 500.0f, (float)random.NextDouble() * 600 - 300.0f);
+                g.AddVertex(v);
+                if (i == 0) continue;
+
+                int connections = random.Next(1, (int)Math.Min(i, 3));
+                for(int j = 0; j < connections; j++)
+                {
+                    int vo = random.Next(0, i);
+
+                    bool contains = false;
+                    foreach(Edge e in v.edges)
+                    {
+                        if(e.source.id == vo || e.destination.id == vo)
+                        {
+                            contains = true;
+                            break;
+                        }
+                    }
+                    if (contains) j--;
+                    else g.AddEdge(v.id, vo);
+                }
+            }
+
+            
 
             fs.SetForce(50);
 

@@ -40,7 +40,7 @@ namespace GRAPHical_Learner
 
         private void CreateDrawables(string text)
         {
-            drawText = new Text(text, font, 11);
+            drawText = new Text(text, font, 12);
             drawText.Color = foreground;
             FloatRect localBounds = drawText.GetLocalBounds();
             box.Width = (int)localBounds.Width + 10;
