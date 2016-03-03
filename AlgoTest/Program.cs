@@ -70,6 +70,7 @@ namespace AlgoTest
 
         public Program()
         {
+            SetupGui();
             input();
             Console.WriteLine("Starting UI...");
             StartGui();
@@ -90,7 +91,7 @@ namespace AlgoTest
 
         int propUsed, propLevel;
 
-        protected override void Initialise()
+        protected override void PreRun()
         {
             propUsed = RegisterProperty("използван");
             propLevel = RegisterProperty("ниво");

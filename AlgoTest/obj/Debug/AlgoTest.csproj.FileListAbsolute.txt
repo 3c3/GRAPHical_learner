@@ -1,5 +1,7 @@
+D:\Code\C#\GRAPHical_Learner\AlgoTest\bin\Debug\csfml-graphics-2.dll
+D:\Code\C#\GRAPHical_Learner\AlgoTest\bin\Debug\csfml-system-2.dll
+D:\Code\C#\GRAPHical_Learner\AlgoTest\bin\Debug\csfml-window-2.dll
 D:\Code\C#\GRAPHical_Learner\AlgoTest\bin\Debug\AlgoTest.exe.config
-D:\Code\C#\GRAPHical_Learner\AlgoTest\obj\Debug\AlgoTest.csprojResolveAssemblyReference.cache
 D:\Code\C#\GRAPHical_Learner\AlgoTest\bin\Debug\AlgoTest.exe
 D:\Code\C#\GRAPHical_Learner\AlgoTest\bin\Debug\AlgoTest.pdb
 D:\Code\C#\GRAPHical_Learner\AlgoTest\bin\Debug\GRAPHical_Learner.dll
@@ -7,5 +9,6 @@ D:\Code\C#\GRAPHical_Learner\AlgoTest\bin\Debug\sfmlnet-graphics-2.dll
 D:\Code\C#\GRAPHical_Learner\AlgoTest\bin\Debug\sfmlnet-system-2.dll
 D:\Code\C#\GRAPHical_Learner\AlgoTest\bin\Debug\sfmlnet-window-2.dll
 D:\Code\C#\GRAPHical_Learner\AlgoTest\bin\Debug\GRAPHical_Learner.pdb
+D:\Code\C#\GRAPHical_Learner\AlgoTest\obj\Debug\AlgoTest.csprojResolveAssemblyReference.cache
 D:\Code\C#\GRAPHical_Learner\AlgoTest\obj\Debug\AlgoTest.exe
 D:\Code\C#\GRAPHical_Learner\AlgoTest\obj\Debug\AlgoTest.pdb

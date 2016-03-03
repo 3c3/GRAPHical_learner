@@ -58,13 +58,19 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="sfmlnet-graphics-2">
+    <Reference Include="sfmlnet-audio-2">
+      <HintPath>..\..\..\Libraries\SFML.Net-2.2\lib\sfmlnet-audio-2.dll</HintPath>
+    </Reference>
+    <Reference Include="sfmlnet-graphics-2, Version=2.2.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\Libraries\SFML.Net-2.2\lib\sfmlnet-graphics-2.dll</HintPath>
     </Reference>
-    <Reference Include="sfmlnet-system-2">
+    <Reference Include="sfmlnet-system-2, Version=2.2.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\Libraries\SFML.Net-2.2\lib\sfmlnet-system-2.dll</HintPath>
     </Reference>
-    <Reference Include="sfmlnet-window-2">
+    <Reference Include="sfmlnet-window-2, Version=2.2.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\Libraries\SFML.Net-2.2\lib\sfmlnet-window-2.dll</HintPath>
     </Reference>
     <Reference Include="System" />
@@ -110,6 +116,20 @@
     <Compile Include="UI\UiVertexMenu.cs" />
     <Compile Include="UI\UiVerticalMenu.cs" />
     <Compile Include="GraphStuff\Vertex.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="csfml-graphics-2.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="csfml-system-2.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="csfml-window-2.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <Content Include="sfmlnet-graphics-2.dll" />
+    <Content Include="sfmlnet-system-2.dll" />
+    <Content Include="sfmlnet-window-2.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -46,8 +46,8 @@ namespace GRAPHical_Learner
 
             FloatRect localBounds = text.GetLocalBounds();
 
-            x += rf.width / 2 - localBounds.Width/2.0f - 1.0f*rf.zoom;
-            y += rf.height / 2 - localBounds.Height +2.5f*rf.zoom;
+            x += rf.width / 2 - localBounds.Width/2.0f /*- 0.5f*rf.zoom*/;
+            y += rf.height / 2 - localBounds.Height /*+0.5f*rf.zoom*/;
 
             text.Position = new Vector2f(x, y);
             window.Draw(text);

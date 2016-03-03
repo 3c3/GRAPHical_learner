@@ -136,7 +136,7 @@ namespace GRAPHical_Learner
         /// <summary>
         /// Извиква се преди запалването на графичната среда. Полезно за настройки
         /// </summary>
-        protected virtual void Initialise()
+        protected virtual void PreRun()
         {
 
         }
@@ -146,9 +146,15 @@ namespace GRAPHical_Learner
             ui = new MainUI(this);
         }
 
+        protected void SetupGui()
+        {
+            GraphicScheme.LoadFont();
+        }
+
         protected void StartGui()
         {
-            Initialise();
+            //GraphicScheme.LoadFont();
+            PreRun();            
             Thread uiThread = new Thread(new ThreadStart(LaunchUi));
             uiThread.SetApartmentState(ApartmentState.STA);
             uiThread.Start();

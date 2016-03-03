@@ -39,6 +39,8 @@ namespace GRAPHical_Learner
             Start();
         }
 
+        
+
         void algoTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
             connector.Resume();
@@ -102,8 +104,6 @@ namespace GRAPHical_Learner
             window.MouseButtonReleased += window_MouseButtonReleased;
 
             window.SetVerticalSyncEnabled(true);
-
-            font1 = new Font("Ubuntu-R.ttf");
 
             //genCircles();
            // MakeGraph();

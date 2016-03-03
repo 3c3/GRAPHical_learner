@@ -20,6 +20,12 @@ namespace GRAPHical_Learner
         public static Color vertexMarked = new Color(200, 100, 0);
         public static Color vertexNormal = new Color(255, 255, 255);
 
-        public static Font font1 = new Font("DejaVuSans.ttf");
+        public volatile static Font font1;
+
+        public static void LoadFont()
+        {
+            string fontsfolder = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Fonts);
+            GraphicScheme.font1 = new Font(fontsfolder + "\\calibrib.ttf");
+        }
     }
 }

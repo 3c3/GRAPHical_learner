@@ -36,12 +36,14 @@ namespace GRAPHical_Learner
 
         void ChangeGraph(Graph newGraph)
         {
+            lastClickedVertex = null;
             activeGraph = newGraph;
             fs.SetGraph(activeGraph);
         }
 
         void ClearAll()
         {
+            lastClickedVertex = null;
             Vertex.ResetCounter();
             Edge.ResetCounter();
             ChangeGraph(new Graph());

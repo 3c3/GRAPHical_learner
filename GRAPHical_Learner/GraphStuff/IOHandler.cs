@@ -47,9 +47,19 @@ namespace GRAPHical_Learner
 
                     if(parts.Length > 2)
                     {
-                        int propId = Property.GetPropertyId("тегло");
-                        Property.edgeWeighId = propId;
-                        e.SetProperty(propId, int.Parse(parts[2]));
+                        int val = 0;
+                        try
+                        {
+                            val = int.Parse(parts[2]);
+                            int propId = Property.GetPropertyId("тегло");
+                            Property.edgeWeighId = propId;
+                            e.SetProperty(propId, int.Parse(parts[2]));
+                        }
+                        catch(Exception exc)
+                        {
+                            Console.WriteLine(String.Format("Line {0}: third part was NaN: {1}", lineIdx, parts[2]));
+                        }
+                        
                     }
 
                     lineIdx++;
