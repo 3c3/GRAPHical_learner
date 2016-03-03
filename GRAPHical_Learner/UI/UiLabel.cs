@@ -38,6 +38,10 @@ namespace GRAPHical_Learner
             set { SetText(value); }
         }
 
+        /// <summary>
+        /// Настройва текста да се вписва
+        /// </summary>
+        /// <param name="text"></param>
         private void CreateDrawables(string text)
         {
             drawText = new Text(text, font, 12);

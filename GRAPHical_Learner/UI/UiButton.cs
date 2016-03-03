@@ -92,15 +92,12 @@ namespace GRAPHical_Learner
             backgroundColor = GraphicScheme.buttonIdle;
         }
 
+        /// <summary>
+        /// Не предава "щафетата"
+        /// </summary>
         protected override void FinalizeLastChildMoused()
         {
             gui.lastChildMoused = this;
         }
-
-        /*public override void Draw(int relX, int relY)
-        {
-            base.Draw(relX, relY);
-            caption.Draw(relX, relY);
-        }*/
     }
 }

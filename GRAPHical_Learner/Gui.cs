@@ -22,6 +22,10 @@ namespace GRAPHical_Learner
             this.window = window;
         }
 
+        /// <summary>
+        /// Добавя компонент към интерфейса
+        /// </summary>
+        /// <param name="uic"></param>
         public void Add(UiComponent uic)
         {
             uic.gui = this;
@@ -29,12 +33,20 @@ namespace GRAPHical_Learner
             components.Add(uic);            
         }
 
+        /// <summary>
+        /// Обновява референцията на компонента и всичките му деца
+        /// </summary>
+        /// <param name="component"></param>
         private void UpdateComponentGuiReference(UiComponent component)
         {
             component.gui = this;
             if(component.children!=null) component.children.ForEach(c => UpdateComponentGuiReference(c));
         }
 
+        /// <summary>
+        /// Премахва компонент
+        /// </summary>
+        /// <param name="uic"></param>
         public void Remove(UiComponent uic)
         {
             components.Remove(uic);

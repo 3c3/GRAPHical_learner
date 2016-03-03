@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace GRAPHical_Learner
 {
+    /// <summary>
+    /// Втори алгоритъм за подреждане, по-стабилен, но много сбива
+    /// </summary>
     public class ForceSimulatorMkII : IForceSimulator
     {
         public virtual event SimulatorStoppedHandler SimulatorStopped;

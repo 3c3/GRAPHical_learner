@@ -9,13 +9,18 @@ namespace GRAPHical_Learner
 {
     public delegate void AlgorithmSuspendedHandler();
 
+    /// <summary>
+    /// Клас за свръзка между алгоритъм и графична среда
+    /// </summary>
     public class Connector
     {
         private volatile Graph graph = new Graph();
         private int nVertices;
         private volatile MainUI ui;
 
-
+        /// <summary>
+        /// Извиква се, когато алгоритъмът удари Pause()
+        /// </summary>
         public event AlgorithmSuspendedHandler AlgorithmSuspended;
 
         public Graph GraphInstance
@@ -90,6 +95,11 @@ namespace GRAPHical_Learner
             graph.vertices[vertexId].SetProperty(propertyId, value);
         }
 
+        /// <summary>
+        /// Добавя свойство към всички върхове
+        /// </summary>
+        /// <param name="propertyId">Id на свойството(от RegisterProperty)</param>
+        /// <param name="defaultValue">първоначалната стойност</param>
         protected void AddPropertyToVertices(int propertyId, Object defaultValue)
         {
             foreach(Vertex v in graph.vertices)
@@ -141,16 +151,25 @@ namespace GRAPHical_Learner
 
         }
 
+        /// <summary>
+        /// Thread функцията
+        /// </summary>
         void LaunchUi()
         {
             ui = new MainUI(this);
         }
 
+        /// <summary>
+        /// Зарежда шрифта. Получават се бъгове, ако не се извика
+        /// </summary>
         protected void SetupGui()
         {
             GraphicScheme.LoadFont();
         }
 
+        /// <summary>
+        /// Пуска графичната среда
+        /// </summary>
         protected void StartGui()
         {
             //GraphicScheme.LoadFont();

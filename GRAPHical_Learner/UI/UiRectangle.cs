@@ -8,6 +8,9 @@ using SFML.Graphics;
 
 namespace GRAPHical_Learner
 {
+    /// <summary>
+    /// Безполезно
+    /// </summary>
     public class UiRectangle/* : Drawable*/
     {
         private SFML.Graphics.Vertex[] vertices = new SFML.Graphics.Vertex[4];

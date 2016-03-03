@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace GRAPHical_Learner
 {
+    /// <summary>
+    /// 2D вектор, ползва се за алгоритъма за подреждане
+    /// По-удобен от SFML-ския
+    /// </summary>
     public class PVector
     {
         public double x, y;

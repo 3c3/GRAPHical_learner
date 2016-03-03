@@ -8,6 +8,7 @@ namespace GRAPHical_Learner
 {
     /// <summary>
     /// Трансформационна матрица за 2D
+    /// Не се ползва, все още
     /// </summary>
     public class Matrix
     {

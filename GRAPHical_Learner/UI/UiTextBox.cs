@@ -8,6 +8,9 @@ using SFML.System;
 
 namespace GRAPHical_Learner
 {
+    /// <summary>
+    /// Незавършено
+    /// </summary>
     public class UiTextBox : UiLabel
     {
         public UiTextBox(int width)

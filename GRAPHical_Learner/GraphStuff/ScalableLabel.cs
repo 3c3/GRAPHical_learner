@@ -8,6 +8,10 @@ using SFML.System;
 
 namespace GRAPHical_Learner
 {
+    /// <summary>
+    /// Текст, който може да се уголемява и смалява
+    /// Ползва се за номера на върхове и тегла на граф
+    /// </summary>
     public class ScalableLabel
     {
         private Text text;

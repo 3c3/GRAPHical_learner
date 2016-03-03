@@ -10,6 +10,9 @@ using System.Timers;
 
 namespace GRAPHical_Learner
 {
+    /// <summary>
+    /// Основният интерфейс на програмата
+    /// </summary>
     public partial class MainUI
     {
         private RenderWindow window;
@@ -17,7 +20,7 @@ namespace GRAPHical_Learner
 
         private Connector connector;
 
-        private RenderFrame renderFrame = new RenderFrame();
+        private RenderFrame renderFrame = new RenderFrame(); // рамката, използвана за чертане
 
         List<Circle> circles = new List<Circle>();
         Gui gui;
@@ -33,8 +36,8 @@ namespace GRAPHical_Learner
             activeGraph = connector.GraphInstance;
             activeGraph.ArrangeInCircle();
             
-            algoTimer = new Timer(150);
-            algoTimer.Elapsed += algoTimer_Elapsed;
+            algoTimer = new Timer(150); // при създаване с конектор(т.е. алгоритъм), се създава и таймера за автоматичен
+            algoTimer.Elapsed += algoTimer_Elapsed; // ход
             connector.AlgorithmSuspended += connector_AlgorithmSuspended;
             Start();
         }
@@ -47,6 +50,9 @@ namespace GRAPHical_Learner
             algoTimer.Stop();
         }
 
+        /// <summary>
+        /// Извиква се, когато алгоритъма удари Pause()
+        /// </summary>
         void connector_AlgorithmSuspended()
         {
             if(timerEnabled) algoTimer.Start();
@@ -58,6 +64,9 @@ namespace GRAPHical_Learner
             Start();
         }
 
+        /// <summary>
+        /// Създава първоначален граф
+        /// </summary>
         void MakeGraph()
         {
             Property.GetPropertyId("име");
@@ -93,6 +102,7 @@ namespace GRAPHical_Learner
 
         private void Start()
         {
+            //SFML неща
             ContextSettings cs = new ContextSettings();
             cs.AntialiasingLevel = 8;
 
@@ -108,15 +118,17 @@ namespace GRAPHical_Learner
             //genCircles();
            // MakeGraph();
 
-            //fs = new ForceSimulatorMkI(200, 40, 150, 0.98f, 0);
+            //Алгоритъм за подреждане
             fs = new ForceSimulatorMKIIB(1.5, 0.8);
             fs.SetGraph(activeGraph);
             fs.SimulatorStopped += fs_SimulatorStopped;
 
+            //Изчислява се приближението на рамката
             renderFrame.CalcZoom();
 
+            //Пуска се GUI-то
             InitializeGui();
-            if (connector != null) EnablePhysics();
+            if (connector != null) EnablePhysics(); // ако е вързан алгоритъм, графа се подрежда автоматично
             Loop();
         }
 
@@ -126,6 +138,9 @@ namespace GRAPHical_Learner
 
         int cnt = 0;
 
+        /// <summary>
+        /// Стандартен цикъл 
+        /// </summary>
         void Loop()
         {
             while(window.IsOpen)
@@ -148,6 +163,9 @@ namespace GRAPHical_Learner
             }
         }
 
+        /// <summary>
+        /// Обновява всички свойства
+        /// </summary>
         void GetProperties()
         {
             foreach(Vertex v in activeGraph.vertices)
@@ -162,7 +180,12 @@ namespace GRAPHical_Learner
         Vector2i lastMousePos = new Vector2i();
         IMovable currentObject;
         
-        Vertex getCircleAt(Vector2f pos)
+        /// <summary>
+        /// Намира върха на дадената позиция
+        /// </summary>
+        /// <param name="pos"></param>
+        /// <returns></returns>
+        Vertex GetVertexAt(Vector2f pos)
         {
             if (activeGraph == null) return null;
             foreach(Vertex v in activeGraph.vertices)
@@ -172,6 +195,9 @@ namespace GRAPHical_Learner
             return null;
         }
 
+        /// <summary>
+        /// Обработва позицията на мишката
+        /// </summary>
         void ProcessMouse()
         {
             dbgLabel3.Text = currentObject != null ? currentObject.GetType().ToString() : "no IMovable";
@@ -202,18 +228,21 @@ namespace GRAPHical_Learner
                     }
                 } 
                 if (currentObject == null) currentObject = gui.lastChildMoused;
-                if (currentObject == null) currentObject = getCircleAt(ToGlobalCoords(mousePos));
+                if (currentObject == null) currentObject = GetVertexAt(ToGlobalCoords(mousePos));
                 if (currentObject == null) currentObject = renderFrame;
             }
             else  currentObject = null;
 
-            Vertex moused = getCircleAt(ToGlobalCoords(mousePos));
+            Vertex moused = GetVertexAt(ToGlobalCoords(mousePos));
             propertyPanel.Holder = moused;
 
             gui.ProcessMousePosition(mousePos);
             lastMousePos = mousePos;
         }
 
+        /// <summary>
+        /// Рисува координатни оси, не се използва
+        /// </summary>
         void DrawAxes()
         {
             SFML.Graphics.Vertex[] vertLine = { new SFML.Graphics.Vertex(new Vector2f(512, 0), new Color(255, 255, 255, 127)), 
@@ -226,6 +255,9 @@ namespace GRAPHical_Learner
             window.Draw(horrLine, PrimitiveType.Lines);
         }
 
+        /// <summary>
+        /// Рисува всичко
+        /// </summary>
         void Draw()
         {
             window.Clear(Color.Black);
@@ -258,6 +290,11 @@ namespace GRAPHical_Learner
             window.Display();
         }
 
+        /// <summary>
+        /// Превръща от локални в глобални координати
+        /// </summary>
+        /// <param name="screenCoords"></param>
+        /// <returns></returns>
         Vector2f ToGlobalCoords(Vector2i screenCoords)
         {
             Vector2f result = new Vector2f(screenCoords.X, screenCoords.Y);

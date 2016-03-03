@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace GRAPHical_Learner
 {
+    /// <summary>
+    /// Проста линийка за рисуване
+    /// </summary>
     public class Line
     {
         public void SetSource(float x, float y)

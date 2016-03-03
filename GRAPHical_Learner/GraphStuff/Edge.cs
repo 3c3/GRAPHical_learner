@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace GRAPHical_Learner
 {
+    /// <summary>
+    /// Ребро на граф
+    /// </summary>
     public class Edge : PropertyHolder
     {
         private static int idCounter = 0;
@@ -26,6 +29,10 @@ namespace GRAPHical_Learner
             destination = dest;
         }
 
+        /// <summary>
+        /// Казва какво е
+        /// </summary>
+        /// <returns></returns>
         public override string GetName()
         {
             return String.Format("Ребро {0}-{1}({2})", source.id, destination.id, id);
@@ -41,6 +48,9 @@ namespace GRAPHical_Learner
         }
 
         Object lastPropVal;
+        /// <summary>
+        /// Ако има промяна в теглото - обновява текста
+        /// </summary>
         void CheckWeightProperty()
         {
             if (weightProperty == null) return;

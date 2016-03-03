@@ -186,7 +186,7 @@ namespace GRAPHical_Learner
             Vector2i mousePos = Mouse.GetPosition(window);
             Vector2f pos = ToGlobalCoords(Mouse.GetPosition(window));
 
-            Vertex v = getCircleAt(pos);
+            Vertex v = GetVertexAt(pos);
             if (e.Button == Mouse.Button.Left)
             {
                 rmbMenu.visible = false;

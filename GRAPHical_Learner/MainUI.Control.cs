@@ -7,7 +7,11 @@ using System.Threading.Tasks;
 namespace GRAPHical_Learner
 {
     public partial class MainUI
-    {
+    {// тук са всичките контролни функции на основния интерфейс
+
+        /// <summary>
+        /// Включва физиката, нулира брояча на енергия, задава първоначална сила и сменя текста на бутона
+        /// </summary>
         void EnablePhysics()
         {
             fs.SetForce(10.0f);
@@ -16,24 +20,37 @@ namespace GRAPHical_Learner
             physBtn.Text = "Изключи физика";
         }
 
+        /// <summary>
+        /// Изключва физиката и сменя текста на бутона
+        /// </summary>
         void DisablePhysics()
         {
             physics = false;
             physBtn.Text = "Включи физика";
         }
 
+        /// <summary>
+        /// Включва добавянето на ребра
+        /// </summary>
         void EnableEdgeAdding()
         {
             addEdgeEnabled = true;
             edgeBtn.Text = "Добавяне на ребра: включено";
         }
 
+        /// <summary>
+        /// Изключва добавянето на ребра
+        /// </summary>
         void DisableEdgeAdding()
         {
             addEdgeEnabled = false;
             edgeBtn.Text = "Добавяне на ребра: изключено";
         }
 
+        /// <summary>
+        /// Сменя текущия граф с нов
+        /// </summary>
+        /// <param name="newGraph"></param>
         void ChangeGraph(Graph newGraph)
         {
             lastClickedVertex = null;
@@ -41,6 +58,9 @@ namespace GRAPHical_Learner
             fs.SetGraph(activeGraph);
         }
 
+        /// <summary>
+        /// Изчиства абсолютно всичко
+        /// </summary>
         void ClearAll()
         {
             lastClickedVertex = null;
@@ -51,6 +71,9 @@ namespace GRAPHical_Learner
             DisableEdgeAdding();
         }
 
+        /// <summary>
+        /// Центрира свързаните върхове на графа
+        /// </summary>
         void CenterGraph()
         {
             float minX = 99999.0f, maxX = 0f, minY = 9999999.0f, maxY = 0;

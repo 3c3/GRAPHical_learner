@@ -8,18 +8,32 @@ namespace GRAPHical_Learner
 {
     public partial class MainUI
     {
-        UiLabel dbgLabel1;
-        UiLabel dbgLabel2;
+        UiLabel dbgLabel1; // ползват се при нужда от debug на интерфейса или 
+        UiLabel dbgLabel2; // други неща
         UiLabel dbgLabel3;
-        UiButton resumeButton;
 
+        /// <summary>
+        /// Менюто, появяващо се при дясно кликане
+        /// </summary>
         UiVerticalMenu rmbMenu;
-        UiVerticalMenu menu;
+        /// <summary>
+        /// Горното меню
+        /// </summary>
+        UiHorizontalMenu menu;
 
+        /// <summary>
+        /// Панела със свойствата на върхове и ребра
+        /// </summary>
         UiPropertyPanel propertyPanel;
 
+        /// <summary>
+        /// Долния панел
+        /// </summary>
         UiHorizontalMenu algoControlMenu;
 
+        /// <summary>
+        /// Бутони, на които трябва да им се сменя текста
+        /// </summary>
         UiButton physBtn, edgeBtn;
         
         /// <summary>
@@ -79,13 +93,13 @@ namespace GRAPHical_Learner
 
             propertyPanel = new UiPropertyPanel();
             propertyPanel.X = 0;
-            propertyPanel.Y = 300;
+            propertyPanel.Y = 500;
 
             gui.Add(propertyPanel);
 
-            algoControlMenu = new UiHorizontalMenu(211);
+            algoControlMenu = new UiHorizontalMenu(200);
 
-            algoControlMenu.X = 385;
+            algoControlMenu.X = 412;
             algoControlMenu.Y = 575;
 
             algoControlMenu.AddItem("Стъпка", BtnSingleStep);

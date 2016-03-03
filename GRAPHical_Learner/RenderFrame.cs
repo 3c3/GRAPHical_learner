@@ -7,6 +7,10 @@ using SFML.System;
 
 namespace GRAPHical_Learner
 {
+    /// <summary>
+    /// Рамка за рисуване
+    /// Определя каква и коя част от глобалното пространство се вижда 
+    /// </summary>
     public class RenderFrame : IMovable
     {
         public float xCenter, yCenter;
@@ -25,7 +29,7 @@ namespace GRAPHical_Learner
             scale = 0;
         }
 
-        public void CalcZoom()
+        public void CalcZoom() // по-интуитивен зуум
         {
             zoom = (float)Math.Pow(4, scale);
         }

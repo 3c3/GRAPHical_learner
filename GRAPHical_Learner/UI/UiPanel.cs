@@ -32,6 +32,12 @@ namespace GRAPHical_Learner
             visible = true;
         }
 
+        /// <summary>
+        /// Рисува панела и всичките му деца
+        /// Основен метод.
+        /// </summary>
+        /// <param name="relX">относителна позиция по X от родителя</param>
+        /// <param name="relY">относителна позиция по Y от родителя</param>
         public override void Draw(int relX, int relY)
         {
             RectangleShape rs = new RectangleShape(new Vector2f(box.Width, box.Height));

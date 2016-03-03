@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace GRAPHical_Learner
 {
+    /// <summary>
+    /// Клас, съдържащ цялата информация за рисуване на граф
+    /// </summary>
     public class Graph
     {
         public List<Vertex> vertices = new List<Vertex>();
@@ -60,6 +63,9 @@ namespace GRAPHical_Learner
             edges.Remove(e);
         }
 
+        /// <summary>
+        /// Подрежда върховете в кръгче
+        /// </summary>
         public void ArrangeInCircle()
         {
             int nv = vertices.Count;

@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace GRAPHical_Learner
 {
+    /// <summary>
+    /// Представлява връх във граф
+    /// </summary>
     public class Vertex : PropertyHolder, IMovable
     {
         private static int idCounter = 0;
@@ -17,13 +20,14 @@ namespace GRAPHical_Learner
         public List<Edge> edges = new List<Edge>();
 
         public float x, y;
-        public PVector velocity = new PVector();
+        public PVector velocity = new PVector(); // ползва се от алгоритмите за подреждане
 
+        // основното кръгче и това за селекция
         public Circle circle, selectionCircle;
 
-        public bool selected;
+        public bool selected; // маркирано от потребителя
 
-        private bool marked;
+        private bool marked; // маркирано от алгоритъма
         public bool Marked
         {
             get { return marked; }

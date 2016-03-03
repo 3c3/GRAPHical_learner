@@ -9,8 +9,16 @@ using SFML.Window;
 
 namespace GRAPHical_Learner
 {
+    /// <summary>
+    /// Евент за кликване
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="arg"></param>
     public delegate void ComponentClickedHandler(UiComponent sender, Object arg);
 
+    /// <summary>
+    /// Основен клас за компоненти на интерфейса
+    /// </summary>
     public class UiComponent : IMovable
     {
         static int count = 0;
@@ -45,9 +53,9 @@ namespace GRAPHical_Learner
 
         public bool visible = false; // при true компонента се рисува
         public bool movable = false; // при true компонента може да се влачи с мишката
-        public List<UiComponent> children;
+        public List<UiComponent> children; // всеки компонент си има деца, така се образува дървовидна йерархия
 
-        public Gui gui;
+        public Gui gui; // елементите имат референция към съдържащия ги интерфейс, за да могат да се самоизтрият, и някои други неща
         public UiComponent parent;
         
         public UiComponent()
@@ -83,6 +91,9 @@ namespace GRAPHical_Learner
             return true;
         }
 
+        /// <summary>
+        /// Определя дали дадения елемент ще е последен при посочване с мишката
+        /// </summary>
         protected virtual void FinalizeLastChildMoused()
         {
             return;
@@ -172,6 +183,10 @@ namespace GRAPHical_Learner
 
         public event ComponentClickedHandler ComponentClicked;
 
+        /// <summary>
+        /// Добавя компонент-дете
+        /// </summary>
+        /// <param name="uic"></param>
         public virtual void AddChild(UiComponent uic)
         {
             uic.parent = this;
@@ -199,12 +214,20 @@ namespace GRAPHical_Learner
             return;
         }
 
+        /// <summary>
+        /// Предава движението нагоре
+        /// </summary>
+        /// <param name="dx"></param>
         private void ForceMoveX(float dx)
         {
             if (parent == null) box.Left += (int)dx;
             else parent.ForceMoveX(dx);
         }
 
+        /// <summary>
+        /// Предава движението нагоре
+        /// </summary>
+        /// <param name="dy"></param>
         private void ForceMoveY(float dy)
         {
             if (parent == null) box.Top += (int)dy;

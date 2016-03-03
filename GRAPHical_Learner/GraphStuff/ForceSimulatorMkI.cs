@@ -7,6 +7,10 @@ using System.Windows.Forms;
 
 namespace GRAPHical_Learner
 {
+    /// <summary>
+    /// Първи опит за алгоритъм за подреждане.
+    /// Прекалено нестабилен.
+    /// </summary>
     public class ForceSimulatorMkI : IForceSimulator
     {
         public event SimulatorStoppedHandler SimulatorStopped;

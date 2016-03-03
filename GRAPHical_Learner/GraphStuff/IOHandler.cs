@@ -8,8 +8,16 @@ using System.Windows.Forms;
 
 namespace GRAPHical_Learner
 {
+    /// <summary>
+    /// Работи със файлове
+    /// </summary>
     public abstract class IOHandler
     {
+        /// <summary>
+        /// Записва граф чрез списък на съседи
+        /// </summary>
+        /// <param name="filename">Файла</param>
+        /// <param name="graph">Графа</param>
         public static void WriteGraphFile(string filename, Graph graph)
         {
             StringBuilder builder = new StringBuilder();
@@ -22,6 +30,11 @@ namespace GRAPHical_Learner
             File.WriteAllText(filename, builder.ToString());
         }
 
+        /// <summary>
+        /// Чете граф от файл. Формат - списък на съседи
+        /// </summary>
+        /// <param name="filename"></param>
+        /// <param name="graph"></param>
         public static void ReadGraphFile(string filename, ref Graph graph)
         {
             String[] lines = File.ReadAllLines(filename);
@@ -46,7 +59,7 @@ namespace GRAPHical_Learner
                     Edge e = graph.AddEdge(src, dest);
 
                     if(parts.Length > 2)
-                    {
+                    { // част за четене на тегла
                         int val = 0;
                         try
                         {

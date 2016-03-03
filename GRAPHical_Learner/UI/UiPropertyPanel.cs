@@ -6,13 +6,19 @@ using System.Threading.Tasks;
 
 namespace GRAPHical_Learner
 {
+    /// <summary>
+    /// Панел за показване на свойства
+    /// </summary>
     public class UiPropertyPanel : UiPanel
     {
-        private static int maxProperties = 10;
+        private static int maxProperties = 20; // 20 свойства ще са предостатъчни дори и за най-сложния алгоритъм
         private static int minWidth = 120;
 
         private PropertyHolder holder;
 
+        /// <summary>
+        /// Задава това, на което ще се показват свойствата
+        /// </summary>
         public PropertyHolder Holder
         {
             set 
@@ -53,6 +59,9 @@ namespace GRAPHical_Learner
             }
         }
 
+        /// <summary>
+        /// Променя панела, за да го приспособи към новия обект
+        /// </summary>
         private void OnHolderChanged()
         {
             if(holder != null)

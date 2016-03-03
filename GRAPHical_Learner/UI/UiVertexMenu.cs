@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace GRAPHical_Learner
 {
+    /// <summary>
+    /// Меню, което се показва при кликане върху връх
+    /// </summary>
     public class UiVertexMenu : UiPanel
     {
         private UiVerticalMenu topMenu, bottomMenu;
@@ -38,7 +41,7 @@ namespace GRAPHical_Learner
             int yp = topMenu.Height + 6; 
 
             if(v.edges.Count > 0)
-            {
+            { // изброява всички ребра
                 UiLabel label = new UiLabel("Премахни ребро:", GraphicScheme.font1);
                 label.X = 3;
                 label.Y = yp;

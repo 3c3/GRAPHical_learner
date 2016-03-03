@@ -11,7 +11,7 @@ namespace GUI_only
     {
         [STAThread]
         static void Main(string[] args)
-        {
+        { // само се обяснява
             GraphicScheme.LoadFont();
             MainUI ui = new MainUI();
         }

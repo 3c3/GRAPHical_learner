@@ -9,6 +9,9 @@ using SFML.Graphics;
 
 namespace GRAPHical_Learner
 {
+    /// <summary>
+    /// Кръгче, което може да се рисува
+    /// </summary>
     public class Circle : IDrawable, IMovable
     {
         public Vector2f center;
@@ -29,6 +32,11 @@ namespace GRAPHical_Learner
             color = c;
         }
 
+        /// <summary>
+        /// Прави рисуваеми обекти
+        /// </summary>
+        /// <param name="rf">Рамката, която определя трансформациите</param>
+        /// <returns>Обекти за рисуване</returns>
         public List<Drawable> getDrawables(RenderFrame rf)
         {
             Vector2f actualPos = new Vector2f(center.X - rf.xCenter, center.Y - rf.yCenter); // преместване на камерата

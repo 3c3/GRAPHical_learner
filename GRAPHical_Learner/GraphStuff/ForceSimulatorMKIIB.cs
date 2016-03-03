@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace GRAPHical_Learner
 {
+    /// <summary>
+    /// Модификация на втория алгоритъм, по-бърза и по-малко сбива върхове
+    /// </summary>
     public class ForceSimulatorMKIIB : ForceSimulatorMkII
     {
         public override event SimulatorStoppedHandler SimulatorStopped;
@@ -35,8 +38,8 @@ namespace GRAPHical_Learner
                 iterationsCount = 0;
             }
             else
-            {
-                iterationsCount++;
+            { // когато енергията не е намаляла с поне epsilon за iterationsCount
+                iterationsCount++; // завъртания, графа се счита за наместен
                 
                 if(iterationsCount >= maxIterrations)
                 {
@@ -52,8 +55,8 @@ namespace GRAPHical_Learner
             double dist = CalculateDistance(dx, dy);
             double ndist = dist > 0 ? dist : -dist;
 
-            double coef = dist >= optimalLength ? 1.0 : dist / optimalLength;
-
+            double coef = dist >= optimalLength ? 1.0 : dist / optimalLength; // това е една от основните промени
+            // силата на привличане намалява, когато разстоянието стане много малко
             double f = -1.0 * Math.Min((coef * dist * dist) / k, maxForce); // обратен знак -> привлича
 
             if (Double.IsNaN(f)) throw new ArithmeticException("Силата се прецака.");

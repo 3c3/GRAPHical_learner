@@ -9,6 +9,9 @@ using SFML.Graphics;
 
 namespace GRAPHical_Learner
 {
+    /// <summary>
+    /// Не се използва
+    /// </summary>
     public class Renderer
     {
 
