@@ -34,5 +34,10 @@ namespace GRAPHical_Learner
             line.SetSource(source.x, source.y);
             line.DrawSelf(window, rf);
         }
+
+        public static void ResetCounter()
+        {
+            idCounter = 0;
+        }
     }
 }

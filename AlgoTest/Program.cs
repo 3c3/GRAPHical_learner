@@ -11,6 +11,7 @@ namespace AlgoTest
     {
         List<int>[] graph = new List<int>[1024];
         bool[] used = new bool[1024];
+        int[] level = new int[1024];
         int n;
 
         void input()
@@ -59,6 +60,7 @@ namespace AlgoTest
                     int cand = vc[i];
                     if (used[cand]) continue;
                     used[cand] = true;
+                    level[cand] = level[current] + 1;
                     q.Enqueue(cand);
                     Pause();
                     Console.WriteLine("step...");
@@ -77,6 +79,7 @@ namespace AlgoTest
         public override object GetVertexProperty(int vertexId, int propertyId)
         {
             if (propertyId == propUsed) return used[vertexId];
+            else if (propertyId == propLevel) return level[vertexId];
             return null;
         }
 
@@ -85,12 +88,14 @@ namespace AlgoTest
             return base.GetEdgeProperty(edgeIdx, propertyId);
         }
 
-        int propUsed;
+        int propUsed, propLevel;
 
         protected override void Initialise()
         {
             propUsed = RegisterProperty("използван");
+            propLevel = RegisterProperty("ниво");
             AddPropertyToVertices(propUsed, false);
+            AddPropertyToVertices(propLevel, 0);
         }
 
         static void Main(string[] args)

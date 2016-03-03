@@ -16,7 +16,7 @@ namespace GRAPHical_Learner
         private volatile MainUI ui;
 
 
-        public AlgorithmSuspendedHandler AlgorithmSuspended;
+        public event AlgorithmSuspendedHandler AlgorithmSuspended;
 
         public Graph GraphInstance
         {

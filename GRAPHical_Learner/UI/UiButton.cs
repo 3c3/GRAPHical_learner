@@ -24,7 +24,7 @@ namespace GRAPHical_Learner
             box.Width = width;
             box.Height = height;
 
-            centerText();
+            CenterText();
 
             backgroundColor = GraphicScheme.buttonIdle;
         }
@@ -44,25 +44,31 @@ namespace GRAPHical_Learner
             Width = caption.Width + 6;
             Height = height;
 
-            centerText();
+            CenterText();
 
             backgroundColor = GraphicScheme.buttonIdle;
+        }
+
+        public string Text
+        {
+            get { return caption.Text; }
+            set { caption.Text = value; }
         }
 
         /// <summary>
         /// Сменя ширината така че текста да е центриран
         /// </summary>
         /// <param name="newWidth"></param>
-        public void updateWidth(int newWidth)
+        public void UpdateWidth(int newWidth)
         {
             Width = newWidth;
-            centerText();
+            CenterText();
         }
 
         /// <summary>
         /// Центира текста
         /// </summary>
-        private void centerText()
+        private void CenterText()
         {
             int freeX = box.Width - caption.Width;
             int freeY = box.Height - caption.Height;

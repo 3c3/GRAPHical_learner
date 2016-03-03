@@ -57,14 +57,14 @@ namespace GRAPHical_Learner
         {
             if(holder != null)
             {
-                titleLabel.SetText(holder.GetName());
+                titleLabel.Text = holder.GetName();
                 int y = titleLabel.Height + 6;
 
                 int idx = 0;
 
                 foreach(Property p in holder.properties)
                 {
-                    propertyLabels[idx].SetText(String.Format("{0}: {1}", p.Name, p.Value));
+                    propertyLabels[idx].Text = String.Format("{0}: {1}", p.Name, p.Value);
                     propertyLabels[idx].Y = y;
                     y += propertyLabels[idx].Height + 3;
                     propertyLabels[idx].visible = true;
@@ -77,7 +77,7 @@ namespace GRAPHical_Learner
             } 
             else
             {
-                titleLabel.SetText("null");
+                titleLabel.Text = "null";
                 Height = titleLabel.Height + 6;
                 for (int i = 0; i < maxProperties; i++) propertyLabels[i].visible = false;
             }
@@ -91,7 +91,7 @@ namespace GRAPHical_Learner
 
             if(holder != null) foreach (Property p in holder.properties)
             {
-                propertyLabels[idx].SetText(String.Format("{0}: {1}", p.Name, p.Value));
+                propertyLabels[idx].Text = String.Format("{0}: {1}", p.Name, p.Value);
                 if (propertyLabels[idx].Width + 6> w) w = propertyLabels[idx].Width + 6;
                 idx++;
             }

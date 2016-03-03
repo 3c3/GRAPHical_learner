@@ -9,6 +9,12 @@ namespace GRAPHical_Learner
 {
     public class ForceSimulatorMkI : IForceSimulator
     {
+        public event SimulatorStoppedHandler SimulatorStopped;
+        public void Reset()
+        {
+
+        }
+
         private float electricalConst, springConst, springLength, friction, airRes;
         private float k = 1.0f, c = .2f;
         private Graph graph;

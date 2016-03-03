@@ -59,7 +59,7 @@ namespace GRAPHical_Learner
                 {
                     e = v.edges[i];
                     vo = e.source == v ? e.destination : e.source;
-                    dict.Add(bottomMenu.AddItem(vo.id.ToString(), RemoveEdge), e);
+                    dict.Add(bottomMenu.AddItem(vo.id.ToString(), RemoveEdge).id, e);
                 }
 
                 AddChild(bottomMenu);

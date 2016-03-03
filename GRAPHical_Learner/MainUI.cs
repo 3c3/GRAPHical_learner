@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using SFML.System;
 using SFML.Window;
 using SFML.Graphics;
+using System.Timers;
 
 namespace GRAPHical_Learner
 {
@@ -22,11 +23,29 @@ namespace GRAPHical_Learner
         Gui gui;
         Font font1;
 
+        Timer algoTimer;
+        bool timerEnabled = false;
+        bool addEdgeEnabled = true;
+
         public MainUI(Connector con)
         {
             connector = con;
             activeGraph = connector.GraphInstance;
+            algoTimer = new Timer(150);
+            algoTimer.Elapsed += algoTimer_Elapsed;
+            connector.AlgorithmSuspended += connector_AlgorithmSuspended;
             Start();
+        }
+
+        void algoTimer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            connector.Resume();
+            algoTimer.Stop();
+        }
+
+        void connector_AlgorithmSuspended()
+        {
+            if(timerEnabled) algoTimer.Start();
         }
 
         public MainUI()
@@ -66,25 +85,6 @@ namespace GRAPHical_Learner
 
         }
 
-        void genCircles()
-        {
-            Random r = new Random();
-            for(int i = 0; i < 10; i++)
-            {
-                Circle c = new Circle((float)r.NextDouble() * 1024.0f - 512.0f, (float)r.NextDouble() * 600.0f - 300.0f, 20);
-                circles.Add(c);
-            }
-
-            Circle origin = new Circle(-512.0f, -300.0f, 20, Color.Green);
-            circles.Add(origin);
-            Circle origin2 = new Circle(512.0f, 300.0f, 20, Color.Yellow);
-            circles.Add(origin2);
-
-            Circle center = new Circle(0, 0, 20, Color.Cyan);
-            circles.Add(center);
-        }
-
-        UiVerticalMenu menu;
         IForceSimulator fs;
 
         private void Start()
@@ -106,8 +106,10 @@ namespace GRAPHical_Learner
             //genCircles();
            // MakeGraph();
 
-            fs = new ForceSimulatorMkII(2.5f, 0.17f);
+            //fs = new ForceSimulatorMkI(200, 40, 150, 0.98f, 0);
+            fs = new ForceSimulatorMKIIB(1.5, 0.8);
             fs.SetGraph(activeGraph);
+            fs.SimulatorStopped += fs_SimulatorStopped;
 
             renderFrame.calcZoom();
 
@@ -115,6 +117,8 @@ namespace GRAPHical_Learner
 
             Loop();
         }
+
+        
 
         bool physics = false;
 
@@ -128,7 +132,7 @@ namespace GRAPHical_Learner
 
                 if (connector != null) GetProperties();
 
-                processMouse();
+                ProcessMouse();
 
                 cnt++;
 
@@ -138,7 +142,7 @@ namespace GRAPHical_Learner
                     fs.SimulateStep();
                 }
 
-                draw();
+                Draw();
             }
         }
 
@@ -166,9 +170,9 @@ namespace GRAPHical_Learner
             return null;
         }
 
-        void processMouse()
+        void ProcessMouse()
         {
-            dbgLabel3.SetText(currentObject != null ? currentObject.GetType().ToString() : "no IMovable");
+            dbgLabel3.Text = currentObject != null ? currentObject.GetType().ToString() : "no IMovable";
 
             Vector2i mousePos = Mouse.GetPosition(window);
 
@@ -196,19 +200,19 @@ namespace GRAPHical_Learner
                     }
                 } 
                 if (currentObject == null) currentObject = gui.lastChildMoused;
-                if (currentObject == null) currentObject = getCircleAt(toGlobalCoords(mousePos));
+                if (currentObject == null) currentObject = getCircleAt(ToGlobalCoords(mousePos));
                 if (currentObject == null) currentObject = renderFrame;
             }
             else  currentObject = null;
 
-            Vertex moused = getCircleAt(toGlobalCoords(mousePos));
+            Vertex moused = getCircleAt(ToGlobalCoords(mousePos));
             propertyPanel.Holder = moused;
 
             gui.ProcessMousePosition(mousePos);
             lastMousePos = mousePos;
         }
 
-        void drawAxes()
+        void DrawAxes()
         {
             SFML.Graphics.Vertex[] vertLine = { new SFML.Graphics.Vertex(new Vector2f(512, 0), new Color(255, 255, 255, 127)), 
                                                new SFML.Graphics.Vertex(new Vector2f(512, 600), new Color(255, 255, 255, 127))};
@@ -220,7 +224,7 @@ namespace GRAPHical_Learner
             window.Draw(horrLine, PrimitiveType.Lines);
         }
 
-        void draw()
+        void Draw()
         {
             window.Clear(Color.Black);
 
@@ -236,8 +240,8 @@ namespace GRAPHical_Learner
 
             //drawAxes();
 
-            dbgLabel1.SetText(gui.lastChildMoused != null ? gui.lastChildMoused.GetType().ToString() : "null");
-            dbgLabel2.SetText(gui.MousedComponent != null ? gui.MousedComponent.GetType().ToString() : "null");
+            //dbgLabel1.Text = gui.lastChildMoused != null ? gui.lastChildMoused.GetType().ToString() : "null";
+            //dbgLabel2.Тext = gui.MousedComponent != null ? gui.MousedComponent.GetType().ToString() : "null";
 
             gui.Draw(window);
 
@@ -252,7 +256,7 @@ namespace GRAPHical_Learner
             window.Display();
         }
 
-        Vector2f toGlobalCoords(Vector2i screenCoords)
+        Vector2f ToGlobalCoords(Vector2i screenCoords)
         {
             Vector2f result = new Vector2f(screenCoords.X, screenCoords.Y);
 

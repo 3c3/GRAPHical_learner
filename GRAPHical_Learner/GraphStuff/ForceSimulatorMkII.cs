@@ -8,10 +8,17 @@ namespace GRAPHical_Learner
 {
     public class ForceSimulatorMkII : IForceSimulator
     {
-        private Graph graph;
-        private double k, c, step;
+        public virtual event SimulatorStoppedHandler SimulatorStopped;
+
+        protected Graph graph;
+        protected double k, c, step;
 
         private static double scale = 25.0;
+
+        public ForceSimulatorMkII()
+        {
+
+        }
 
         public ForceSimulatorMkII(double k, double c)
         {
@@ -20,10 +27,10 @@ namespace GRAPHical_Learner
             step = minStep;
         }
 
-        bool done = false;
-        double prevEnergy;
+        protected bool done = false;
+        protected double prevEnergy;
 
-        public void SimulateStep()
+        public virtual void SimulateStep()
         {
             //Console.WriteLine("simulating...");
             double energy = 0;
@@ -41,14 +48,14 @@ namespace GRAPHical_Learner
 
         public void SetForce(float percent)
         {
-            step = (maxStep - minStep) * 100.0f / percent + minStep;
+            step = (maxStep - minStep) * percent / 100.0f + minStep;
         }
 
-        int progress;
-        double stepScale = 0.9f;
-        double minStep = .1f;
-        double maxStep = 20.0f;
-        void UpdateStepLength(double energy)
+        protected int progress;
+        protected double stepScale = 0.9f;
+        protected double minStep = .1f;
+        protected double maxStep = 20.0f;
+        protected virtual void UpdateStepLength(double energy)
         {
             if(energy < prevEnergy)
             {
@@ -70,7 +77,7 @@ namespace GRAPHical_Learner
             //Console.WriteLine(String.Format("Energy: {0}; Step: {1}", energy, step));
         }
 
-        double maxForce = 0.1;
+        protected double maxForce = 0.1;
 
         public PVector CalculateVertexForce(Vertex v)
         {
@@ -84,18 +91,7 @@ namespace GRAPHical_Learner
                 double dx = v.x - other.x;
                 double dy = v.y - other.y;
 
-                double dist = CalculateDistance(dx, dy);
-                double ndist = dist < 0 ? dist * -1 : dist;
-                double f = -1.0 * Math.Min((ndist*ndist) / k, maxForce); // обратен знак -> привлича
-
-                if (Double.IsNaN(f)) throw new ArithmeticException("Силата се прецака.");
-
-                
-
-                double fSin = dy / dist;
-                double fCos = dx / dist;
-
-                resultF.Add(new PVector(f * fCos, f * fSin));
+                resultF.Add(GetAttractionForce(dx, dy));
             }
 
             foreach (Vertex vo in graph.vertices)
@@ -107,20 +103,36 @@ namespace GRAPHical_Learner
                 double dx = v.x - vo.x;
                 double dy = v.y - vo.y;
 
-                double dist = CalculateDistance(dx, dy);
-                double ndist = dist < 0 ? dist * -1 : dist;
-                double f = Math.Min(c * k * k * k * k / (ndist*ndist*ndist), maxForce);
-
-                if (Double.IsNaN(f)) throw new ArithmeticException("Силата се прецака.");
-
-                
-
-                double fSin = dy / dist;
-                double fCos = dx / dist;
-
-                resultF.Add(new PVector(f * fCos, f * fSin));
+                resultF.Add(GetRepulsionForce(dx, dy));
             }
             return resultF;
+        }
+
+        protected virtual PVector GetAttractionForce(double dx, double dy)
+        {
+            double dist = CalculateDistance(dx, dy);
+            double f = -1.0 * Math.Min((dist * dist) / k, maxForce); // обратен знак -> привлича
+
+            if (Double.IsNaN(f)) throw new ArithmeticException("Силата се прецака.");
+
+            double fSin = dy / dist;
+            double fCos = dx / dist;
+
+            return new PVector(f * fCos, f * fSin);
+        }
+
+        protected virtual PVector GetRepulsionForce(double dx, double dy)
+        {
+            double dist = CalculateDistance(dx, dy);
+            double ndist = dist < 0 ? dist * -1 : dist;
+            double f = Math.Min(c * k * k * k * k / (ndist * ndist * ndist), maxForce);
+
+            if (Double.IsNaN(f)) throw new ArithmeticException("Силата се прецака.");
+
+            double fSin = dy / dist;
+            double fCos = dx / dist;
+
+            return new PVector(f * fCos, f * fSin);
         }
 
         public double CalculateDistance(double dx, double dy)
@@ -135,6 +147,9 @@ namespace GRAPHical_Learner
             this.graph = graph;
         }
 
+        public virtual void Reset()
+        {
 
+        }
     }
 }

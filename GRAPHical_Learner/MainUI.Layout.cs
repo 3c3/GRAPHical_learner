@@ -14,8 +14,13 @@ namespace GRAPHical_Learner
         UiButton resumeButton;
 
         UiVerticalMenu rmbMenu;
+        UiVerticalMenu menu;
 
         UiPropertyPanel propertyPanel;
+
+        UiHorizontalMenu algoControlMenu;
+
+        UiButton physBtn, edgeBtn;
         
         /// <summary>
         /// Слага всичките неща в Gui-то
@@ -31,6 +36,7 @@ namespace GRAPHical_Learner
             menu.AddItem("Случаен", menu_Generate);
             menu.AddItem("Разбъркай", menu_Shuffle);
             menu.AddItem("Изчисти", menu_Clear);
+            edgeBtn = menu.AddItem("Добавяне на ребра: включено", BtnAddEdgeToggle);
 
             gui.Add(menu);
 
@@ -54,8 +60,9 @@ namespace GRAPHical_Learner
             gui.Add(dbgLabel3);
 
             UiVerticalMenu vmenu = new UiVerticalMenu();
-            vmenu.AddItem("Включи физика", BtnPhysEnable);
-            vmenu.AddItem("Изключи физика", BtnPhysDisable);
+            physBtn = vmenu.AddItem("Включи физика", BtnPhysToggle);
+            vmenu.AddItem("Центрирай", BtnCenterGraph);
+            
             vmenu.X = 0;
             vmenu.Y = 20;
 
@@ -75,12 +82,16 @@ namespace GRAPHical_Learner
 
             gui.Add(propertyPanel);
 
-            resumeButton = new UiButton("Продължи алгоритъм", 20);
-            resumeButton.X = 450;
-            resumeButton.Y = 580;
-            resumeButton.ComponentClicked += BtnResume;
+            algoControlMenu = new UiHorizontalMenu(211);
 
-            gui.Add(resumeButton);
+            algoControlMenu.X = 385;
+            algoControlMenu.Y = 575;
+
+            algoControlMenu.AddItem("Стъпка", BtnSingleStep);
+            algoControlMenu.AddItem("Автоматично", MenuBtnPlay);
+            algoControlMenu.AddItem("Пауза", MenuBtnPause);
+
+            gui.Add(algoControlMenu);
         }
 
     }

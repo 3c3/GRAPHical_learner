@@ -29,7 +29,7 @@ namespace GRAPHical_Learner
         /// </summary>
         /// <param name="text">Текста на бутона</param>
         /// <param name="handler">Функцията, която се извиква при натискане</param>
-        public override int AddItem(string text, ComponentClickedHandler handler)
+        public override UiButton AddItem(string text, ComponentClickedHandler handler)
         {
             UiButton newButton = new UiButton(text, 20);
             newButton.X = x;
@@ -39,7 +39,7 @@ namespace GRAPHical_Learner
             AddChild(newButton);
             newButton.ComponentClicked += handler;
             x += newButton.Width + 2;
-            return newButton.id;
+            return newButton;
         }
 
         /// <summary>

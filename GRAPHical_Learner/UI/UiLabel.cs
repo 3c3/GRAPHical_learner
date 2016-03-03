@@ -32,6 +32,12 @@ namespace GRAPHical_Learner
             CreateDrawables(text);
         }
 
+        public string Text
+        {
+            get { return drawText.DisplayedString; }
+            set { SetText(value); }
+        }
+
         private void CreateDrawables(string text)
         {
             drawText = new Text(text, font, 11);
@@ -41,7 +47,7 @@ namespace GRAPHical_Learner
             box.Height = (int)localBounds.Height + 6;
         }
 
-        public void SetText(string text)
+        private void SetText(string text)
         {
             CreateDrawables(text);
         }

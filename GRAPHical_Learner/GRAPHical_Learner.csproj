@@ -80,6 +80,7 @@
     <Compile Include="GraphStuff\Edge.cs" />
     <Compile Include="GraphStuff\ForceSimulatorMkI.cs" />
     <Compile Include="GraphStuff\ForceSimulatorMkII.cs" />
+    <Compile Include="GraphStuff\ForceSimulatorMKIIB.cs" />
     <Compile Include="GraphStuff\Graph.cs" />
     <Compile Include="GraphStuff\IOHandler.cs" />
     <Compile Include="GraphStuff\PropertyHolder.cs" />
@@ -89,6 +90,7 @@
     <Compile Include="GraphStuff\IForceSimulator.cs" />
     <Compile Include="IMovable.cs" />
     <Compile Include="GraphStuff\Line.cs" />
+    <Compile Include="MainUI.Control.cs" />
     <Compile Include="MainUI.cs" />
     <Compile Include="MainUI.Events.cs" />
     <Compile Include="MainUI.Layout.cs" />

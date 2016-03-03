@@ -35,19 +35,35 @@ namespace GRAPHical_Learner
             }
         }
 
-        void BtnPhysDisable(UiComponent sender, Object arg)
+        void BtnAddEdgeToggle(UiComponent sender, Object arg)
         {
-            physics = false;
+            if (addEdgeEnabled) DisableEdgeAdding();
+            else EnableEdgeAdding();
         }
 
-        void BtnPhysEnable(UiComponent sender, Object arg)
+        void BtnPhysToggle(UiComponent sender, Object arg)
         {
-            //fs.SetForce(0.0f);
-            physics = true;
-            Console.WriteLine("Physics enabled.");
+            if (physics) DisablePhysics();
+            else EnablePhysics();
         }
 
-        void BtnResume(UiComponent sender, Object arg)
+        void MenuBtnPlay(UiComponent sender, Object arg)
+        {
+            timerEnabled = true;
+            if (connector != null) connector.Resume();
+        }
+
+        void MenuBtnPause(UiComponent sender, Object arg)
+        {
+            timerEnabled = false;
+        }
+
+        void BtnCenterGraph(UiComponent sender, Object arg)
+        {
+            CenterGraph();
+        }
+
+        void BtnSingleStep(UiComponent sender, Object arg)
         {
             if (connector != null) connector.Resume();
         }
@@ -58,9 +74,11 @@ namespace GRAPHical_Learner
             System.Windows.Forms.OpenFileDialog ofd = new System.Windows.Forms.OpenFileDialog();
             if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                IOHandler.ReadGraphFile(ofd.FileName, ref activeGraph);
-                fs.SetForce(100);
-                physics = true;
+                Graph g = new Graph();
+                IOHandler.ReadGraphFile(ofd.FileName, ref g);
+                ChangeGraph(g);
+                DisableEdgeAdding();
+                DisablePhysics();
             }
         }
 
@@ -104,22 +122,24 @@ namespace GRAPHical_Learner
 
         void menu_Clear(UiComponent sender, Object arg)
         {
-            activeGraph.edges.Clear();
-            activeGraph.vertices.Clear();
-            Vertex.ResetCounter();
+            ClearAll();
         }
 
         void rmbMenu_AddVertex(UiComponent sender, Object arg)
         {
-            Vector2f pos = toGlobalCoords(Mouse.GetPosition(window));
+            Vector2f pos = ToGlobalCoords(Mouse.GetPosition(window));
             activeGraph.vertices.Add(new Vertex(pos.X, pos.Y));
             rmbMenu.visible = false;
         }
 
         void rmbMenu_Deselect(UiComponent sender, Object arg)
         {
-            lastClickedVertex.selected = false;
-            lastClickedVertex = null;
+            if(lastClickedVertex!=null)
+            {
+                lastClickedVertex.selected = false;
+                lastClickedVertex = null;
+            }
+            
             rmbMenu.visible = false;
         }
 
@@ -135,7 +155,7 @@ namespace GRAPHical_Learner
         void window_MouseButtonPressed(object sender, MouseButtonEventArgs e)
         {
             Vector2i mousePos = Mouse.GetPosition(window);
-            Vector2f pos = toGlobalCoords(Mouse.GetPosition(window));
+            Vector2f pos = ToGlobalCoords(Mouse.GetPosition(window));
 
             Vertex v = getCircleAt(pos);
             if (e.Button == Mouse.Button.Left)
@@ -146,7 +166,7 @@ namespace GRAPHical_Learner
                     activeVertexMenu.Remove();
                     activeVertexMenu = null;
                 }
-                if(!gui.ProcessMouseClick(mousePos))
+                if(!gui.ProcessMouseClick(mousePos) && addEdgeEnabled)
                 {                  
                     if(v!=null)
                     {
@@ -208,9 +228,16 @@ namespace GRAPHical_Learner
                 if (currentObject is Circle)
                 {
                     Circle circle = currentObject as Circle;
-                    circle.center = toGlobalCoords(Mouse.GetPosition(window));
+                    circle.center = ToGlobalCoords(Mouse.GetPosition(window));
                 }
             }
+        }
+
+        void fs_SimulatorStopped()
+        {
+            Console.WriteLine("Auto-disabling physics.");
+            DisablePhysics();
+            CenterGraph();
         }
     }
 }
