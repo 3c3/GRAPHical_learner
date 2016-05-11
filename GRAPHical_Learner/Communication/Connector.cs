@@ -14,9 +14,11 @@ namespace GRAPHical_Learner
     /// </summary>
     public class Connector
     {
-        private volatile Graph graph = new Graph();
+        protected volatile Graph graph;
         private int nVertices;
         private volatile MainUI ui;
+
+        public bool pollProperties = true;
 
         /// <summary>
         /// Извиква се, когато алгоритъмът удари Pause()
@@ -41,6 +43,11 @@ namespace GRAPHical_Learner
             for (int i = 0; i < n; i++) graph.vertices.Add(new Vertex());
         }
 
+        protected void SetDirected(bool directed)
+        {
+            if (GraphInstance != null) GraphInstance.Directed = true;
+        }
+
         /// <summary>
         /// Добавя ребро
         /// </summary>
@@ -57,7 +64,7 @@ namespace GRAPHical_Learner
         /// </summary>
         /// <param name="name">Името на свойството</param>
         /// <returns>Id на свойството</returns>
-        protected int RegisterProperty(string name)
+        public int RegisterProperty(string name)
         {
             return Property.GetPropertyId(name);
         }
@@ -84,15 +91,14 @@ namespace GRAPHical_Learner
             return null;
         }
 
-        /// <summary>
-        /// Задава(ако е необходимо - създава) стойност на свойството за връх
-        /// </summary>
-        /// <param name="vertexId">Номер на връх</param>
-        /// <param name="propertyId">Id на свойството</param>
-        /// <param name="value">Стойност</param>
-        protected void SetVertexProperty(int vertexId, int propertyId, Object value)
+        public void SetVertexProperty(int vertexId, int propertyId, object value)
         {
-            graph.vertices[vertexId].SetProperty(propertyId, value);
+            graph.GetVertexById(vertexId).SetProperty(propertyId, value);
+        }
+
+        public void SetEdgeProperty(int edgeId, int propertyId, object value)
+        {
+            graph.GetEdgeById(edgeId).SetProperty(propertyId, value);
         }
 
         /// <summary>
@@ -100,11 +106,20 @@ namespace GRAPHical_Learner
         /// </summary>
         /// <param name="propertyId">Id на свойството(от RegisterProperty)</param>
         /// <param name="defaultValue">първоначалната стойност</param>
-        protected void AddPropertyToVertices(int propertyId, Object defaultValue)
+        public void AddPropertyToVertices(int propertyId, Object defaultValue)
         {
             foreach(Vertex v in graph.vertices)
             {
                 v.SetProperty(propertyId, defaultValue);
+                //Console.WriteLine(String.Format("Set property id {0} to {1} for {2}", propertyId, v.GetProperty(propertyId), v.id));
+            }
+        }
+
+        public void AddPropertyToEdges(int propertyId, Object defaultValue)
+        {
+            foreach(Edge e in graph.edges)
+            {
+                e.SetProperty(propertyId, defaultValue);
             }
         }
 
@@ -114,17 +129,13 @@ namespace GRAPHical_Learner
         /// <param name="edgeId">Номер на ребро</param>
         /// <param name="propertyId">Id на свойството</param>
         /// <param name="value">Стойност</param>
-        protected void SetEdgeProperty(int edgeId, int propertyId, Object value)
-        {
-            graph.edges[edgeId].SetProperty(propertyId, value);
-        }
 
         volatile Thread algoThread;
 
         /// <summary>
         /// Продължава алгоритъма
         /// </summary>
-        internal void Resume()
+        protected internal virtual void Resume()
         {
             if (algoThread != null)
             {
@@ -138,9 +149,15 @@ namespace GRAPHical_Learner
         /// </summary>
         protected void Pause()
         {
-            algoThread = Thread.CurrentThread;
             if (AlgorithmSuspended != null) AlgorithmSuspended();
+               
+            algoThread = Thread.CurrentThread;
             algoThread.Suspend();
+        }
+
+        protected internal void RaiseSuspendedEvent()
+        {
+            if (AlgorithmSuspended != null) AlgorithmSuspended();
         }
 
         /// <summary>
@@ -164,6 +181,7 @@ namespace GRAPHical_Learner
         /// </summary>
         protected void SetupGui()
         {
+            if (graph == null) graph = new Graph();
             GraphicScheme.LoadFont();
         }
 

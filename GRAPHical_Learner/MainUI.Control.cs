@@ -17,7 +17,7 @@ namespace GRAPHical_Learner
             fs.SetForce(10.0f);
             fs.Reset();
             physics = true;
-            physBtn.Text = "Изключи физика";
+            physBtn.Text = "Физика(изключи)";
         }
 
         /// <summary>
@@ -26,7 +26,7 @@ namespace GRAPHical_Learner
         void DisablePhysics()
         {
             physics = false;
-            physBtn.Text = "Включи физика";
+            physBtn.Text = "Физика(включи)";
         }
 
         /// <summary>
@@ -35,7 +35,7 @@ namespace GRAPHical_Learner
         void EnableEdgeAdding()
         {
             addEdgeEnabled = true;
-            edgeBtn.Text = "Добавяне на ребра: включено";
+            edgeBtn.Text = "Добави ребра(изключи)";
         }
 
         /// <summary>
@@ -44,7 +44,7 @@ namespace GRAPHical_Learner
         void DisableEdgeAdding()
         {
             addEdgeEnabled = false;
-            edgeBtn.Text = "Добавяне на ребра: изключено";
+            edgeBtn.Text = "Добави ребра(включи)";
         }
 
         /// <summary>
@@ -91,6 +91,13 @@ namespace GRAPHical_Learner
 
             renderFrame.xCenter = minX + w / 2.0f;
             renderFrame.yCenter = minY + h / 2.0f;
+
+            float zoomX = (renderFrame.width - 150.0f) / w;
+            float zoomY = (renderFrame.height - 150.0f) / h;
+
+            float zoom = zoomX < zoomY ? zoomX : zoomY;
+            renderFrame.scale = (float)Math.Log(zoom, 4);
+            renderFrame.CalcZoom();
         }
     }
 }

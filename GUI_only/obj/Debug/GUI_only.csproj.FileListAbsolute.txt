@@ -1,6 +1,3 @@
-D:\Code\C#\GRAPHical_Learner\GUI_only\bin\Debug\csfml-graphics-2.dll
-D:\Code\C#\GRAPHical_Learner\GUI_only\bin\Debug\csfml-system-2.dll
-D:\Code\C#\GRAPHical_Learner\GUI_only\bin\Debug\csfml-window-2.dll
 D:\Code\C#\GRAPHical_Learner\GUI_only\bin\Debug\GUI_only.exe.config
 D:\Code\C#\GRAPHical_Learner\GUI_only\bin\Debug\GUI_only.exe
 D:\Code\C#\GRAPHical_Learner\GUI_only\bin\Debug\GUI_only.pdb

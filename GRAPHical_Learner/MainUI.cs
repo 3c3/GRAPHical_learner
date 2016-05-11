@@ -28,21 +28,34 @@ namespace GRAPHical_Learner
 
         Timer algoTimer;
         bool timerEnabled = false;
-        bool addEdgeEnabled = true;
+        bool addEdgeEnabled = false;
 
         public MainUI(Connector con)
         {
             connector = con;
             activeGraph = connector.GraphInstance;
             activeGraph.ArrangeInCircle();
-            
+
+            //DumpProperties();
+
             algoTimer = new Timer(150); // при създаване с конектор(т.е. алгоритъм), се създава и таймера за автоматичен
             algoTimer.Elapsed += algoTimer_Elapsed; // ход
             connector.AlgorithmSuspended += connector_AlgorithmSuspended;
             Start();
         }
 
-        
+        void DumpProperties()
+        {
+            foreach(Vertex v in activeGraph.vertices)
+            {
+                Console.WriteLine("Vertex " + v.id.ToString());
+                foreach(Property p in v.properties)
+                {
+                    Console.WriteLine(String.Format("Name: {0}, Value: {1}", p.Name, p.Value != null ? p.Value : "null"));
+                }
+                Console.WriteLine();
+            }
+        }
 
         void algoTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
@@ -60,7 +73,7 @@ namespace GRAPHical_Learner
 
         public MainUI()
         {
-            activeGraph = new Graph();
+            activeGraph = new Graph(true);
             Start();
         }
 
@@ -69,10 +82,13 @@ namespace GRAPHical_Learner
         /// </summary>
         void MakeGraph()
         {
+            //Property.GetPropertyId("цвят")
             Property.GetPropertyId("име");
             Property.GetPropertyId("цена");
             Property.GetPropertyId("поток");
             Property.GetPropertyId("обратен поток");
+
+            Property.edgeWeighId = 2;
 
             activeGraph = new Graph();
             
@@ -96,6 +112,9 @@ namespace GRAPHical_Learner
             activeGraph.AddVertex(v2);
             activeGraph.AddVertex(v3);
 
+            Edge e1 = activeGraph.AddEdge(0, 3);
+            e1.SetProperty(2, 200);
+
         }
 
         IForceSimulator fs;
@@ -115,9 +134,6 @@ namespace GRAPHical_Learner
 
             window.SetVerticalSyncEnabled(true);
 
-            //genCircles();
-           // MakeGraph();
-
             //Алгоритъм за подреждане
             fs = new ForceSimulatorMKIIB(1.5, 0.8);
             fs.SetGraph(activeGraph);
@@ -131,9 +147,8 @@ namespace GRAPHical_Learner
             if (connector != null) EnablePhysics(); // ако е вързан алгоритъм, графа се подрежда автоматично
             Loop();
         }
-
-        
-
+ 
+        // показва дали физиката(алгоритъма за подреждане) трябва да работи
         bool physics = false;
 
         int cnt = 0;
@@ -147,7 +162,7 @@ namespace GRAPHical_Learner
             {
                 window.DispatchEvents();
 
-                if (connector != null) GetProperties();
+                if (connector != null && connector.pollProperties) GetProperties();
 
                 ProcessMouse();
 
@@ -190,7 +205,7 @@ namespace GRAPHical_Learner
             if (activeGraph == null) return null;
             foreach(Vertex v in activeGraph.vertices)
             {
-                if (v.circle.isInside(pos)) return v;
+                if (v.circle.IsInside(pos)) return v;
             }
             return null;
         }
@@ -254,6 +269,8 @@ namespace GRAPHical_Learner
             window.Draw(vertLine, PrimitiveType.Lines);
             window.Draw(horrLine, PrimitiveType.Lines);
         }
+
+        Color grey = new Color(33, 33, 33);
 
         /// <summary>
         /// Рисува всичко

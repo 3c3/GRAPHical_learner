@@ -116,20 +116,7 @@
     <Compile Include="UI\UiVertexMenu.cs" />
     <Compile Include="UI\UiVerticalMenu.cs" />
     <Compile Include="GraphStuff\Vertex.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="csfml-graphics-2.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="csfml-system-2.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="csfml-window-2.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <Content Include="sfmlnet-graphics-2.dll" />
-    <Content Include="sfmlnet-system-2.dll" />
-    <Content Include="sfmlnet-window-2.dll" />
+    <Compile Include="UI\UiYesNoBox.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

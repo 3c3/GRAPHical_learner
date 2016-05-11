@@ -15,6 +15,7 @@ namespace AlgoTest
         List<int>[] graph = new List<int>[1024]; // граф чрез списък на съседи
         bool[] used = new bool[1024]; // пази дали върха е обходен
         int[] level = new int[1024]; // нивото във BFS дървото
+        int[] pred = new int[1024];
         int n;
 
         void input()
@@ -27,6 +28,7 @@ namespace AlgoTest
 
             for (int i = 0; i < n; i++) graph[i] = new List<int>();
             SetVertices(n); // задава броя върхове на визуалния граф
+            //SetDirected(true);
 
             for(int i = 0; i < m; i++)
             {
@@ -64,6 +66,7 @@ namespace AlgoTest
                     if (used[cand]) continue;
                     used[cand] = true;
                     level[cand] = level[current] + 1;
+                    pred[cand] = current;
                     q.Enqueue(cand);
                     Pause(); // и на всеки обходен връх
                     Console.WriteLine("step...");
@@ -90,21 +93,25 @@ namespace AlgoTest
         {
             if (propertyId == propUsed) return used[vertexId];
             else if (propertyId == propLevel) return level[vertexId];
+            else if (propertyId == propPred) return pred[vertexId];
             return null;
         }
 
         int propUsed, propLevel; // id-та на свойствата за обходеност и ниво
+        int propPred;
 
         /// <summary>
         /// Извиква се автоматично преди да се пусне визуалната среда
-        /// Полезно за настойчици
+        /// Полезно за настройчици
         /// </summary>
         protected override void PreRun()
         {
             propUsed = RegisterProperty("използван"); // регистрира свойства
             propLevel = RegisterProperty("ниво");
+            propPred = RegisterProperty("предшественик");
             AddPropertyToVertices(propUsed, false); // разпространява ги на всички върове
             AddPropertyToVertices(propLevel, 0);
+            AddPropertyToVertices(propPred, 0);
         }
 
         static void Main(string[] args)

@@ -16,6 +16,10 @@ namespace GRAPHical_Learner
         /// Менюто, появяващо се при дясно кликане
         /// </summary>
         UiVerticalMenu rmbMenu;
+        UiVerticalMenu fileMenu, arrangeMenu;
+
+        UiVertexMenu activeVerticalMenu;
+
         /// <summary>
         /// Горното меню
         /// </summary>
@@ -43,17 +47,42 @@ namespace GRAPHical_Learner
         {
             gui = new Gui(window);
 
+            fileMenu = new UiVerticalMenu(true);
+            fileMenu.AddItem("Зареди", menu_FileOpen);
+            fileMenu.AddItem("Запази", menu_FileSave);
+
+            fileMenu.X = 0;
+            fileMenu.Y = 20;
+
+            fileMenu.visible = false;
+
+            gui.Add(fileMenu);
+
+            arrangeMenu = new UiVerticalMenu(true);
+            arrangeMenu.AddItem("В кръг", menu_Circle);
+            arrangeMenu.AddItem("Центрирай", BtnCenterGraph);
+            arrangeMenu.AddItem("Разбъракно", menu_Shuffle);
+
+            arrangeMenu.X = 50;
+            arrangeMenu.Y = 20;
+
+            arrangeMenu.visible = false;
+
+            gui.Add(arrangeMenu);
+
             menu = new UiHorizontalMenu(1024);
 
-            menu.AddItem("Зареди", menu_FileOpen);
-            menu.AddItem("Запази", menu_FileSave);
-            menu.AddItem("Случаен", menu_Generate);
-            menu.AddItem("Разбъркай", menu_Shuffle);
-            menu.AddItem("В кръг", menu_Circle);
+            menu.AddItem("Файл", menu_FileClicked);
+            menu.AddItem("Подредба", menu_ArrangeClicked);
+            edgeBtn = menu.AddItem("Добави ребра(включи)", BtnAddEdgeToggle);
+            physBtn = menu.AddItem("Физика(включи)", BtnPhysToggle);
+            menu.AddItem("Създай граф", menu_Generate);
             menu.AddItem("Изчисти", menu_Clear);
-            edgeBtn = menu.AddItem("Добавяне на ребра: включено", BtnAddEdgeToggle);
+            menu.AddItem("Debug1", menu_dbg1);
 
             gui.Add(menu);
+
+            #region Debug текстове
 
             dbgLabel1 = new UiLabel("Все още няма нужда от мен за дебъг!", GraphicScheme.font1);
             dbgLabel1.visible = false;
@@ -74,14 +103,7 @@ namespace GRAPHical_Learner
             gui.Add(dbgLabel2);
             gui.Add(dbgLabel3);
 
-            UiVerticalMenu vmenu = new UiVerticalMenu();
-            physBtn = vmenu.AddItem("Включи физика", BtnPhysToggle);
-            vmenu.AddItem("Центрирай", BtnCenterGraph);
-            
-            vmenu.X = 0;
-            vmenu.Y = 20;
-
-            gui.Add(vmenu);
+            #endregion
 
             rmbMenu = new UiVerticalMenu();
             rmbMenu.visible = false;
@@ -97,16 +119,21 @@ namespace GRAPHical_Learner
 
             gui.Add(propertyPanel);
 
-            algoControlMenu = new UiHorizontalMenu(200);
+            if (connector != null)
+            { // менюто за контрол на алгоритъм се показва само когато има такъв
+                algoControlMenu = new UiHorizontalMenu(200);
 
-            algoControlMenu.X = 412;
-            algoControlMenu.Y = 575;
+                algoControlMenu.X = 412;
+                algoControlMenu.Y = 575;
 
-            algoControlMenu.AddItem("Стъпка", BtnSingleStep);
-            algoControlMenu.AddItem("Автоматично", MenuBtnPlay);
-            algoControlMenu.AddItem("Пауза", MenuBtnPause);
+                algoControlMenu.AddItem("Стъпка", BtnSingleStep);
+                algoControlMenu.AddItem("Автоматично", MenuBtnPlay);
+                algoControlMenu.AddItem("Пауза", MenuBtnPause);
 
-            gui.Add(algoControlMenu);
+                gui.Add(algoControlMenu);
+            }
+
+            
         }
 
     }

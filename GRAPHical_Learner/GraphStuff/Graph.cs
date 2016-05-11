@@ -15,15 +15,39 @@ namespace GRAPHical_Learner
         public List<Vertex> vertices = new List<Vertex>();
         public List<Edge> edges = new List<Edge>();
 
-        public void DrawSelf(RenderWindow window, RenderFrame rf)
+        bool directed = false;
+
+        public bool Directed
+        {
+            set { directed = value; }
+            get { return directed; }
+        }
+
+        public Graph() { }
+        public Graph(bool directed)
+        {
+            this.directed = directed;
+        }
+
+        public void DrawSelf(RenderTarget window, RenderFrame rf)
         {
             edges.ForEach(e => e.DrawSelf(window, rf));
             vertices.ForEach(v => v.DrawSelf(window, rf));
         }
 
+        public Vertex GetVertexById(int vertexId)
+        {
+            return vertices[vertexId];
+        }
+
+        public Edge GetEdgeById(int edgeId)
+        {
+            return edges[edgeId];
+        }
+
         public Edge AddEdge(int idx1, int idx2)
         {
-            Edge e = new Edge(vertices[idx1], vertices[idx2]);
+            Edge e = new Edge(vertices[idx1], vertices[idx2], directed);
             edges.Add(e);
             vertices[idx1].edges.Add(e);
             vertices[idx2].edges.Add(e);
@@ -32,7 +56,7 @@ namespace GRAPHical_Learner
 
         public int AddEdge(Vertex v1, Vertex v2)
         {
-            Edge e = new Edge(v1, v2);
+            Edge e = new Edge(v1, v2, directed);
             edges.Add(e);
             v1.edges.Add(e);
             v2.edges.Add(e);

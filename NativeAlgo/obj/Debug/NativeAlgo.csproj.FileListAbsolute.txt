@@ -1,0 +1,11 @@
+D:\Code\C#\GRAPHical_Learner\NativeAlgo\obj\Debug\NativeAlgo.csprojResolveAssemblyReference.cache
+D:\Code\C#\GRAPHical_Learner\NativeAlgo\bin\Debug\NativeAlgo.exe.config
+D:\Code\C#\GRAPHical_Learner\NativeAlgo\bin\Debug\NativeAlgo.exe
+D:\Code\C#\GRAPHical_Learner\NativeAlgo\bin\Debug\NativeAlgo.pdb
+D:\Code\C#\GRAPHical_Learner\NativeAlgo\bin\Debug\GRAPHical_Learner.dll
+D:\Code\C#\GRAPHical_Learner\NativeAlgo\bin\Debug\sfmlnet-graphics-2.dll
+D:\Code\C#\GRAPHical_Learner\NativeAlgo\bin\Debug\sfmlnet-system-2.dll
+D:\Code\C#\GRAPHical_Learner\NativeAlgo\bin\Debug\sfmlnet-window-2.dll
+D:\Code\C#\GRAPHical_Learner\NativeAlgo\bin\Debug\GRAPHical_Learner.pdb
+D:\Code\C#\GRAPHical_Learner\NativeAlgo\obj\Debug\NativeAlgo.exe
+D:\Code\C#\GRAPHical_Learner\NativeAlgo\obj\Debug\NativeAlgo.pdb

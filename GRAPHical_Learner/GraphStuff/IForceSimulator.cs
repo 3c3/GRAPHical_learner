@@ -19,9 +19,23 @@ namespace GRAPHical_Learner
     {
         event SimulatorStoppedHandler SimulatorStopped;
 
+        /// <summary>
+        /// Казва, че графа има нужда от подреждане
+        /// </summary>
         void Reset();
+        /// <summary>
+        /// Задава графа, върху който ще се работи
+        /// </summary>
+        /// <param name="graph"></param>
         void SetGraph(Graph graph);
+        /// <summary>
+        /// Симулира една стъпка от алгоритъма
+        /// </summary>
         void SimulateStep();
+        /// <summary>
+        /// Задава първоначалната сила на алгоритъма
+        /// </summary>
+        /// <param name="percent"></param>
         void SetForce(float percent);
     }
 }

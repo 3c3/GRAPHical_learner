@@ -59,7 +59,7 @@ namespace GRAPHical_Learner
             return new List<Drawable> { cs };
         }
 
-        public bool isInside(Vector2f point)
+        public bool IsInside(Vector2f point)
         {
             float dx = point.X - center.X;
             float dy = point.Y - center.Y;

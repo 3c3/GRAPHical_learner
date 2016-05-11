@@ -17,6 +17,16 @@ namespace GRAPHical_Learner
             Console.WriteLine("Why did you click me?");
         }
 
+        void menu_FileClicked(UiComponent sender, Object arg)
+        {
+            fileMenu.visible = true;
+        }
+
+        void menu_ArrangeClicked(UiComponent sender, Object arg)
+        {
+            arrangeMenu.visible = true;
+        }
+
         void BtnAddVertex(UiComponent sender, Object arg)
         {
 
@@ -152,6 +162,14 @@ namespace GRAPHical_Learner
         void menu_Clear(UiComponent sender, Object arg)
         {
             ClearAll();
+        }
+
+        void menu_dbg1(UiComponent sender, Object arg)
+        {
+            UiYesNoBox box = new UiYesNoBox("тест", "Сигурни ли сте?");
+            box.X = 300;
+            box.Y = 300;
+            gui.Add(box);
         }
 
         void rmbMenu_AddVertex(UiComponent sender, Object arg)

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using System.Windows.Forms;
+using SFML.Graphics;
 
 namespace GRAPHical_Learner
 {
@@ -25,9 +26,15 @@ namespace GRAPHical_Learner
 
             int offset = graph.vertices.Last().id - graph.vertices.Count + 1;
 
-            foreach (Edge e in graph.edges) builder.AppendLine(String.Format("{0} {1}", e.source.id - offset, e.destination.id - offset));
-
+            foreach (Edge e in graph.edges)
+            {
+                object w = e.Weight;
+                if(e == null) builder.AppendLine(String.Format("{0} {1}", e.source.id - offset, e.destination.id - offset));
+                else builder.AppendLine(String.Format("{0} {1} {2}", e.source.id - offset, e.destination.id - offset, w));
+            }
+            
             File.WriteAllText(filename, builder.ToString());
+            SaveGraphPicture(filename, graph);
         }
 
         /// <summary>
@@ -86,6 +93,44 @@ namespace GRAPHical_Learner
                 return;
             }
             graph.ArrangeInCircle();
+        }
+
+        public static void SaveGraphPicture(string filename, Graph graph)
+        {
+            float minX = 999999;
+            float maxX = -999999;
+            float minY = 999999;
+            float maxY = -99999;
+
+            foreach(Vertex v in graph.vertices)
+            {
+                if (v.x < minX) minX = v.x;
+                if (v.x > maxX) maxX = v.x;
+                if (v.y < minY) minY = v.y;
+                if (v.y > maxY) maxY = v.y;
+            }
+
+            minX -= 25;
+            maxX += 25;
+            minY -= 25;
+            maxY += 25;
+
+            uint width = 3*(uint)(maxX - minX);
+            uint height = 3*(uint)(maxY - minY);
+
+            RenderTexture tx = new RenderTexture(width, height);
+            tx.Clear(Color.Black);
+
+            RenderFrame rf = new RenderFrame();
+            rf.width = width;
+            rf.height = height;
+            rf.xCenter = minX + width;
+            rf.yCenter = minY + height;
+            rf.zoom = 1.2f;
+
+            graph.DrawSelf(tx, rf);
+
+            tx.Texture.CopyToImage().SaveToFile("graph.png");
         }
     }
 }

@@ -79,14 +79,25 @@ namespace GRAPHical_Learner
             if(colorProperty == null && propertyId == Property.vertexColorId)
             {
                 colorProperty = properties.Last();
+                //Console.WriteLine(String.Format("Color property is set and it is {0}", colorProperty.Value.GetType()));
             }
         }
 
         private void CheckSelectedProperty()
         {
-            if (colorProperty == null) return;
+            if (colorProperty == null || colorProperty.Value == null) return;
 
-            bool colored = (bool)colorProperty.Value;
+            //Console.Write("checking color value...");
+            bool colored = false;
+            try
+            {
+                colored = (bool)colorProperty.Value;
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(String.Format("Couldn't read color! Exception: {0}", e.Message));
+            }
+            
             if (colored == marked) return;
             if(colored)
             {
@@ -100,7 +111,7 @@ namespace GRAPHical_Learner
             }
         }
 
-        public void DrawSelf(RenderWindow window, RenderFrame rf)
+        public void DrawSelf(RenderTarget window, RenderFrame rf)
         {
             CheckSelectedProperty();
 

@@ -1,6 +1,3 @@
-D:\Code\C#\GRAPHical_Learner\AlgoTest\bin\Debug\csfml-graphics-2.dll
-D:\Code\C#\GRAPHical_Learner\AlgoTest\bin\Debug\csfml-system-2.dll
-D:\Code\C#\GRAPHical_Learner\AlgoTest\bin\Debug\csfml-window-2.dll
 D:\Code\C#\GRAPHical_Learner\AlgoTest\bin\Debug\AlgoTest.exe.config
 D:\Code\C#\GRAPHical_Learner\AlgoTest\bin\Debug\AlgoTest.exe
 D:\Code\C#\GRAPHical_Learner\AlgoTest\bin\Debug\AlgoTest.pdb

@@ -1,0 +1,9 @@
+За да се използва програмата в режим редакция: GUI_only/Debug/GUI_only.exe
+В режим проследяване на алгоритъм:
+1. Добавяне на GRAPHical_Learner като Reference към .NET проект.
+2. Копиране на DLL файловете от папка extlibs във папката на тествания алгоритъм.
+3. Наследяване на GRAPHical_Learner.Connector от клас в проекта.
+4. Извикване на SetupGui() в началото на изпълнението и StartGui() преди частта, която трябва да се наблюдава.
+5. Override на функциите GetVertexProperty, GetEdgeProperty, Initialise, PreRun
+
+За пример - папка AlgoTest. 

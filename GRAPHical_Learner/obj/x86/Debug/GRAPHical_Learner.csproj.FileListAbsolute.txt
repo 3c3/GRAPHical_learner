@@ -1,6 +1,3 @@
-D:\Code\C#\GRAPHical_Learner\GRAPHical_Learner\bin\x86\Debug\csfml-graphics-2.dll
-D:\Code\C#\GRAPHical_Learner\GRAPHical_Learner\bin\x86\Debug\csfml-system-2.dll
-D:\Code\C#\GRAPHical_Learner\GRAPHical_Learner\bin\x86\Debug\csfml-window-2.dll
 D:\Code\C#\GRAPHical_Learner\GRAPHical_Learner\bin\x86\Debug\GRAPHical_Learner.dll.config
 D:\Code\C#\GRAPHical_Learner\GRAPHical_Learner\bin\x86\Debug\GRAPHical_Learner.dll
 D:\Code\C#\GRAPHical_Learner\GRAPHical_Learner\bin\x86\Debug\GRAPHical_Learner.pdb

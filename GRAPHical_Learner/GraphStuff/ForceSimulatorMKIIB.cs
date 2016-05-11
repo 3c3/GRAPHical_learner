@@ -14,8 +14,8 @@ namespace GRAPHical_Learner
         public override event SimulatorStoppedHandler SimulatorStopped;
 
         static double optimalLength = 200;
-        static int maxIterrations = 60;
-        static double epsilon = 10;
+        static int maxIterrations = 100;
+        static double epsilon = 0.0001;
 
         double minEnergy = double.PositiveInfinity;
         int iterationsCount = 0;
@@ -47,16 +47,14 @@ namespace GRAPHical_Learner
                     iterationsCount = 0;
                 }
             }
-            //Console.WriteLine(iterationsCount);
         }
 
         protected override PVector GetAttractionForce(double dx, double dy)
         {
             double dist = CalculateDistance(dx, dy);
-            double ndist = dist > 0 ? dist : -dist;
 
             double coef = dist >= optimalLength ? 1.0 : dist / optimalLength; // това е една от основните промени
-            // силата на привличане намалява, когато разстоянието стане много малко
+            // силата на привличане намалява, когато разстоянието стане много малко. С това се постига по-малко сбиване
             double f = -1.0 * Math.Min((coef * dist * dist) / k, maxForce); // обратен знак -> привлича
 
             if (Double.IsNaN(f)) throw new ArithmeticException("Силата се прецака.");

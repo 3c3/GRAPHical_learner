@@ -20,6 +20,21 @@ namespace GRAPHical_Learner
             backgroundColor = GraphicScheme.uiBackgroundColor;
         }
 
+        public UiVerticalMenu(bool autoClose)
+        {
+            if (autoClose)
+            {
+                this.autoClose = true;
+                children = new List<UiComponent>();
+                backgroundColor = GraphicScheme.uiBackgroundColor;
+            }
+            else
+            {
+                children = new List<UiComponent>();
+                backgroundColor = GraphicScheme.uiBackgroundColor;
+            }
+        }
+
         /// <summary>
         /// Добавя бутон в долната част на менюто
         /// </summary>

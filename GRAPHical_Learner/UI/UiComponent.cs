@@ -149,6 +149,8 @@ namespace GRAPHical_Learner
                     uic.MouseClick(localPos);
                 }
             }
+
+            if (autoClose) visible = false;
         }
 
         public bool IsPointInside(Vector2i pos)
@@ -163,8 +165,11 @@ namespace GRAPHical_Learner
         protected virtual void OnMouseEnter()
         { }
 
+        protected bool autoClose = false;
+
         protected virtual void OnMouseLeave() 
         {
+            if (autoClose) visible = false;
             if (children != null) children.ForEach(u => u.CallMouseLeave());
         }
 

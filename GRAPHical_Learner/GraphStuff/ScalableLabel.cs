@@ -36,7 +36,7 @@ namespace GRAPHical_Learner
             this.text.Color = Color.Black;
         }
 
-        public void DrawSelf(RenderWindow window, RenderFrame rf, float x, float y)
+        public void DrawSelf(RenderTarget window, RenderFrame rf, float x, float y)
         {
             uint size = (uint)((float)defaultSize * rf.zoom);
             if (size < 1) return;
