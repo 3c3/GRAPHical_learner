@@ -68,6 +68,10 @@ namespace AlgoTest
                     level[cand] = level[current] + 1;
                     pred[cand] = current;
                     q.Enqueue(cand);
+
+                    //SetVertexProperty(cand, propVis, false);
+                    //SetVertexProperty(cand, propColor, new Color3b((byte)255, (byte)(255 - 50 * level[cand]), (byte)(255 - 50 * level[cand])));
+
                     Pause(); // и на всеки обходен връх
                     Console.WriteLine("step...");
                 }
@@ -99,6 +103,8 @@ namespace AlgoTest
 
         int propUsed, propLevel; // id-та на свойствата за обходеност и ниво
         int propPred;
+        int propColor;
+        int propVis;
 
         /// <summary>
         /// Извиква се автоматично преди да се пусне визуалната среда
@@ -109,9 +115,14 @@ namespace AlgoTest
             propUsed = RegisterProperty("използван"); // регистрира свойства
             propLevel = RegisterProperty("ниво");
             propPred = RegisterProperty("предшественик");
+            propColor = RegisterProperty("цвят");
+            //propVis = RegisterProperty("видим");
+            //SetSpecialProperty(propVis, SpecialProperty.Visible);
+            SetSpecialProperty(propUsed, SpecialProperty.Used);
             AddPropertyToVertices(propUsed, false); // разпространява ги на всички върове
             AddPropertyToVertices(propLevel, 0);
             AddPropertyToVertices(propPred, 0);
+            
         }
 
         static void Main(string[] args)

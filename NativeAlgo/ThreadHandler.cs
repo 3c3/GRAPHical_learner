@@ -31,6 +31,8 @@ namespace NativeAlgo
             checkerThread.Start();
         }
 
+        bool shouldStop = false;
+
         void CheckLoop()
         {
             while(true)
@@ -38,10 +40,11 @@ namespace NativeAlgo
                 if (IsSuspended() && wasSuspended == false)
                 {
                     //Thread.Sleep(60);
-                    Console.WriteLine("SUSPENDED");
+                    Console.WriteLine("Algorithm on pause");
                     wasSuspended = true;
                     if (ThreadSuspended != null) ThreadSuspended(threadHandle);                    
                 }
+                if (shouldStop) return;
                 Thread.Sleep(5);
             }
             
@@ -62,6 +65,7 @@ namespace NativeAlgo
             if(!result)
             {
                 Console.WriteLine(String.Format("Error while reading control byte: {0}", Marshal.GetLastWin32Error()));
+                shouldStop = true;
                 return false;
             }
 

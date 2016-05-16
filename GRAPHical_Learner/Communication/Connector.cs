@@ -69,6 +69,11 @@ namespace GRAPHical_Learner
             return Property.GetPropertyId(name);
         }
 
+        protected void SetSpecialProperty(int propertyId, SpecialProperty type)
+        {
+            Property.SetSpecialProperty(propertyId, type);
+        }
+
         /// <summary>
         /// Overrride - задължително. Връща стойността на свойство
         /// </summary>

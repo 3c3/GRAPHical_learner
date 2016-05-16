@@ -15,7 +15,8 @@ namespace GRAPHical_Learner
         private static int idCounter = 0;
         public readonly int id;
         private ScalableLabel idLabel;
-        private Property colorProperty;
+
+        private Property markedProperty, colorProperty, visibleProperty;
 
         public List<Edge> edges = new List<Edge>();
 
@@ -44,6 +45,13 @@ namespace GRAPHical_Learner
                     marked = false;
                 }
             }
+        }
+
+        private bool visible;
+
+        public bool Visible
+        {
+            get { return visible; }
         }
 
         public Vertex()
@@ -75,31 +83,55 @@ namespace GRAPHical_Learner
 
         public override void SetProperty(int propertyId, object value)
         {
+            //Console.WriteLine("setting property {0} on {1}", propertyId, id);
             base.SetProperty(propertyId, value);
-            if(colorProperty == null && propertyId == Property.vertexColorId)
+            if(markedProperty == null && propertyId == Property.UsedId)
             {
-                colorProperty = properties.Last();
+                markedProperty = properties.Last();
                 //Console.WriteLine(String.Format("Color property is set and it is {0}", colorProperty.Value.GetType()));
             }
+            if (propertyId == Property.ColorId)
+            {
+                if(colorProperty == null) colorProperty = properties.Last();
+                UpdateColor((Color3b)colorProperty.Value);
+            }
+
+            if (visibleProperty == null && propertyId == Property.VisibleId) visibleProperty = properties.Last();
         }
 
-        private void CheckSelectedProperty()
-        {
-            if (colorProperty == null || colorProperty.Value == null) return;
+        Color3b currentColor;
 
-            //Console.Write("checking color value...");
-            bool colored = false;
+        private void UpdateColor(Color3b c3b)
+        {
+            currentColor = c3b;
+            circle.SetColor3b(c3b);
+        }
+
+        private bool IsVisible()
+        {
+            if (visibleProperty == null) return true;
+            if (visibleProperty.Value == null) return true;
+            if ((visibleProperty.Value is bool) == false) return true;
+
+            return (bool)visibleProperty.Value;
+        }
+
+        private void CheckMarkedProperty()
+        {
+            if (markedProperty == null || markedProperty.Value == null) return;
+
+            bool markedVal = false;
             try
             {
-                colored = (bool)colorProperty.Value;
+                markedVal = (bool)markedProperty.Value;
             }
             catch(Exception e)
             {
-                Console.WriteLine(String.Format("Couldn't read color! Exception: {0}", e.Message));
+                Console.WriteLine(String.Format("Couldn't read marked! Exception: {0}", e.Message));
             }
             
-            if (colored == marked) return;
-            if(colored)
+            if (markedVal == marked) return; // вече е със същата маркираност
+            if(markedVal)
             {
                 circle.color = GraphicScheme.vertexMarked;
                 marked = true;
@@ -113,7 +145,10 @@ namespace GRAPHical_Learner
 
         public void DrawSelf(RenderTarget window, RenderFrame rf)
         {
-            CheckSelectedProperty();
+            visible = IsVisible();
+            if (!visible) return;
+
+            if(currentColor==null) CheckMarkedProperty();
 
             circle.center.X = x;
             circle.center.Y = y;

@@ -27,6 +27,9 @@ namespace GRAPHical_Learner
         private ScalableLabel weightLabel = new ScalableLabel();
 
         private Property weightProperty;
+        Color3b currentColor;
+        bool marked = false;
+        bool visible = true;
 
         public object Weight
         {
@@ -64,9 +67,42 @@ namespace GRAPHical_Learner
         public override void SetProperty(int propertyId, object value)
         {
             base.SetProperty(propertyId, value);
-            if (weightProperty == null && propertyId == Property.edgeWeighId)
+            if (weightProperty == null && propertyId == Property.EdgeWeightId)
             {
                 weightProperty = properties.Last();
+            }
+            else if(propertyId == Property.UsedId)
+            {
+                
+                bool newMarked = (bool)value;
+                Console.WriteLine("Used set on {0} = {1}!", id, newMarked);
+                if(currentColor == null && newMarked != marked)
+                {
+                    
+                    if (newMarked)
+                    {
+                        Console.WriteLine("color updated to marked");
+                        UpdateColor(GraphicScheme.vertexMarked);
+                    }
+                    else
+                    {
+                        Console.WriteLine("color updated to normal");
+                        UpdateColor(GraphicScheme.edgeNormal);
+                    }
+                }
+                marked = newMarked;
+            }
+            else if(propertyId == Property.ColorId)
+            {
+                Color3b c3b = (Color3b)value;
+                if (c3b == null) return;
+                UpdateColor(c3b);
+            }
+            else if(propertyId == Property.VisibleId)
+            {
+                bool newVisible = (bool)value;
+                if (newVisible == null) return;
+                visible = newVisible;
             }
         }
 
@@ -110,12 +146,34 @@ namespace GRAPHical_Learner
 
         public bool HitCheck(Vector2f globalCoords)
         {
-            float xLeft, yLeft, xRight, yRight;
-            return false;
+            return line.HitCheck(globalCoords);
         }
+
+        private void UpdateColor(Color3b color)
+        {
+            currentColor = color;
+            line.SetColor(color);
+            if(arrowLine1!=null)
+            {
+                arrowLine1.SetColor(color);
+                arrowLine2.SetColor(color);
+            }
+        }
+
+        private void UpdateColor(Color color)
+        {
+            currentColor = new Color3b(color.R, color.G, color.B);
+            line.SetColor(color);
+            if (arrowLine1 != null)
+            {
+                arrowLine1.SetColor(color);
+                arrowLine2.SetColor(color);
+            }
+        }        
 
         public void DrawSelf(RenderTarget window, RenderFrame rf)
         {
+            if (!visible) return;
             CheckWeightProperty();
 
             line.SetDestination(destination.x, destination.y);
@@ -135,6 +193,11 @@ namespace GRAPHical_Learner
         public static void ResetCounter()
         {
             idCounter = 0;
+        }
+
+        public override string ToString()
+        {
+            return String.Format("{0} - {1}", source.id, destination.id);
         }
     }
 }

@@ -34,7 +34,6 @@ namespace GRAPHical_Learner
             }
             
             File.WriteAllText(filename, builder.ToString());
-            SaveGraphPicture(filename, graph);
         }
 
         /// <summary>
@@ -72,7 +71,7 @@ namespace GRAPHical_Learner
                         {
                             val = int.Parse(parts[2]);
                             int propId = Property.GetPropertyId("тегло");
-                            Property.edgeWeighId = propId;
+                            Property.SetSpecialProperty(propId, SpecialProperty.EdgeWeight);
                             e.SetProperty(propId, int.Parse(parts[2]));
                         }
                         catch(Exception exc)

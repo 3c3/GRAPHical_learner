@@ -164,12 +164,16 @@ namespace GRAPHical_Learner
             ClearAll();
         }
 
-        void menu_dbg1(UiComponent sender, Object arg)
+        void menu_Directivity(UiComponent sender, Object arg)
         {
-            UiYesNoBox box = new UiYesNoBox("тест", "Сигурни ли сте?");
-            box.X = 300;
-            box.Y = 300;
-            gui.Add(box);
+            if (activeGraph.Directed) DisableDirected();
+            else EnableDirected();
+        }
+
+        void menu_Weight(UiComponent sender, Object arg)
+        {
+            if (weighted) DisableWeight();
+            else EnableWeight();
         }
 
         void rmbMenu_AddVertex(UiComponent sender, Object arg)
@@ -205,7 +209,9 @@ namespace GRAPHical_Learner
             Vector2f pos = ToGlobalCoords(Mouse.GetPosition(window));
 
             Vertex v = GetVertexAt(pos);
-            if (e.Button == Mouse.Button.Left)
+            Edge edge = GetEdgeAt(pos);
+            if (e.Button == Mouse.Button.Left && inputEdge != null) FinishWeight();
+            else if (e.Button == Mouse.Button.Left && inputEdge == null)
             {
                 rmbMenu.visible = false;
                 if (activeVertexMenu != null)
@@ -213,15 +219,29 @@ namespace GRAPHical_Learner
                     activeVertexMenu.Remove();
                     activeVertexMenu = null;
                 }
+                if(activeEdgeMenu != null)
+                {
+                    activeEdgeMenu.Remove();
+                    activeEdgeMenu = null;
+                }
                 if(!gui.ProcessMouseClick(mousePos) && addEdgeEnabled)
                 {                  
                     if(v!=null)
                     {
                         if (lastClickedVertex != null && lastClickedVertex != v)
                         {
-                            activeGraph.AddEdge(lastClickedVertex, v);
+                            Edge newEdge = activeGraph.AddEdge(lastClickedVertex, v);
                             lastClickedVertex.selected = false;
                             lastClickedVertex = null;
+
+                            if(weighted)
+                            {
+                                inputEdge = newEdge;
+                                newEdge.SetProperty(Property.EdgeWeightId, "");
+                                inputWeight = newEdge.GetProperty(Property.EdgeWeightId);
+                                //Console.WriteLine("Enter edge weight");
+                                edgeInputLabel.visible = true;
+                            }
                         }
                         else
                         {
@@ -241,11 +261,24 @@ namespace GRAPHical_Learner
             }
             else if(e.Button == Mouse.Button.Right)
             {
-                if(v!=null)
+                if(inputEdge!=null)
+                {
+                    activeGraph.RemoveEdge(inputEdge);
+                    inputWeight = null;
+                    inputEdge = null;
+                    edgeInputLabel.visible = false;
+                }
+                else if(v!=null)
                 {
                     if(activeVertexMenu!=null)activeVertexMenu.Remove();
                     activeVertexMenu = new UiVertexMenu(v, activeGraph, mousePos.X, mousePos.Y);
                     gui.Add(activeVertexMenu);
+                }
+                else if(edge!=null)
+                {
+                    if (activeEdgeMenu != null) activeEdgeMenu.Remove();
+                    activeEdgeMenu = new UiEdgeMenu(edge, activeGraph, this, mousePos.X, mousePos.Y);
+                    gui.Add(activeEdgeMenu);
                 }
                 else
                 {
@@ -257,13 +290,34 @@ namespace GRAPHical_Learner
         }
 
         UiVertexMenu activeVertexMenu;
+        UiEdgeMenu activeEdgeMenu;
 
         void window_KeyPressed(object sender, KeyEventArgs e)
         {
-            if (e.Code == Keyboard.Key.Left) renderFrame.xCenter -= 20.0f;
-            if (e.Code == Keyboard.Key.Right) renderFrame.xCenter += 20.0f;
-            if (e.Code == Keyboard.Key.Up) renderFrame.yCenter += 20.0f;
-            if (e.Code == Keyboard.Key.Down) renderFrame.yCenter -= 20.0f;
+            if (inputWeight == null) return;
+            String val = (String)inputWeight.Value;
+
+            if(e.Code == Keyboard.Key.Return)
+            {
+                FinishWeight();
+            }
+            if(e.Code == Keyboard.Key.BackSpace)
+            {
+                if (val.Length > 0) inputWeight.Value = val.Remove(val.Length - 1);
+                return;
+            }
+
+
+            char c = 'a';
+            if (e.Code >= Keyboard.Key.Num0 && e.Code <= Keyboard.Key.Num9) c = (char)('0' + (e.Code - Keyboard.Key.Num0));
+            else if (e.Code >= Keyboard.Key.Numpad0 && e.Code <= Keyboard.Key.Numpad9) c = (char)('0' + (e.Code - Keyboard.Key.Numpad0));
+            else if (e.Code == Keyboard.Key.Period || e.Code == Keyboard.Key.Comma) c = ',';
+
+            //Console.WriteLine("val: {0}, c: {1}", val, c);
+
+            if(c!='a') val += c;
+            if(inputWeight!=null)inputWeight.Value = val;
+            //Console.WriteLine(val);
         }
 
         void window_MouseWheelMoved(object sender, MouseWheelEventArgs e)
@@ -282,7 +336,7 @@ namespace GRAPHical_Learner
 
         void fs_SimulatorStopped()
         {
-            Console.WriteLine("Auto-disabling physics.");
+            //Console.WriteLine("Auto-disabling physics.");
             DisablePhysics();
             CenterGraph();
         }

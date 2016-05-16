@@ -12,6 +12,8 @@ namespace GRAPHical_Learner
         UiLabel dbgLabel2; // други неща
         UiLabel dbgLabel3;
 
+        internal UiLabel edgeInputLabel;
+
         /// <summary>
         /// Менюто, появяващо се при дясно кликане
         /// </summary>
@@ -38,7 +40,7 @@ namespace GRAPHical_Learner
         /// <summary>
         /// Бутони, на които трябва да им се сменя текста
         /// </summary>
-        UiButton physBtn, edgeBtn;
+        UiButton physBtn, edgeBtn, directivityBtn, weightBtn;
         
         /// <summary>
         /// Слага всичките неща в Gui-то
@@ -78,7 +80,8 @@ namespace GRAPHical_Learner
             physBtn = menu.AddItem("Физика(включи)", BtnPhysToggle);
             menu.AddItem("Създай граф", menu_Generate);
             menu.AddItem("Изчисти", menu_Clear);
-            menu.AddItem("Debug1", menu_dbg1);
+            directivityBtn = menu.AddItem("Насочен(не)", menu_Directivity);
+            weightBtn = menu.AddItem("Претеглен(не)", menu_Weight);
 
             gui.Add(menu);
 
@@ -104,6 +107,12 @@ namespace GRAPHical_Learner
             gui.Add(dbgLabel3);
 
             #endregion
+
+            edgeInputLabel = new UiLabel("Въведете тегло на ребро(приключване с Enter или кликване)", GraphicScheme.font1);
+            edgeInputLabel.X = 340;
+            edgeInputLabel.Y = 50;
+            edgeInputLabel.visible = false;
+            gui.Add(edgeInputLabel);
 
             rmbMenu = new UiVerticalMenu();
             rmbMenu.visible = false;

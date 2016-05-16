@@ -21,6 +21,10 @@ namespace NativeAlgo
         private static readonly byte TYPE_DOUBLE = 6;
         private static readonly byte TYPE_RGB24 = 7;
         private static readonly byte TYPE_STRING = 8;
+        private static readonly byte TYPE_COST = 1 << 6;
+
+        private static readonly byte dataMask = 0x3f;
+        private static readonly byte specMask = 0xc0;
 
         NativeConnector connector;
         IntPtr primaryBuffer, secondaryBuffer;
@@ -65,12 +69,12 @@ namespace NativeAlgo
             //vertexBuffLen = GetLenght(vertexBuffer);
             vertexBuffLen = localBuff[0] | localBuff[1] << 8 | localBuff[2] << 16 | localBuff[3] << 24;
 
-            Console.WriteLine("Time of read: {0}", time);
+            //Console.WriteLine("Time of read: {0}", time);
 
             NativeMethods.ReadProcessMemory(connector.processHandle, edgeBuffer, localBuff, 4, out nRead);
             int edgeBuffLen = localBuff[0] | localBuff[1] << 8 | localBuff[2] << 16 | localBuff[3] << 24;
 
-            Console.WriteLine("VertexBuffLen: {0}", vertexBuffLen);
+            Console.WriteLine("VertexBuffLen: {0}, EdgeBuffLen: {1}", vertexBuffLen, edgeBuffLen);
 
             if(vertexBuffLen > 0)
             {
@@ -86,7 +90,7 @@ namespace NativeAlgo
                 edgeReader = new BinaryReader(new MemoryStream(localBuff));
                 ReadEdgeBuffer();
             }
-            Console.WriteLine("------------");
+            //Console.WriteLine("------------");
         }
 
         public void ReadVertexBuffer()
@@ -97,11 +101,11 @@ namespace NativeAlgo
                 try
                 {
                     int vertexId = vertexReader.ReadInt32();
-                    Console.WriteLine("Vertex id: {0}", vertexId);
+                    //Console.WriteLine("Vertex id: {0}", vertexId);
                     byte propertyId = vertexReader.ReadByte();
-                    Console.WriteLine("Property id: {0}", propertyId);
+                    //Console.WriteLine("Property id: {0}", propertyId);
                     object value = ReadValue(propertyDataType[propertyId], vertexReader);
-                    Console.WriteLine("Value: {0}", value);
+                    //Console.WriteLine("Value: {0}", value);
                     connector.SetVertexProperty(vertexId, propertyId, value);
                     read++;
                 }
@@ -140,17 +144,22 @@ namespace NativeAlgo
             byte type = secondaryReader.ReadByte();
             string name = connector.stringStore.GetString((IntPtr)secondaryReader.ReadInt32());
 
+            //Console.WriteLine("name: {0}, type: {1}", name, type);
+
             byte remoteId = primaryReader.ReadByte();
             int localId = idMap[remoteId] = connector.RegisterProperty(name);
             
-            byte dataType = (byte)(type & 0x7f);
+            byte dataType = (byte)(type & dataMask);
 
             propertyDataType[remoteId] = dataType;
 
             if (dataType == TYPE_MARKED)
             {
-                Property.vertexColorId = localId;
+                Property.SetSpecialProperty(localId, SpecialProperty.Used);
             }
+            else if (dataType == TYPE_VISIBLE) Property.SetSpecialProperty(localId, SpecialProperty.Visible);
+            else if (dataType == TYPE_RGB24) Property.SetSpecialProperty(localId, SpecialProperty.Color);
+            if ((type & TYPE_COST) != 0) Property.SetSpecialProperty(localId, SpecialProperty.EdgeWeight);
 
             object val = ReadValue(dataType, primaryReader);
             if ((type & 0x80) == 0) connector.AddPropertyToVertices(localId, val);
@@ -172,7 +181,10 @@ namespace NativeAlgo
                 case 6:
                     return reader.ReadDouble();
                 case 7:
-                    Console.Write("NYI! Color!");
+                    byte r = reader.ReadByte();
+                    byte g = reader.ReadByte();
+                    byte b = reader.ReadByte();
+                    return new Color3b(r, g, b);
                     break;
                 case 8:
                     return connector.stringStore.GetString((IntPtr)reader.ReadInt32());

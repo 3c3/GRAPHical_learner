@@ -6,6 +6,11 @@ using System.Threading.Tasks;
 
 namespace GRAPHical_Learner
 {
+    public enum SpecialProperty
+    {
+        Used = 0, EdgeWeight, Color, Visible
+    };
+
     /// <summary>
     /// Свойство на връх или ребро
     /// </summary>
@@ -16,8 +21,30 @@ namespace GRAPHical_Learner
         private static int idCounter = 0;
 
         //специални свойства
-        public static int vertexColorId; 
-        public static int edgeWeighId;
+        private static int usedId = -1; 
+        private static int edgeWeightId = -1;
+        private static int colorId = -1;
+        private static int visibleId = -1;
+
+        public static int UsedId
+        {
+            get { return usedId; }
+        }
+
+        public static int EdgeWeightId
+        {
+            get { return edgeWeightId; }
+        }
+
+        public static int ColorId
+        {
+            get { return colorId; }
+        }
+
+        public static int VisibleId
+        {
+            get { return visibleId; }
+        }
 
         public Property(int propertyId, Object value)
         {
@@ -40,6 +67,26 @@ namespace GRAPHical_Learner
                 propertyName.Add(name);
                 idCounter++;
                 return idCounter - 1;
+            }
+        }
+
+        public static void SetSpecialProperty(int propId, SpecialProperty type)
+        {
+            switch(type)
+            {
+                case SpecialProperty.Used:
+                    usedId = propId;
+                    //Console.WriteLine("usedId: {0}", usedId);
+                    break;
+                case SpecialProperty.EdgeWeight:
+                    edgeWeightId = propId;
+                    break;
+                case SpecialProperty.Color:
+                    colorId = propId;
+                    break;
+                case SpecialProperty.Visible:
+                    visibleId = propId;
+                    break;
             }
         }
 

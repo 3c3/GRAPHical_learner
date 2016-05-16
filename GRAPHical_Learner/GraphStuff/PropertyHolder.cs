@@ -46,10 +46,27 @@ namespace GRAPHical_Learner
         /// </summary>
         /// <param name="propertyId">Id на свойството</param>
         /// <returns></returns>
-        public Object GetProperty(int propertyId)
+        public Object GetPropertyValue(int propertyId)
         {
             foreach (Property p in properties) if (p.id == propertyId) return p.Value;
             return null;
+        }
+
+        public Property GetProperty(int propertyId)
+        {
+            foreach(Property p in properties)
+            {
+                if (p.id == propertyId) return p;
+            }
+
+            properties.Add(new Property(Property.EdgeWeightId, ""));
+            return properties.Last();
+        }
+
+        public bool HasProperty(int propertyId)
+        {
+            foreach (Property p in properties) if (p.id == propertyId) return true;
+            return false;
         }
     }
 }

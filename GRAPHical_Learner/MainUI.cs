@@ -18,13 +18,16 @@ namespace GRAPHical_Learner
         private RenderWindow window;
         private static Graph activeGraph;
 
+        private bool weighted = false;
+        internal Property inputWeight;
+        internal Edge inputEdge;
+
         private Connector connector;
 
         private RenderFrame renderFrame = new RenderFrame(); // рамката, използвана за чертане
 
         List<Circle> circles = new List<Circle>();
         Gui gui;
-        Font font1;
 
         Timer algoTimer;
         bool timerEnabled = false;
@@ -73,7 +76,7 @@ namespace GRAPHical_Learner
 
         public MainUI()
         {
-            activeGraph = new Graph(true);
+            activeGraph = new Graph(false);
             Start();
         }
 
@@ -82,13 +85,12 @@ namespace GRAPHical_Learner
         /// </summary>
         void MakeGraph()
         {
+            // ИЗВЪН ЕКСПЛОАТАЦИЯ
             //Property.GetPropertyId("цвят")
             Property.GetPropertyId("име");
             Property.GetPropertyId("цена");
             Property.GetPropertyId("поток");
             Property.GetPropertyId("обратен поток");
-
-            Property.edgeWeighId = 2;
 
             activeGraph = new Graph();
             
@@ -187,7 +189,9 @@ namespace GRAPHical_Learner
             {
                 foreach(Property p in v.properties)
                 {
-                    p.Value = connector.GetVertexProperty(v.id, p.id);
+                    object val = connector.GetVertexProperty(v.id, p.id);
+                    if (val == null) continue;
+                    p.Value = val;
                 }
             }
         }
@@ -206,6 +210,16 @@ namespace GRAPHical_Learner
             foreach(Vertex v in activeGraph.vertices)
             {
                 if (v.circle.IsInside(pos)) return v;
+            }
+            return null;
+        }
+
+        Edge GetEdgeAt(Vector2f pos)
+        {
+            if (activeGraph == null) return null;
+            foreach (Edge e in activeGraph.edges)
+            {
+                if (e.HitCheck(pos)) return e;
             }
             return null;
         }
@@ -250,6 +264,9 @@ namespace GRAPHical_Learner
 
             Vertex moused = GetVertexAt(ToGlobalCoords(mousePos));
             propertyPanel.Holder = moused;
+
+            Edge e = GetEdgeAt(ToGlobalCoords(mousePos));
+            if (moused == null) propertyPanel.Holder = e;
 
             gui.ProcessMousePosition(mousePos);
             lastMousePos = mousePos;

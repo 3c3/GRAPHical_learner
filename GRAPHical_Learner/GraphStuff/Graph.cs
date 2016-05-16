@@ -54,13 +54,13 @@ namespace GRAPHical_Learner
             return e;
         }
 
-        public int AddEdge(Vertex v1, Vertex v2)
+        public Edge AddEdge(Vertex v1, Vertex v2)
         {
             Edge e = new Edge(v1, v2, directed);
             edges.Add(e);
             v1.edges.Add(e);
             v2.edges.Add(e);
-            return e.id;
+            return e;
         }
 
         public void AddVertex(Vertex v)

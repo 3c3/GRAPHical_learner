@@ -80,6 +80,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Color3b.cs" />
     <Compile Include="Communication\Connector.cs" />
     <Compile Include="GraphStuff\Circle.cs" />
     <Compile Include="GraphicScheme.cs" />
@@ -107,6 +108,7 @@
     <Compile Include="RenderFrame.cs" />
     <Compile Include="UI\UiButton.cs" />
     <Compile Include="UI\UiComponent.cs" />
+    <Compile Include="UI\UiEdgeMenu.cs" />
     <Compile Include="UI\UiHorizontalMenu.cs" />
     <Compile Include="UI\UiLabel.cs" />
     <Compile Include="UI\UiPanel.cs" />

@@ -27,6 +27,20 @@ namespace GRAPHical_Learner
             va[1].Position.Y = y;
         }
 
+        public void SetColor(Color3b c3b)
+        {
+            Color color = new Color(c3b.red, c3b.green, c3b.blue);
+            SetColor(color);
+        }
+
+        public void SetColor(Color color)
+        {
+            va[0].Color = color;
+            va[1].Color = color;
+            va2[0].Color = color;
+            va2[1].Color = color;
+        }
+
         public void Rotate(float angle)
         {
             float cosA = (float)Math.Cos(angle);
@@ -44,14 +58,64 @@ namespace GRAPHical_Learner
 
         public bool HitCheck(Vector2f globalPos)
         {
-            float x = globalPos.X;
-            float y = globalPos.Y;
+            double x1 = va[0].Position.X;
+            double y1 = va[0].Position.Y;
 
-            if(va[0].Position.X < va[1].Position.X)
+            double x2 = va[1].Position.X;
+            double y2 = va[1].Position.Y;
+
+            double x3 = globalPos.X;
+            double y3 = globalPos.Y;
+
+            double xRight, xLeft, yTop, yBottom;
+
+            if(x1>x2)
             {
-
+                xRight = x1;
+                xLeft = x2;
             }
-            return false;
+            else
+            {
+                xRight = x2;
+                xLeft = x1;
+            }
+
+            if(y1 > y2)
+            {
+                yTop = y1;
+                yBottom = y2;
+            }
+            else
+            {
+                yTop = y2;
+                yBottom = y1;
+            }
+
+            if (x3 - xRight > margin) return false;
+            if (xLeft - x3 > margin) return false;
+            if (y3 - yTop > margin) return false;
+            if (yBottom - y3 > margin) return false;
+
+            double s = Math.Abs(x1 * y2 + y1 * x3 + x2 * y3 - x3 * y2 - y3 * x1 - x2 * y1);
+         
+            double d = GetLength();
+            double h = s / d;
+
+            /*bool result = h <= margin;
+            if(result)
+            {
+                //Console.WriteLine("x1: {0}, y1: {1}, x2: {2}, y2:{3}", x1, y1, x2, y2);
+                Console.WriteLine("S: {0}, d: {1}, h: {2}", s, d, h);
+            }*/
+
+            return h <= margin;
+        }
+
+        private float GetLength()
+        {
+            float dx = va[0].Position.X - va[1].Position.X;
+            float dy = va[0].Position.Y - va[1].Position.Y;
+            return (float)Math.Sqrt(dx * dx + dy * dy);
         }
 
         public void GetTrigs(out float sinA, out float cosA)

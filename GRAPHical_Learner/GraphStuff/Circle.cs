@@ -32,6 +32,13 @@ namespace GRAPHical_Learner
             color = c;
         }
 
+        public void SetColor3b(Color3b c3b)
+        {
+            color.B = c3b.blue;
+            color.G = c3b.green;
+            color.R = c3b.red;
+        }
+
         /// <summary>
         /// Прави рисуваеми обекти
         /// </summary>

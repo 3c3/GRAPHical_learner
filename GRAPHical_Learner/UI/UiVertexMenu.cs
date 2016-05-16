@@ -82,7 +82,7 @@ namespace GRAPHical_Learner
         void RemoveEdge(UiComponent sender, Object args)
         {
             int id = (int)args;
-            Console.WriteLine(id);
+            //Console.WriteLine(id);
             Edge e = dict[id];
             graph.RemoveEdge(e);
             Remove();

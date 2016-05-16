@@ -47,6 +47,63 @@ namespace GRAPHical_Learner
             edgeBtn.Text = "Добави ребра(включи)";
         }
 
+        void DisableDirected()
+        {
+            activeGraph.Directed = false;
+            directivityBtn.Text = "Насочен(не)";
+        }
+
+        void EnableDirected()
+        {
+            activeGraph.Directed = true;
+            directivityBtn.Text = "Насочен(да)";
+        }
+
+        void DisableWeight()
+        {
+            weighted = false;
+            weightBtn.Text = "Претеглен(не)";
+        }
+
+        void EnableWeight()
+        {
+            if(Property.EdgeWeightId == -1)
+            {
+                int propId = Property.GetPropertyId("тегло");
+                Property.SetSpecialProperty(propId, SpecialProperty.EdgeWeight);
+            }
+            weighted = true;
+            weightBtn.Text = "Претеглен(да)";
+        }
+
+        bool FinishWeight()
+        {
+            String val = (String)inputWeight.Value;
+            int ival = 0;
+            bool result = int.TryParse(val, out ival);
+            if (result)
+            {
+                inputWeight.Value = ival;
+                inputWeight = null;
+                inputEdge = null;
+                edgeInputLabel.visible = false;
+                return true;
+            }
+
+            double dval = 0;
+            result = double.TryParse(val, out dval);
+            if (result)
+            {
+                inputWeight.Value = dval;
+                inputWeight = null;
+                inputEdge = null;
+                edgeInputLabel.visible = false;
+                return true;
+            }
+
+            return false;
+        }
+
         /// <summary>
         /// Сменя текущия граф с нов
         /// </summary>
